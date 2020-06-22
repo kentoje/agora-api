@@ -22,6 +22,8 @@ CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
 
 ---
 
+### Basic commands
+
 Then, install dependencies:
 
 ```shell script
@@ -50,6 +52,91 @@ Populate database with fixtures:
 
 ```shell script
 ./bin/console doctrine:fixtures:load
+```
+
+---
+
+Launch the server:
+
+```shell script
+symfony server:start
+```
+
+---
+
+### Setup JWT Token
+
+First create the JWT Folder in config folder:
+```shell script
+mkdir -p config/jwt
+```
+
+---
+
+Then, generate your `.pem` keys according to your `JWT_PASSPHRASE` located in `.env`, ie, when you will have to enter the `passphrase` enter the same value as the `JWT_PASSPHRASE`:
+
+```shell script
+openssl genrsa -out config/jwt/private.pem -aes256 4096
+``` 
+
+Same for this command:
+
+```shell script
+openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
+```
+
+---
+
+Now, if you try to login as an existing user like so:
+
+#### httpie
+
+```shell script
+http POST localhost:8000/api/login_check username=noemi.levy@voila.fr password=test
+```
+
+#### CURL
+
+```shell script
+curl -X POST -H "Content-Type: application/json" localhost:8000/api/login_check -d '{"username": "noemi.levy@voila.fr", "password": "test"}'
+```
+
+You will retrieve the JWT Token:
+
+```json
+{
+    "token": "eyJ0eXAi..."
+}
+```
+
+With this JWT Token, you can now make request on routes `/api` of the application. You need to put the token in your `Headers` every time you want to make a request.
+
+#### httpie-jwt
+
+```shell script
+http --auth-type=jwt --auth="eyJ0eXAi..." localhost:8000/api/users
+```
+
+#### CURL
+
+```shell script
+curl -X GET localhost:8000/api/users -H "Authorization: BEARER eyJ0eXAi..."
+```
+
+---
+
+### Swagger documentation
+
+Visit the documentation at `/swagger/index.html`
+
+---
+
+### Useful commands
+
+List all routes of the API:
+
+```shell script
+./bin/console debug:router
 ```
 
 ---

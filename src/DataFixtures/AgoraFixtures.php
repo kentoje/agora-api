@@ -55,6 +55,7 @@ class AgoraFixtures extends Fixture
                 ->setLastName($faker->lastName)
                 ->setEmail($faker->email)
 //                ->setPassword(password_hash($faker->password, PASSWORD_ARGON2ID))
+                /* Test JWT Token with test password */
                 ->setPassword(password_hash('test', PASSWORD_ARGON2ID))
                 ->setAgoraNumber($faker->unique()->randomNumber(8))
                 ->setNbResident($faker->randomElement($array = [1, 2, 3, 4, 5, 6]))
