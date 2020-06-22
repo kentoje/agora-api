@@ -2,8 +2,11 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Date;
 use App\Entity\Level;
+use App\Entity\Mesure;
 use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -67,7 +70,28 @@ class AgoraFixtures extends Fixture
                 ->setNavigoNumber($faker->unique()->randomNumber(8))
                 ->setLevel($faker->randomElement($array = $dbLevel))
             ;
+            $dbUser[] = $user;
             $manager->persist($user);
+        }
+
+        $date = new Date();
+        $date->setDate(new DateTime());
+        $manager->persist($date);
+        $manager->flush();
+
+
+        foreach($dbUser as $user) {
+            $mesure = new Mesure();
+            $mesure
+                ->setWater($faker->randomFloat(2, 0, 3.3))
+                ->setElectricity($faker->randomFloat(2, 0, 2783))
+                ->setGas($faker->randomFloat(2, 0, 2750))
+                ->setWaste($faker->randomFloat(0, 0, 93.5))
+                ->setNavigoSubscription($user->getNavigoNumber() ? $faker->boolean() : false)
+                ->setToMesure($user)
+                ->setDate($date)
+            ;
+            $manager->persist($mesure);
         }
 
         $manager->flush();
