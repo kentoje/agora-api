@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -14,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Table(name="user", indexes={@ORM\Index(name="IDX_8D93D6495FB14BA7", columns={"level_id"})})
  * @ORM\Entity
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var int
@@ -438,5 +439,21 @@ class User
         }
 
         return $this;
+    }
+
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }

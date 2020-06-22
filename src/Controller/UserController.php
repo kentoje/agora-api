@@ -6,13 +6,14 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
     /**
-     * @Route("/users", name="users", methods={"GET"})
+     * @Route("/api/users", name="users", methods={"GET"})
      * @param UserRepository $userRepository
      * @return JsonResponse
      */
@@ -22,7 +23,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{id}", name="user", methods={"GET"})
+     * @Route("/api/user/{id}", name="user", methods={"GET"})
      * @param User $user
      * @return JsonResponse
      */
