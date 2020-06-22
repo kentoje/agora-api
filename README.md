@@ -44,6 +44,16 @@ Execute the last migration:
 ./bin/console doctrine:migration:migrate
 ```
 
+---
+
+Populate database with fixtures:
+
+```shell script
+./bin/console doctrine:fixtures:load
+```
+
+---
+
 ## SQL
 
 ### MCD
