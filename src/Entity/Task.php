@@ -2,52 +2,79 @@
 
 namespace App\Entity;
 
-use App\Repository\TaskRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TaskRepository::class)
+ * Task
+ *
+ * @ORM\Table(name="task", indexes={@ORM\Index(name="IDX_527EDB25B897366B", columns={"date_id"})})
+ * @ORM\Entity
  */
 class Task
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=50, nullable=false)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @var string
+     *
+     * @ORM\Column(name="unit", type="string", length=50, nullable=false)
      */
     private $unit;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @var bool
+     *
+     * @ORM\Column(name="validate", type="boolean", nullable=false)
      */
     private $validate;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="tasks")
-     */
-    private $toAchieve;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Date::class, inversedBy="belongs")
-     * @ORM\JoinColumn(nullable=false)
+     * @var Date
+     *
+     * @ORM\ManyToOne(targetEntity="Date")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="date_id", referencedColumnName="id")
+     * })
      */
     private $date;
 
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="task")
+     * @ORM\JoinTable(name="task_user",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="task_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $user;
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        $this->toAchieve = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,32 +118,6 @@ class Task
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getToAchieve(): Collection
-    {
-        return $this->toAchieve;
-    }
-
-    public function addAchieve(User $achieve): self
-    {
-        if (!$this->toAchieve->contains($achieve)) {
-            $this->toAchieve[] = $achieve;
-        }
-
-        return $this;
-    }
-
-    public function removeAchieve(User $achieve): self
-    {
-        if ($this->toAchieve->contains($achieve)) {
-            $this->toAchieve->removeElement($achieve);
-        }
-
-        return $this;
-    }
-
     public function getDate(): ?Date
     {
         return $this->date;
@@ -125,6 +126,32 @@ class Task
     public function setDate(?Date $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->user->contains($user)) {
+            $this->user[] = $user;
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->user->contains($user)) {
+            $this->user->removeElement($user);
+        }
 
         return $this;
     }

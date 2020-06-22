@@ -2,42 +2,42 @@
 
 namespace App\Entity;
 
-use App\Repository\LevelRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=LevelRepository::class)
+ * Level
+ *
+ * @ORM\Table(name="level")
+ * @ORM\Entity
  */
 class Level
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("user:read")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="level_number", type="integer", nullable=false)
+     * @Groups("user:read")
      */
     private $levelNumber;
 
     /**
-     * @ORM\Column(type="float")
+     * @var float
+     *
+     * @ORM\Column(name="reduction_rate", type="float", precision=10, scale=0, nullable=false)
+     * @Groups("user:read")
      */
     private $reductionRate;
-
-    /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="level")
-     */
-    private $toConcern;
-
-    public function __construct()
-    {
-        $this->toConcern = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -64,37 +64,6 @@ class Level
     public function setReductionRate(float $reductionRate): self
     {
         $this->reductionRate = $reductionRate;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getToConcern(): Collection
-    {
-        return $this->toConcern;
-    }
-
-    public function addConcerned(User $concerned): self
-    {
-        if (!$this->toConcern->contains($concerned)) {
-            $this->toConcern[] = $concerned;
-            $concerned->setLevel($this);
-        }
-
-        return $this;
-    }
-
-    public function removeConcerned(User $concerned): self
-    {
-        if ($this->toConcern->contains($concerned)) {
-            $this->toConcern->removeElement($concerned);
-            // set the owning side to null (unless already changed)
-            if ($concerned->getLevel() === $this) {
-                $concerned->setLevel(null);
-            }
-        }
 
         return $this;
     }

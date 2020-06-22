@@ -2,54 +2,77 @@
 
 namespace App\Entity;
 
-use App\Repository\MesureRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=MesureRepository::class)
+ * Mesure
+ *
+ * @ORM\Table(name="mesure", indexes={@ORM\Index(name="IDX_5F1B6E707208F58B", columns={"to_mesure_id"}), @ORM\Index(name="IDX_5F1B6E70B897366B", columns={"date_id"})})
+ * @ORM\Entity
  */
 class Mesure
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="float")
+     * @var float
+     *
+     * @ORM\Column(name="water", type="float", precision=10, scale=0, nullable=false)
      */
     private $water;
 
     /**
-     * @ORM\Column(type="float")
+     * @var float
+     *
+     * @ORM\Column(name="electricity", type="float", precision=10, scale=0, nullable=false)
      */
     private $electricity;
 
     /**
-     * @ORM\Column(type="float")
+     * @var float
+     *
+     * @ORM\Column(name="gas", type="float", precision=10, scale=0, nullable=false)
      */
     private $gas;
 
     /**
-     * @ORM\Column(type="float")
+     * @var float
+     *
+     * @ORM\Column(name="waste", type="float", precision=10, scale=0, nullable=false)
      */
     private $waste;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @var bool
+     *
+     * @ORM\Column(name="navigo_subscription", type="boolean", nullable=false)
      */
     private $navigoSubscription;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="mesures")
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="to_mesure_id", referencedColumnName="id")
+     * })
      */
     private $toMesure;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Date::class, inversedBy="perform")
-     * @ORM\JoinColumn(nullable=false)
+     * @var Date
+     *
+     * @ORM\ManyToOne(targetEntity="Date")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="date_id", referencedColumnName="id")
+     * })
      */
     private $date;
 

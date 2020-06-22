@@ -12,8 +12,7 @@ class AgoraFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        // $product = new Product();
-        // $manager->persist($product);
+        $limit = 25;
 
         $levelArr = [
             "0" => 0.6,
@@ -32,18 +31,21 @@ class AgoraFixtures extends Fixture
         ];
 
         $dbLevel = [];
+
         foreach ($levelArr as $key => $value) {
             $level = new Level();
             $level
                 ->setLevelNumber($key)
                 ->setReductionRate($value)
             ;
+
             $dbLevel[] = $level;
+
             $manager->persist($level);
         }
 
         $faker = Factory::create('fr_FR');
-        for ($i = 1; $i <= 1000; $i++) {
+        for ($i = 1; $i <= $limit; $i++) {
             $user = new User();
             $user
                 ->setFirstName($faker->firstName)

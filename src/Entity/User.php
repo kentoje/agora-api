@@ -2,161 +2,200 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=UserRepository::class)
+ * User
+ *
+ * @ORM\Table(name="user", indexes={@ORM\Index(name="IDX_8D93D6495FB14BA7", columns={"level_id"})})
+ * @ORM\Entity
  */
-class User implements UserInterface
+class User
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("user:read")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="json")
+     * @var array
+     *
+     * @ORM\Column(name="roles", type="json", nullable=false)
+     * @Groups("user:read")
      */
-    private $roles = [];
+    private $roles;
 
     /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     * @Groups("user:read")
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @var string
+     *
+     * @ORM\Column(name="first_name", type="string", length=50, nullable=false)
+     * @Groups("user:read")
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @var string
+     *
+     * @ORM\Column(name="last_name", type="string", length=50, nullable=false)
+     * @Groups("user:read")
      */
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @Groups("user:read")
      */
     private $email;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="agora_number", type="integer", nullable=false)
+     * @Groups("user:read")
      */
     private $agoraNumber;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="nb_resident", type="integer", nullable=false)
+     * @Groups("user:read")
      */
     private $nbResident;
 
     /**
-     * @ORM\Column(type="float")
+     * @var float
+     *
+     * @ORM\Column(name="living_area", type="float", precision=10, scale=0, nullable=false)
+     * @Groups("user:read")
      */
     private $livingArea;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @var bool
+     *
+     * @ORM\Column(name="gas", type="boolean", nullable=false)
+     * @Groups("user:read")
      */
     private $gas;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @var bool
+     *
+     * @ORM\Column(name="insulation", type="boolean", nullable=false)
+     * @Groups("user:read")
      */
     private $insulation;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @var string
+     *
+     * @ORM\Column(name="social_security_number", type="string", length=30, nullable=false)
+     * @Groups("user:read")
      */
     private $socialSecurityNumber;
 
     /**
-     * @ORM\Column(type="float")
+     * @var float
+     *
+     * @ORM\Column(name="gas_average_consumption", type="float", precision=10, scale=0, nullable=false)
+     * @Groups("user:read")
      */
     private $gasAverageConsumption;
 
     /**
-     * @ORM\Column(type="float")
+     * @var float
+     *
+     * @ORM\Column(name="water_average_consumption", type="float", precision=10, scale=0, nullable=false)
+     * @Groups("user:read")
      */
     private $waterAverageConsumption;
 
     /**
-     * @ORM\Column(type="float")
+     * @var float
+     *
+     * @ORM\Column(name="electricity_average_consumption", type="float", precision=10, scale=0, nullable=false)
+     * @Groups("user:read")
      */
     private $electricityAverageConsumption;
 
     /**
-     * @ORM\Column(type="float")
+     * @var float
+     *
+     * @ORM\Column(name="waste_average_consumption", type="float", precision=10, scale=0, nullable=false)
+     * @Groups("user:read")
      */
     private $wasteAverageConsumption;
 
     /**
-     * @ORM\Column(type="date")
+     * @var DateTime
+     *
+     * @ORM\Column(name="registration_date", type="date", nullable=false)
+     * @Groups("user:read")
      */
     private $registrationDate;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @var int|null
+     *
+     * @ORM\Column(name="navigo_number", type="integer", nullable=true)
+     * @Groups("user:read")
      */
     private $navigoNumber;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Level::class, inversedBy="concerned")
-     * @ORM\JoinColumn(nullable=false)
+     * @var Level
+     *
+     * @ORM\ManyToOne(targetEntity="Level")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="level_id", referencedColumnName="id")
+     * })
+     * @Groups("user:read")
      */
     private $level;
 
     /**
-     * @ORM\OneToMany(targetEntity=Mesure::class, mappedBy="hasMesures")
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Task", mappedBy="user")
      */
-    private $mesures;
+    private $task;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Task::class, mappedBy="achieve")
+     * Constructor
      */
-    private $tasks;
-
     public function __construct()
     {
-        $this->mesures = new ArrayCollection();
-        $this->tasks = new ArrayCollection();
+        $this->task = new ArrayCollection();
     }
 
-    public function getId(): ?string
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(string $id): self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUsername(): string
-    {
-        return (string) $this->id;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
+    public function getRoles(): ?array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -169,12 +208,9 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
-        return (string) $this->password;
+        return $this->password;
     }
 
     public function setPassword(string $password): self
@@ -182,23 +218,6 @@ class User implements UserInterface
         $this->password = $password;
 
         return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getSalt()
-    {
-        // not needed when using the "bcrypt" algorithm in security.yaml
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     public function getFirstName(): ?string
@@ -394,49 +413,18 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Mesure[]
-     */
-    public function getMesures(): Collection
-    {
-        return $this->mesures;
-    }
-
-    public function addMesure(Mesure $mesure): self
-    {
-        if (!$this->mesures->contains($mesure)) {
-            $this->mesures[] = $mesure;
-            $mesure->setToMesure($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMesure(Mesure $mesure): self
-    {
-        if ($this->mesures->contains($mesure)) {
-            $this->mesures->removeElement($mesure);
-            // set the owning side to null (unless already changed)
-            if ($mesure->getToMesure() === $this) {
-                $mesure->setToMesure(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Task[]
      */
-    public function getTasks(): Collection
+    public function getTask(): Collection
     {
-        return $this->tasks;
+        return $this->task;
     }
 
     public function addTask(Task $task): self
     {
-        if (!$this->tasks->contains($task)) {
-            $this->tasks[] = $task;
-            $task->addAchieve($this);
+        if (!$this->task->contains($task)) {
+            $this->task[] = $task;
+            $task->addUser($this);
         }
 
         return $this;
@@ -444,9 +432,9 @@ class User implements UserInterface
 
     public function removeTask(Task $task): self
     {
-        if ($this->tasks->contains($task)) {
-            $this->tasks->removeElement($task);
-            $task->removeAchieve($this);
+        if ($this->task->contains($task)) {
+            $this->task->removeElement($task);
+            $task->removeUser($this);
         }
 
         return $this;
