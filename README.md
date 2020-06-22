@@ -27,3 +27,13 @@ APP_ENV=dev
 DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7
 CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
 ```
+
+---
+
+## SQL
+
+### MCD
+![alt text](https://github.com/kentoje/agora-api/blob/master/mcd_mld/MCD.png "MCD")
+
+### MLD
+![alt text](https://github.com/kentoje/agora-api/blob/master/mcd_mld/MLD.png "MLD")
