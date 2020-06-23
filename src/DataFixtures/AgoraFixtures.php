@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Date;
 use App\Entity\Level;
 use App\Entity\Mesure;
+use App\Entity\Task;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -13,6 +14,52 @@ use Faker\Factory;
 
 class AgoraFixtures extends Fixture
 {
+    public function  getTaskValue(string $taskName, Mesure $userMesure): array
+    {
+        switch ($taskName) {
+            case "Eau":
+                $taskArray = [
+                    "type" => $taskName,
+                    "unit" => "L",
+                    "user_average" => $userMesure->getToMesure()->getWaterAverageConsumption(),
+                    "mesure" => $userMesure->getWater()
+                ];
+                break;
+            case "Electricté":
+                $taskArray = [
+                    "type" => $taskName,
+                    "unit" => "kW",
+                    "user_average" => $userMesure->getToMesure()->getElectricityAverageConsumption(),
+                    "mesure" => $userMesure->getElectricity()
+                ];
+                break;
+            case "Gaz":
+                $taskArray = [
+                    "type" => $taskName,
+                    "unit" => "m³",
+                    "user_average" => $userMesure->getToMesure()->getGasAverageConsumption(),
+                    "mesure" => $userMesure->getGas()
+                ];
+                break;
+            case "Déchêts":
+                $taskArray = [
+                    "type" => $taskName,
+                    "unit" => "Kg",
+                    "user_average" => $userMesure->getToMesure()->getWasteAverageConsumption(),
+                    "mesure" => $userMesure->getWaste()
+                ];
+                break;
+            default:
+                $taskArray = [
+                    "type" => $taskName,
+                    "unit" => "Kg",
+                    "user_average" => $userMesure->getToMesure()->getNavigoNumber(),
+                    "mesure" => $userMesure->getNavigoSubscription()
+                ];
+        }
+        return $taskArray;
+    }
+
     public function load(ObjectManager $manager)
     {
         $limit = 25;
@@ -93,7 +140,37 @@ class AgoraFixtures extends Fixture
                 ->setToMesure($user)
                 ->setDate($date)
             ;
+            $mesures[] = $mesure;
             $manager->persist($mesure);
+        }
+
+        foreach($dbUser as $user) {
+
+            $taskNameArr = ['Eau', 'Electricté', 'Gaz', 'Transports', 'Déchêts'];
+
+            foreach ($taskNameArr as $taskName) {
+                foreach ($mesures as $mesure) {
+                    if ($mesure->getToMesure()->getId() === $user->getId()) {
+                        $userMesure = $mesure;
+                    }
+                }
+
+                $taskValue = $this->getTaskValue($taskName,$userMesure);
+
+                $task = new Task();
+                $task
+                    ->setDate($date)
+                    ->setName($taskName)
+                    ->setUnit($taskValue["unit"])
+                    ->setValidate(
+                        $taskValue["type"] === "Transports"
+                            ? $taskValue["user_average"]
+                            : $taskValue["user_average"] >= $taskValue["mesure"]
+                    )
+                    ->addUser($userMesure->getToMesure());
+                ;
+                $manager->persist($task);
+            }
         }
 
         $manager->flush();

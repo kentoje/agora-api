@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class UserController extends AbstractController
      * @param User $user
      * @return JsonResponse
      */
-    public function oneUser(User $user): JsonResponse
+    public function oneUser(User $user, EntityManagerInterface $em): JsonResponse
     {
         return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user:read']);
     }

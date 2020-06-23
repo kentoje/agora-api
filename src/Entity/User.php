@@ -39,7 +39,6 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255, nullable=false)
-     * @Groups("user:read")
      */
     private $password;
 
@@ -111,7 +110,6 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="social_security_number", type="string", length=30, nullable=false)
-     * @Groups("user:read")
      */
     private $socialSecurityNumber;
 
