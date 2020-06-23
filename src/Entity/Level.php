@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OpenApi\Annotations as OA;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Level
  *
+ * @OA\Schema()
  * @ORM\Table(name="level")
  * @ORM\Entity
  */
@@ -16,6 +18,7 @@ class Level
     /**
      * @var int
      *
+     * @OA\Property(type="integer")
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -27,6 +30,7 @@ class Level
     /**
      * @var int
      *
+     * @OA\Property(type="integer")
      * @ORM\Column(name="level_number", type="integer", nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -36,6 +40,7 @@ class Level
     /**
      * @var float
      *
+     * @OA\Property(type="number", format="float")
      * @ORM\Column(name="reduction_rate", type="float", precision=10, scale=0, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")

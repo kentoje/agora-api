@@ -7,6 +7,7 @@ use App\Repository\LevelRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,26 +20,95 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UserController extends AbstractController
 {
     /**
+     * @OA\Get(
+     *     path="/api/users",
+     *     description="Get users",
+     *     @OA\Response(
+     *         response="200",
+     *         description="List of all users",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/User")),
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="No users found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
+     *             @OA\Property(property="message", type="string", description="Returned message"),
+     *         ),
+     *     ),
+     * )
      * @Route("/api/users", name="api_get_users", methods={"GET"})
      * @param UserRepository $userRepository
      * @return JsonResponse
      */
     public function index(UserRepository $userRepository): JsonResponse
     {
-        return $this->json($userRepository->findAll(), Response::HTTP_OK, [], ['groups' => 'user:read']);
+        $result = $userRepository->findAll();
+
+        if (!$result) {
+            return $this->json([
+                'status' => Response::HTTP_NOT_FOUND,
+                'message' => 'No users found',
+            ]);
+        }
+
+        return $this->json($result, Response::HTTP_OK, [], ['groups' => 'user:read']);
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/user/{id}",
+     *     description="Get user",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Id of User",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="List of all users",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/User")),
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="User does not exist",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
+     *             @OA\Property(property="message", type="string", description="Returned message"),
+     *         ),
+     *     ),
+     * )
      * @Route("/api/user/{id}", name="api_get_user", methods={"GET"})
-     * @param User $user
+     * @param UserRepository $userRepository
+     * @param int $id
      * @return JsonResponse
      */
-    public function oneUser(User $user): JsonResponse
+    public function oneUser(UserRepository $userRepository, int $id): JsonResponse
     {
-        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user:read']);
+        $result = $userRepository->findOneUser($id);
+
+        if (!$result) {
+            return $this->json([
+                'status' => Response::HTTP_NOT_FOUND,
+                'message' => 'This user does not exist',
+            ]);
+        }
+
+        return $this->json($result, Response::HTTP_OK, [], ['groups' => 'user:read']);
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/signup",
+     *     description="Create user",
+     *     @OA\Response(
+     *         response="200",
+     *         description="User created",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/User")),
+     *     ),
+     * )
      * @Route("/api/signup", name="api_signup_user", methods={"POST"})
      * @param Request $request
      * @param SerializerInterface $serializer

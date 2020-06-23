@@ -9,5 +9,211 @@
             "url": "http://127.0.0.1:8000",
             "description": "HETIC - API Agora"
         }
-    ]
+    ],
+    "paths": {
+        "/api/users": {
+            "get": {
+                "description": "Get users",
+                "operationId": "App\\Controller\\UserController::index",
+                "responses": {
+                    "200": {
+                        "description": "List of all users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No users found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{id}": {
+            "get": {
+                "description": "Get user",
+                "operationId": "App\\Controller\\UserController::oneUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of User",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of all users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User does not exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/signup": {
+            "post": {
+                "description": "Create user",
+                "operationId": "App\\Controller\\UserController::createUser",
+                "responses": {
+                    "200": {
+                        "description": "User created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Level": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "levelNumber": {
+                        "type": "integer"
+                    },
+                    "reductionRate": {
+                        "type": "number",
+                        "format": "float"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "agoraNumber": {
+                        "type": "integer"
+                    },
+                    "nbResident": {
+                        "type": "integer"
+                    },
+                    "livingArea": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "gas": {
+                        "type": "boolean"
+                    },
+                    "insulation": {
+                        "type": "boolean"
+                    },
+                    "socialSecurityNumber": {
+                        "type": "string"
+                    },
+                    "gasAverageConsumption": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "waterAverageConsumption": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "electricityAverageConsumption": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "wasteAverageConsumption": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "registrationDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "navigoNumber": {
+                        "type": "integer"
+                    },
+                    "level": {
+                        "$ref": "#/components/schemas/Level"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
 }

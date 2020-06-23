@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use OpenApi\Annotations as OA;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -14,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * User
  *
+ * @OA\Schema()
  * @ORM\Table(name="user", indexes={@ORM\Index(name="IDX_8D93D6495FB14BA7", columns={"level_id"})})
  * @ORM\Entity
  * @UniqueEntity(fields={"email"})
@@ -24,6 +26,7 @@ class User implements UserInterface
     /**
      * @var int
      *
+     * @OA\Property(type="integer")
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -35,6 +38,12 @@ class User implements UserInterface
     /**
      * @var array
      *
+     * @OA\Property(
+     *     type="array",
+     *     @OA\Items(
+     *         type="string"
+     *     ),
+     * )
      * @ORM\Column(name="roles", type="json", nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -44,6 +53,7 @@ class User implements UserInterface
     /**
      * @var string
      *
+     * @OA\Property(type="string")
      * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
     private $password;
@@ -51,6 +61,7 @@ class User implements UserInterface
     /**
      * @var string
      *
+     * @OA\Property(type="string")
      * @ORM\Column(name="first_name", type="string", length=50, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -60,6 +71,7 @@ class User implements UserInterface
     /**
      * @var string
      *
+     * @OA\Property(type="string")
      * @ORM\Column(name="last_name", type="string", length=50, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -69,6 +81,7 @@ class User implements UserInterface
     /**
      * @var string
      *
+     * @OA\Property(type="string")
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
      * @Assert\Email()
      * @Groups("user:read")
@@ -79,6 +92,7 @@ class User implements UserInterface
     /**
      * @var int
      *
+     * @OA\Property(type="integer")
      * @ORM\Column(name="agora_number", type="integer", nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -88,6 +102,7 @@ class User implements UserInterface
     /**
      * @var int
      *
+     * @OA\Property(type="integer")
      * @ORM\Column(name="nb_resident", type="integer", nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -97,6 +112,7 @@ class User implements UserInterface
     /**
      * @var float
      *
+     * @OA\Property(type="number", format="float")
      * @ORM\Column(name="living_area", type="float", precision=10, scale=0, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -106,6 +122,7 @@ class User implements UserInterface
     /**
      * @var bool
      *
+     * @OA\Property(type="boolean")
      * @ORM\Column(name="gas", type="boolean", nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -115,6 +132,7 @@ class User implements UserInterface
     /**
      * @var bool
      *
+     * @OA\Property(type="boolean")
      * @ORM\Column(name="insulation", type="boolean", nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -124,6 +142,7 @@ class User implements UserInterface
     /**
      * @var string
      *
+     * @OA\Property(type="string")
      * @ORM\Column(name="social_security_number", type="string", length=30, nullable=false)
      */
     private $socialSecurityNumber;
@@ -131,6 +150,7 @@ class User implements UserInterface
     /**
      * @var float
      *
+     * @OA\Property(type="number", format="float")
      * @ORM\Column(name="gas_average_consumption", type="float", precision=10, scale=0, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -140,6 +160,7 @@ class User implements UserInterface
     /**
      * @var float
      *
+     * @OA\Property(type="number", format="float")
      * @ORM\Column(name="water_average_consumption", type="float", precision=10, scale=0, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -149,6 +170,7 @@ class User implements UserInterface
     /**
      * @var float
      *
+     * @OA\Property(type="number", format="float")
      * @ORM\Column(name="electricity_average_consumption", type="float", precision=10, scale=0, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -158,6 +180,7 @@ class User implements UserInterface
     /**
      * @var float
      *
+     * @OA\Property(type="number", format="float")
      * @ORM\Column(name="waste_average_consumption", type="float", precision=10, scale=0, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -167,6 +190,7 @@ class User implements UserInterface
     /**
      * @var DateTime
      *
+     * @OA\Property(type="string", format="date")
      * @ORM\Column(name="registration_date", type="date", nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -176,6 +200,7 @@ class User implements UserInterface
     /**
      * @var int|null
      *
+     * @OA\Property(type="integer")
      * @ORM\Column(name="navigo_number", type="integer", nullable=true)
      * @Groups("user:read")
      * @Groups("user:create")
@@ -185,6 +210,7 @@ class User implements UserInterface
     /**
      * @var Level
      *
+     * @OA\Property(ref="#/components/schemas/Level")
      * @ORM\ManyToOne(targetEntity="Level")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="level_id", referencedColumnName="id")
