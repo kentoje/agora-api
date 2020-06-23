@@ -60,6 +60,50 @@ class AgoraFixtures extends Fixture
         return $taskArray;
     }
 
+    public function getUserLevel(int $countValidateTask, array $dbLevel): Level
+    {
+        if ($countValidateTask < 5) {
+            $level = $dbLevel[0];
+        }
+        elseif ($countValidateTask >= 5 and $countValidateTask < 10) {
+            $level = $dbLevel[1];
+        }
+        elseif ($countValidateTask >= 10 and $countValidateTask < 15) {
+            $level = $dbLevel[2];
+        }
+        elseif ($countValidateTask >= 15 and $countValidateTask < 20) {
+            $level = $dbLevel[3];
+        }
+        elseif ($countValidateTask >= 20 and $countValidateTask < 25) {
+            $level = $dbLevel[4];
+        }
+        elseif ($countValidateTask >= 25 and $countValidateTask < 30) {
+            $level = $dbLevel[5];
+        }
+        elseif ($countValidateTask >= 30 and $countValidateTask < 35) {
+            $level = $dbLevel[6];
+        }
+        elseif ($countValidateTask >= 35 and $countValidateTask < 40) {
+            $level = $dbLevel[7];
+        }
+        elseif ($countValidateTask >= 40 and $countValidateTask < 45) {
+            $level = $dbLevel[8];
+        }
+        elseif ($countValidateTask >= 45 and $countValidateTask < 50) {
+            $level = $dbLevel[9];
+        }
+        elseif ($countValidateTask >= 50 and $countValidateTask < 55) {
+            $level = $dbLevel[10];
+        }
+        elseif ($countValidateTask >= 55 and $countValidateTask < 60) {
+            $level = $dbLevel[11];
+        }
+        else {
+            $level = $dbLevel[12];
+        }
+        return $level;
+    }
+
     public function load(ObjectManager $manager)
     {
         $limit = 25;
@@ -130,13 +174,13 @@ class AgoraFixtures extends Fixture
             ->setFirstName("Aymeric")
             ->setLastName("Mayeux")
             ->setEmail("aymeric.mayeux@hetic.net")
-            ->setPassword(password_hash('azerty', PASSWORD_ARGON2ID))
+            ->setPassword(password_hash('azerty', 'argon2id'))
             ->setAgoraNumber($faker->unique()->randomNumber(8))
             ->setNbResident(3)
             ->setLivingArea(175)
             ->setGas(true)
             ->setInsulation(true)
-            ->setSocialSecurityNumber($faker->regexify('[1-2]{1} [0-9]{2} (0[1-9]|1[0-2]) [0-9]{2} [0-9]{3} [0-9]{3} [0-9]{2}'))
+            ->setSocialSecurityNumber($faker->regexify('[1-2]{1}[0-9]{2}(0[1-9]|1[0-2])[0-9]{2}[0-9]{3}[0-9]{3}[0-9]{2}'))
             ->setRoles(['ROLE_ADMIN'])
             ->setGasAverageConsumption($faker->randomFloat(2, 0, 2750))
             ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 2783))
@@ -147,57 +191,76 @@ class AgoraFixtures extends Fixture
             ->setLevel($faker->randomElement($array = $dbLevel))
         ;
         $manager->persist($aymeric);
-        $dbUser[] = $user;
-        
-        $date = new Date();
-        $date->setDate(new DateTime());
-        $manager->persist($date);
+        array_push($dbUser,$aymeric);
+
+        for ($i = 0; $i <= 11; $i++) {
+            $date = new Date();
+            $newDate = new DateTime();
+            $newDate->modify('-'.$i.' months');
+            $date->setDate($newDate);
+            $manager->persist($date);
+            $dbDate[] = $date;
+        }
         $manager->flush();
 
 
         foreach($dbUser as $user) {
-            $mesure = new Mesure();
-            $mesure
-                ->setWater($faker->randomFloat(2, 0, 3.3))
-                ->setElectricity($faker->randomFloat(2, 0, 2783))
-                ->setGas($faker->randomFloat(2, 0, 2750))
-                ->setWaste($faker->randomFloat(0, 0, 93.5))
-                ->setNavigoSubscription($user->getNavigoNumber() ? $faker->boolean() : false)
-                ->setToMesure($user)
-                ->setDate($date)
-            ;
-            $mesures[] = $mesure;
-            $manager->persist($mesure);
-        }
-
-        foreach($dbUser as $user) {
-
-            foreach ($taskNameArr as $taskName) {
-                foreach ($mesures as $mesure) {
-                    if ($mesure->getToMesure()->getId() === $user->getId()) {
-                        $userMesure = $mesure;
-                    }
-                }
-
-                $taskValue = $this->getTaskValue($taskName,$userMesure);
-
-                $task = new Task();
-                $task
+            foreach($dbDate as $date){
+                $mesure = new Mesure();
+                $mesure
+                    ->setWater($faker->randomFloat(2, 0, 3.3))
+                    ->setElectricity($faker->randomFloat(2, 0, 2783))
+                    ->setGas($faker->randomFloat(2, 0, 2750))
+                    ->setWaste($faker->randomFloat(0, 0, 93.5))
+                    ->setNavigoSubscription($user->getNavigoNumber() ? $faker->boolean() : false)
+                    ->setToMesure($user)
                     ->setDate($date)
-                    ->setName($taskName)
-                    ->setUnit($taskValue["unit"])
-                    ->setValidate(
-                        $taskValue["type"] === "Transports"
-                            ? $taskValue["user_average"]
-                            : $taskValue["user_average"] >= $taskValue["mesure"]
-                    )
-                    ->addUser($userMesure->getToMesure());
                 ;
-                $manager->persist($task);
+                $mesures[] = $mesure;
+                $manager->persist($mesure);
             }
         }
 
-        $manager->flush();
+        $userTest = [];
+        foreach ($dbUser as $user) {
+            $countValidateTask = 0;
+            foreach ($taskNameArr as $taskName) {
+                foreach ($dbDate as $date){
+                    foreach ($mesures as $mesure) {
+                        if ($mesure->getToMesure()->getId() === $user->getId() and $mesure->getdate() === $date) {
+                            $userMesure = $mesure;
+                        }
+                    }
+    
+                    $taskValue = $this->getTaskValue($taskName, $userMesure);
+    
+                    $task = new Task();
+                    $task
+                        ->setDate($date)
+                        ->setName($taskName)
+                        ->setUnit($taskValue["unit"])
+                        ->setValidate(
+                            $taskValue["type"] === "Transports"
+                                ? $taskValue["mesure"]
+                                : $taskValue["user_average"] >= $taskValue["mesure"]
+                        )
+                        ->addUser($userMesure->getToMesure());
+                    ;
+                    $manager->persist($task);
 
+                    $dateDiff = date_diff(new DateTime('first day of january'), $task->getDate()->getDate())->format('%R%a');
+                    if ($task->getValidate() and $dateDiff >= 0) {
+                        $countValidateTask += 1;
+                    }
+                }
+            }
+
+            $user->setLevel($this->getUserLevel($countValidateTask, $dbLevel));
+            $manager->persist($user);
+
+            array_push($userTest, ["id" => $user->getId(), "nb" => $countValidateTask]);
+
+        }
+        $manager->flush();
     }
 }
