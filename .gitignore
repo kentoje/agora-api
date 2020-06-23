@@ -15,6 +15,9 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
+# DS_Store
+.DS_Store
+
 # .env.local
 .env.local
 

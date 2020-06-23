@@ -20,6 +20,7 @@ class Level
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @Groups("user:read")
+     * @Groups("user:create")
      */
     private $id;
 
@@ -28,6 +29,7 @@ class Level
      *
      * @ORM\Column(name="level_number", type="integer", nullable=false)
      * @Groups("user:read")
+     * @Groups("user:create")
      */
     private $levelNumber;
 
@@ -36,6 +38,7 @@ class Level
      *
      * @ORM\Column(name="reduction_rate", type="float", precision=10, scale=0, nullable=false)
      * @Groups("user:read")
+     * @Groups("user:create")
      */
     private $reductionRate;
 
