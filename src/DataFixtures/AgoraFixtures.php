@@ -80,6 +80,8 @@ class AgoraFixtures extends Fixture
             "12" => 8.0
         ];
 
+        $taskNameArr = ['Eau', 'Electricté', 'Gaz', 'Transports', 'Déchêts'];
+
         $dbLevel = [];
 
         foreach ($levelArr as $key => $value) {
@@ -123,6 +125,30 @@ class AgoraFixtures extends Fixture
             $manager->persist($user);
         }
 
+        $aymeric = new User();
+        $aymeric
+            ->setFirstName("Aymeric")
+            ->setLastName("Mayeux")
+            ->setEmail("aymeric.mayeux@hetic.net")
+            ->setPassword(password_hash('azerty', PASSWORD_ARGON2ID))
+            ->setAgoraNumber($faker->unique()->randomNumber(8))
+            ->setNbResident(3)
+            ->setLivingArea(175)
+            ->setGas(true)
+            ->setInsulation(true)
+            ->setSocialSecurityNumber($faker->regexify('[1-2]{1} [0-9]{2} (0[1-9]|1[0-2]) [0-9]{2} [0-9]{3} [0-9]{3} [0-9]{2}'))
+            ->setRoles(['ROLE_ADMIN'])
+            ->setGasAverageConsumption($faker->randomFloat(2, 0, 2750))
+            ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 2783))
+            ->setWaterAverageConsumption($faker->randomFloat(2, 0, 3.3))
+            ->setWasteAverageConsumption($faker->randomFloat(0, 0, 93.5))
+            ->setRegistrationDate($faker->dateTime)
+            ->setNavigoNumber($faker->unique()->randomNumber(8))
+            ->setLevel($faker->randomElement($array = $dbLevel))
+        ;
+        $manager->persist($aymeric);
+        $dbUser[] = $user;
+        
         $date = new Date();
         $date->setDate(new DateTime());
         $manager->persist($date);
@@ -145,8 +171,6 @@ class AgoraFixtures extends Fixture
         }
 
         foreach($dbUser as $user) {
-
-            $taskNameArr = ['Eau', 'Electricté', 'Gaz', 'Transports', 'Déchêts'];
 
             foreach ($taskNameArr as $taskName) {
                 foreach ($mesures as $mesure) {
@@ -174,5 +198,6 @@ class AgoraFixtures extends Fixture
         }
 
         $manager->flush();
+
     }
 }
