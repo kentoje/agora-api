@@ -40,7 +40,7 @@ class UserHelper
         #calculation for gas
         if ($user->getInsulation() and $user->getGas()) {
             $user->setGasAverageConsumption(GAS_CONSUMPTION_MONTH_ONE_M3_GOOD_INSULATION * $user->getLivingArea());
-        } else if($user->getGas() and !$user->getInsulation()) {
+        } else if ($user->getGas() and !$user->getInsulation()) {
             $user->setGasAverageConsumption(GAS_CONSUMPTION_MONTH_ONE_M3_BAD_INSULATION * $user->getLivingArea());
         } else {
             $user->setGasAverageConsumption(0);

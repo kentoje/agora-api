@@ -10,6 +10,7 @@ use App\Service\ErrorJsonHelper;
 use App\Service\UserHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -121,28 +122,30 @@ class UserController extends AbstractController
      * @param UserHelper $userHelper
      * @param DateRepository $dateRepository
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function createUser(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator, LevelRepository $levelRepository, UserHelper $userHelper, DateRepository $dateRepository): JsonResponse
     {
         $json = $request->getContent();
 
-
         $level = $levelRepository->findOneBy(['levelNumber' => 0]);
 
-        # select date from date order by date desc limit 1
+        // SELECT date FROM date ORDER BY date DESC LIMIT 1
         $currentDate = $dateRepository->findBy(
-            array(),        // $where
+            array(),                    // $where
             array('date' => 'DESC'),    // $orderBy
-            1                     // $limit
+            1                      // $limit
         );
 
         try {
             $user = $serializer->deserialize($json, User::class, 'json');
 
-            /*if (!preg_match('/[1-2]{1}[0-9]{2}(0[1-9]|1[0-2])[0-9]{2}[0-9]{3}[0-9]{3}[0-9]{2}/', $user->getSocialSecurityNumber())) {
-                dd("ca marche");
-            }*/
+            if (!preg_match('/[1-2]{1}[0-9]{2}(0[1-9]|1[0-2])[0-9]{2}[0-9]{3}[0-9]{3}[0-9]{2}/', $user->getSocialSecurityNumber())) {
+                return $this->json(
+                    ErrorJsonHelper::errorMessage(Response::HTTP_BAD_REQUEST, 'Wrong social security number format.'),
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
 
             $user
                 ->setPassword(password_hash($user->getPassword(), 'argon2id'))
@@ -171,7 +174,8 @@ class UserController extends AbstractController
         } catch (NotEncodableValueException $e) {
             return $this->json(
                 ErrorJsonHelper::errorMessage(Response::HTTP_BAD_REQUEST, $e->getMessage()),
-                Response::HTTP_BAD_REQUEST);
+                Response::HTTP_BAD_REQUEST
+            );
         }
     }
 }

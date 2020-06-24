@@ -25,6 +25,7 @@ class AgoraFixtures extends Fixture
                     "mesure" => $userMesure->getWater()
                 ];
                 break;
+
             case "Electricté":
                 $taskArray = [
                     "type" => $taskName,
@@ -33,6 +34,7 @@ class AgoraFixtures extends Fixture
                     "mesure" => $userMesure->getElectricity()
                 ];
                 break;
+
             case "Gaz":
                 $taskArray = [
                     "type" => $taskName,
@@ -41,6 +43,7 @@ class AgoraFixtures extends Fixture
                     "mesure" => $userMesure->getGas()
                 ];
                 break;
+
             case "Déchêts":
                 $taskArray = [
                     "type" => $taskName,
@@ -49,6 +52,7 @@ class AgoraFixtures extends Fixture
                     "mesure" => $userMesure->getWaste()
                 ];
                 break;
+                
             default:
                 $taskArray = [
                     "type" => $taskName,
@@ -233,7 +237,7 @@ class AgoraFixtures extends Fixture
             ->setSavingGas(0)
         ;
         $manager->persist($aymeric);
-        array_push($dbUser,$aymeric);
+        array_push($dbUser, $aymeric);
 
         for ($i = 0; $i <= 11; $i++) {
             $date = new Date();
@@ -247,7 +251,7 @@ class AgoraFixtures extends Fixture
 
 
         foreach($dbUser as $user) {
-            foreach($dbDate as $date){
+            foreach($dbDate as $date) {
                 $mesure = new Mesure();
                 $mesure
                     ->setWater($faker->randomFloat(2, 0, 1300))
@@ -265,8 +269,9 @@ class AgoraFixtures extends Fixture
 
         foreach ($dbUser as $user) {
             $countValidateTask = 0;
+
             foreach ($taskNameArr as $taskName) {
-                foreach ($dbDate as $date){
+                foreach ($dbDate as $date) {
                     foreach ($mesures as $mesure) {
                         if ($mesure->getToMesure() === $user and $mesure->getdate() === $date) {
                             $userMesure = $mesure;
@@ -285,9 +290,10 @@ class AgoraFixtures extends Fixture
                                 ? $taskValue["mesure"]
                                 : $taskValue["user_average"] >= $taskValue["mesure"]
                         )
-                        ->addUser($userMesure->getToMesure());
+                        ->addUser($userMesure->getToMesure())
                     ;
                     $manager->persist($task);
+
                     $dbTask[] = $task;
 
                     $dateDiff = date_diff(new DateTime('first day of january'), $task->getDate()->getDate())->format('%R%a');
@@ -299,6 +305,7 @@ class AgoraFixtures extends Fixture
 
             $user->setLevel($this->getUserLevel($countValidateTask, $dbLevel));
             $user = $this->getSavingMesure($dbTask, $user, $mesures);
+
             $manager->persist($user);
 
         }
