@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\DateRepository;
 use App\Repository\LevelRepository;
 use App\Repository\UserRepository;
 use App\Service\ErrorJsonHelper;
+use App\Service\UserHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use OpenApi\Annotations as OA;
@@ -116,16 +118,32 @@ class UserController extends AbstractController
      * @param EntityManagerInterface $em
      * @param ValidatorInterface $validator
      * @param LevelRepository $levelRepository
+     * @param UserHelper $userHelper
+     * @param DateRepository $dateRepository
      * @return JsonResponse
+     * @throws \Exception
      */
-    public function createUser(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator, LevelRepository $levelRepository): JsonResponse
+    public function createUser(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator, LevelRepository $levelRepository, UserHelper $userHelper, DateRepository $dateRepository): JsonResponse
     {
         $json = $request->getContent();
 
+
         $level = $levelRepository->findOneBy(['levelNumber' => 0]);
+
+        # select date from date order by date desc limit 1
+        $currentDate = $dateRepository->findBy(
+            array(),        // $where
+            array('date' => 'DESC'),    // $orderBy
+            1                     // $limit
+        );
 
         try {
             $user = $serializer->deserialize($json, User::class, 'json');
+
+            /*if (!preg_match('/[1-2]{1}[0-9]{2}(0[1-9]|1[0-2])[0-9]{2}[0-9]{3}[0-9]{3}[0-9]{2}/', $user->getSocialSecurityNumber())) {
+                dd("ca marche");
+            }*/
+
             $user
                 ->setPassword(password_hash($user->getPassword(), 'argon2id'))
                 ->setRegistrationDate(new DateTime())
@@ -135,6 +153,9 @@ class UserController extends AbstractController
                 ->setSavingElectricity(0)
                 ->setSavingGas(0)
             ;
+
+            $userHelper->setAverageUserData($user);
+            $userHelper->createUserTask($user, $currentDate[0], $em);
 
             $errors = $validator->validate($user);
 

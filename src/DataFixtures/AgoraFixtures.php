@@ -28,7 +28,7 @@ class AgoraFixtures extends Fixture
             case "Electricté":
                 $taskArray = [
                     "type" => $taskName,
-                    "unit" => "kW",
+                    "unit" => "kW/h",
                     "user_average" => $userMesure->getToMesure()->getElectricityAverageConsumption(),
                     "mesure" => $userMesure->getElectricity()
                 ];
@@ -36,7 +36,7 @@ class AgoraFixtures extends Fixture
             case "Gaz":
                 $taskArray = [
                     "type" => $taskName,
-                    "unit" => "m³",
+                    "unit" => "KW/h",
                     "user_average" => $userMesure->getToMesure()->getGasAverageConsumption(),
                     "mesure" => $userMesure->getGas()
                 ];
@@ -52,7 +52,7 @@ class AgoraFixtures extends Fixture
             default:
                 $taskArray = [
                     "type" => $taskName,
-                    "unit" => "Kg",
+                    "unit" => "None",
                     "user_average" => $userMesure->getToMesure()->getNavigoNumber(),
                     "mesure" => $userMesure->getNavigoSubscription()
                 ];
@@ -191,10 +191,10 @@ class AgoraFixtures extends Fixture
                 ->setInsulation($faker->boolean)
                 ->setSocialSecurityNumber($faker->regexify('[1-2]{1}[0-9]{2}(0[1-9]|1[0-2])[0-9]{2}[0-9]{3}[0-9]{3}[0-9]{2}'))
                 ->setRoles($faker->randomElement($array = [['ROLE_USER'], ['ROLE_ADMIN']]))
-                ->setGasAverageConsumption($faker->randomFloat(2, 0, 2750))
-                ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 2783))
-                ->setWaterAverageConsumption($faker->randomFloat(2, 0, 3.3))
-                ->setWasteAverageConsumption($faker->randomFloat(0, 0, 93.5))
+                ->setGasAverageConsumption($faker->randomFloat(2, 0, 6260))
+                ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 800))
+                ->setWaterAverageConsumption($faker->randomFloat(2, 0, 1300))
+                ->setWasteAverageConsumption($faker->randomFloat(0, 0, 300))
                 ->setRegistrationDate($faker->dateTime)
                 ->setNavigoNumber($faker->unique()->randomNumber(8))
                 ->setLevel($faker->randomElement($array = $dbLevel))
@@ -220,10 +220,10 @@ class AgoraFixtures extends Fixture
             ->setInsulation(true)
             ->setSocialSecurityNumber($faker->regexify('[1-2]{1}[0-9]{2}(0[1-9]|1[0-2])[0-9]{2}[0-9]{3}[0-9]{3}[0-9]{2}'))
             ->setRoles(['ROLE_ADMIN'])
-            ->setGasAverageConsumption($faker->randomFloat(2, 0, 2750))
-            ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 2783))
-            ->setWaterAverageConsumption($faker->randomFloat(2, 0, 3.3))
-            ->setWasteAverageConsumption($faker->randomFloat(0, 0, 93.5))
+            ->setGasAverageConsumption($faker->randomFloat(2, 0, 6260))
+            ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 800))
+            ->setWaterAverageConsumption($faker->randomFloat(2, 0, 1300))
+            ->setWasteAverageConsumption($faker->randomFloat(0, 0, 300))
             ->setRegistrationDate($faker->dateTime)
             ->setNavigoNumber($faker->unique()->randomNumber(8))
             ->setLevel($faker->randomElement($array = $dbLevel))
@@ -250,10 +250,10 @@ class AgoraFixtures extends Fixture
             foreach($dbDate as $date){
                 $mesure = new Mesure();
                 $mesure
-                    ->setWater($faker->randomFloat(2, 0, 3.3))
-                    ->setElectricity($faker->randomFloat(2, 0, 2783))
-                    ->setGas($faker->randomFloat(2, 0, 2750))
-                    ->setWaste($faker->randomFloat(0, 0, 93.5))
+                    ->setWater($faker->randomFloat(2, 0, 1300))
+                    ->setElectricity($faker->randomFloat(2, 0, 800))
+                    ->setGas($faker->randomFloat(2, 0, 6260))
+                    ->setWaste($user->getGas() ? $faker->randomFloat(0, 0, 300) : 0)
                     ->setNavigoSubscription($user->getNavigoNumber() ? $faker->boolean() : false)
                     ->setToMesure($user)
                     ->setDate($date)
