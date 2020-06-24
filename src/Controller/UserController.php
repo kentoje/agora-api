@@ -129,6 +129,10 @@ class UserController extends AbstractController
                 ->setPassword(password_hash($user->getPassword(), 'argon2id'))
                 ->setRegistrationDate(new DateTime())
                 ->setLevel($level)
+                ->setSavingWater(0)
+                ->setSavingWaste(0)
+                ->setSavingElectricity(0)
+                ->setSavingGas(0)
             ;
 
             $errors = $validator->validate($user);

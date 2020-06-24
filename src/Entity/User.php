@@ -228,6 +228,34 @@ class User implements UserInterface
     private $task;
 
     /**
+     * @ORM\Column(type="float")
+     * @Groups("user:read")
+     * @Groups("user:create")
+     */
+    private $savingWater;
+
+    /**
+     * @ORM\Column(type="float")
+     * @Groups("user:read")
+     * @Groups("user:create")
+     */
+    private $savingElectricity;
+
+    /**
+     * @ORM\Column(type="float")
+     * @Groups("user:read")
+     * @Groups("user:create")
+     */
+    private $savingGas;
+
+    /**
+     * @ORM\Column(type="float")
+     * @Groups("user:read")
+     * @Groups("user:create")
+     */
+    private $savingWaste;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -501,5 +529,53 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getSavingWater(): ?float
+    {
+        return $this->savingWater;
+    }
+
+    public function setSavingWater(float $savingWater): self
+    {
+        $this->savingWater = $savingWater;
+
+        return $this;
+    }
+
+    public function getSavingElectricity(): ?float
+    {
+        return $this->savingElectricity;
+    }
+
+    public function setSavingElectricity(float $savingElectricity): self
+    {
+        $this->savingElectricity = $savingElectricity;
+
+        return $this;
+    }
+
+    public function getSavingGas(): ?float
+    {
+        return $this->savingGas;
+    }
+
+    public function setSavingGas(float $savingGas): self
+    {
+        $this->savingGas = $savingGas;
+
+        return $this;
+    }
+
+    public function getSavingWaste(): ?float
+    {
+        return $this->savingWaste;
+    }
+
+    public function setSavingWaste(float $savingWaste): self
+    {
+        $this->savingWaste = $savingWaste;
+
+        return $this;
     }
 }

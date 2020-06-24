@@ -104,6 +104,40 @@ class AgoraFixtures extends Fixture
         return $level;
     }
 
+    public function getSavingMesure(array $dbTask, User $user, array $mesures): User
+    {
+        foreach ($dbTask as $task) {
+            foreach ($mesures as $mesure) {
+                if (date_diff(new DateTime('first day of january'), $task->getDate()->getDate())->format('%R%a') >= 0
+                    and $task->getValidate()
+                    and $mesure->getToMesure() === $user
+                    and $task->getDate() === $mesure->getDate()
+                    and $task->getUser()[0] === $user
+                ) {
+                    switch ($task->getName()) {
+                        case "Eau":
+                            $user->setSavingWater($user->getSavingWater() + ($user->getWaterAverageConsumption() - $mesure->getWater()));
+                            break;
+                        case "Electricté":
+                            $user->setSavingElectricity($user->getSavingElectricity() + ($user->getElectricityAverageConsumption() - $mesure->getElectricity()));
+                            break;
+                        case "Gaz":
+                            $user->setSavingGas($user->getSavingGas() + ($user->getGasAverageConsumption() - $mesure->getGas()));
+                            break;
+                        case "Déchêts":
+                            $user->setSavingWaste($user->getSavingWaste() + ($user->getWasteAverageConsumption() - $mesure->getWaste()));
+                            break;
+                    }
+
+                }
+
+            }
+
+        }
+        return $user;
+
+    }
+
     public function load(ObjectManager $manager)
     {
         $limit = 25;
@@ -164,6 +198,10 @@ class AgoraFixtures extends Fixture
                 ->setRegistrationDate($faker->dateTime)
                 ->setNavigoNumber($faker->unique()->randomNumber(8))
                 ->setLevel($faker->randomElement($array = $dbLevel))
+                ->setSavingWater(0)
+                ->setSavingWaste(0)
+                ->setSavingElectricity(0)
+                ->setSavingGas(0)
             ;
             $dbUser[] = $user;
             $manager->persist($user);
@@ -189,6 +227,10 @@ class AgoraFixtures extends Fixture
             ->setRegistrationDate($faker->dateTime)
             ->setNavigoNumber($faker->unique()->randomNumber(8))
             ->setLevel($faker->randomElement($array = $dbLevel))
+            ->setSavingWater(0)
+            ->setSavingWaste(0)
+            ->setSavingElectricity(0)
+            ->setSavingGas(0)
         ;
         $manager->persist($aymeric);
         array_push($dbUser,$aymeric);
@@ -221,13 +263,12 @@ class AgoraFixtures extends Fixture
             }
         }
 
-        $userTest = [];
         foreach ($dbUser as $user) {
             $countValidateTask = 0;
             foreach ($taskNameArr as $taskName) {
                 foreach ($dbDate as $date){
                     foreach ($mesures as $mesure) {
-                        if ($mesure->getToMesure()->getId() === $user->getId() and $mesure->getdate() === $date) {
+                        if ($mesure->getToMesure() === $user and $mesure->getdate() === $date) {
                             $userMesure = $mesure;
                         }
                     }
@@ -247,6 +288,7 @@ class AgoraFixtures extends Fixture
                         ->addUser($userMesure->getToMesure());
                     ;
                     $manager->persist($task);
+                    $dbTask[] = $task;
 
                     $dateDiff = date_diff(new DateTime('first day of january'), $task->getDate()->getDate())->format('%R%a');
                     if ($task->getValidate() and $dateDiff >= 0) {
@@ -256,9 +298,8 @@ class AgoraFixtures extends Fixture
             }
 
             $user->setLevel($this->getUserLevel($countValidateTask, $dbLevel));
+            $user = $this->getSavingMesure($dbTask, $user, $mesures);
             $manager->persist($user);
-
-            array_push($userTest, ["id" => $user->getId(), "nb" => $countValidateTask]);
 
         }
         $manager->flush();
