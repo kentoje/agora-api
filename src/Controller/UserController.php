@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\LevelRepository;
 use App\Repository\UserRepository;
-use App\Services\ErrorJsonHelper;
+use App\Service\ErrorJsonHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use OpenApi\Annotations as OA;

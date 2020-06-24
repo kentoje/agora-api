@@ -125,9 +125,45 @@ curl -X GET localhost:8000/api/users -H "Authorization: BEARER eyJ0eXAi..."
 
 ---
 
+### Refresh JWT Token after expiration
+
+Your JWT Token is set to expire at a certain time that is set in `config/packages/lexik_jwt_authentication.yaml`:
+
+```yaml
+# Unit is in second. So 900 seconds.
+token_ttl: 900
+```
+
+If your JWT Token expire, you will need to re-generate a new one with the second token provided when you login, called `refresh_token`, the `refresh_token` can only be used once, but everytime you request a new JWT Token you will get a new `refresh_token` as well:
+
+```json
+{
+    "refresh_token": "b1ca3f...",
+    "token": "eyJ0eXAi..."
+}
+```
+
+Retrieve a new valid JWT Token:
+
+#### httpie
+
+```shell script
+http POST localhost:8000/api/token/refresh refresh_token=b1ca3f...
+```
+
+#### CURL
+
+```shell script
+curl -X POST -H "Content-Type: application/json" localhost:8000/api/token/refresh -d '{"refresh_token": "b1ca3f..."}'
+```
+
+With this new token, you will be able to fetch data from the API again.
+
+---
+
 ### Swagger documentation
 
-Visit the documentation at `/swagger/index.html`
+Visit the documentation at route: `/swagger/index.html`.
 
 ---
 
