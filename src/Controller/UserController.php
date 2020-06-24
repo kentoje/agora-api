@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\LevelRepository;
 use App\Repository\UserRepository;
+use App\Services\ErrorJsonHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use OpenApi\Annotations as OA;
@@ -46,10 +47,10 @@ class UserController extends AbstractController
         $result = $userRepository->findAll();
 
         if (!$result) {
-            return $this->json([
-                'status' => Response::HTTP_NOT_FOUND,
-                'message' => 'No users found',
-            ]);
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_NOT_FOUND, 'No users found.'),
+                Response::HTTP_NOT_FOUND
+            );
         }
 
         return $this->json($result, Response::HTTP_OK, [], ['groups' => 'user:read']);
@@ -90,10 +91,10 @@ class UserController extends AbstractController
         $result = $userRepository->findOneUser($id);
 
         if (!$result) {
-            return $this->json([
-                'status' => Response::HTTP_NOT_FOUND,
-                'message' => 'This user does not exist',
-            ]);
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_NOT_FOUND, 'This user does not exist.'),
+                Response::HTTP_NOT_FOUND
+            );
         }
 
         return $this->json($result, Response::HTTP_OK, [], ['groups' => 'user:read']);
@@ -147,10 +148,9 @@ class UserController extends AbstractController
             return $this->json($user, Response::HTTP_CREATED, [], ['groups' => 'user:create']);
 
         } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_BAD_REQUEST, $e->getMessage()),
+                Response::HTTP_BAD_REQUEST);
         }
     }
 }
