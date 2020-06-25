@@ -161,6 +161,40 @@ With this new token, you will be able to fetch data from the API again.
 
 ---
 
+### Setup crontab
+
+Run:
+
+```shell script
+crontab -e
+```
+
+add the following line, change `<PATH_TO_PROJECT>` to your Project `PATH`:
+
+```shell script
+* * * * * cd ~/<PATH_TO_PROJECT>/agora-api && ./bash_scripts/launch-schedule.sh >> /dev/null 2>&1
+```
+
+#### Mac OS Catalina cron Permission Troubleshooting
+
+Open folder containing `cron` binary file:
+
+```shell script
+open /usr/sbin
+```
+
+* Go to your System Settings > Security & Privacy > Disk access
+
+* Click on the lock at the bottom left corner and enter your password
+
+* Drag and drop the `cron` binary file into your System Settings Window.
+
+* Cross the checkbox next to it.
+
+Then it should fix the permission problem.
+
+---
+
 ### Swagger documentation
 
 Visit the documentation at route: `/swagger/index.html`.
