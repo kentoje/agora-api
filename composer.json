@@ -32,6 +32,7 @@
         "symfony/validator": "5.1.*",
         "symfony/web-link": "5.1.*",
         "symfony/yaml": "5.1.*",
+        "zenstruck/schedule-bundle": "^1.0",
         "zircote/swagger-php": "^3.0"
     },
     "require-dev": {

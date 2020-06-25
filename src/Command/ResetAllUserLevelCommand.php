@@ -34,7 +34,8 @@ class ResetAllUserLevelCommand extends Command
         $firstDayOfYear = new DateTime('first day of january');
         $currentDay = new DateTime();
 
-        if ($firstDayOfYear->format('Y-m-d') === $currentDay->format('Y-m-d')) {
+//        if ($firstDayOfYear->format('Y-m-d') === $currentDay->format('Y-m-d')) {
+        if (true) {
             $levelRepo = $this->em->getRepository(Level::class);
             $userRepo = $this->em->getRepository(User::class);
 

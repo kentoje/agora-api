@@ -1,0 +1,6 @@
+zenstruck_schedule:
+  timezone: UTC
+
+  tasks:
+    -   task: app:resetLevel
+        frequency: '* * * * *' # sundays @ 1am
