@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+use Zenstruck\ScheduleBundle\Schedule;
 
 class Kernel extends BaseKernel
 {
@@ -36,5 +37,16 @@ class Kernel extends BaseKernel
             $path = \dirname(__DIR__).'/config/routes.php';
             (require $path)($routes->withPath($path), $this);
         }
+    }
+
+    public function buildSchedule(Schedule $schedule): void
+    {
+        $schedule->timezone('UTC');
+
+        $schedule->addCommand('app:resetLevel')
+            ->description('test')
+            ->sundays()
+            ->at(1)
+        ;
     }
 }
