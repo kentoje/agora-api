@@ -26,6 +26,8 @@ class UserController extends AbstractController
     /**
      * @OA\Get(
      *     path="/api/users",
+     *     security={"bearer"},
+     *     tags={"User"},
      *     description="Get users",
      *     @OA\Response(
      *         response="200",
@@ -62,6 +64,8 @@ class UserController extends AbstractController
     /**
      * @OA\Get(
      *     path="/api/user/{id}",
+     *     security={"bearer"},
+     *     tags={"User"},
      *     description="Get user",
      *     @OA\Parameter(
      *         name="id",
@@ -106,11 +110,21 @@ class UserController extends AbstractController
     /**
      * @OA\Post(
      *     path="/api/signup",
+     *     tags={"User"},
      *     description="Create user",
+     *     @OA\RequestBody(ref="#/components/requestBodies/UserSignup"),
      *     @OA\Response(
      *         response="200",
      *         description="User created",
      *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/User")),
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="User sign up error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
+     *             @OA\Property(property="message", type="string", description="Returned message"),
+     *         ),
      *     ),
      * )
      * @Route("/api/signup", name="api_signup_user", methods={"POST"})

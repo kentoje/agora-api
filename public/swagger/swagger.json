@@ -13,6 +13,9 @@
     "paths": {
         "/api/users": {
             "get": {
+                "tags": [
+                    "User"
+                ],
                 "description": "Get users",
                 "operationId": "App\\Controller\\UserController::index",
                 "responses": {
@@ -49,11 +52,17 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    "bearer"
+                ]
             }
         },
         "/api/user/{id}": {
             "get": {
+                "tags": [
+                    "User"
+                ],
                 "description": "Get user",
                 "operationId": "App\\Controller\\UserController::oneUser",
                 "parameters": [
@@ -101,13 +110,22 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    "bearer"
+                ]
             }
         },
         "/api/signup": {
             "post": {
+                "tags": [
+                    "User"
+                ],
                 "description": "Create user",
                 "operationId": "App\\Controller\\UserController::createUser",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UserSignup"
+                },
                 "responses": {
                     "200": {
                         "description": "User created",
@@ -118,6 +136,26 @@
                                     "items": {
                                         "$ref": "#/components/schemas/User"
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User sign up error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -163,6 +201,9 @@
                     "lastName": {
                         "type": "string"
                     },
+                    "image": {
+                        "type": "string"
+                    },
                     "email": {
                         "type": "string"
                     },
@@ -182,7 +223,7 @@
                     "insulation": {
                         "type": "boolean"
                     },
-                    "socialSecurityNumber": {
+                    "nifNumber": {
                         "type": "string"
                     },
                     "gasAverageConsumption": {
@@ -213,6 +254,87 @@
                     }
                 },
                 "type": "object"
+            }
+        },
+        "requestBodies": {
+            "UserSignup": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "firstName",
+                                "lastName",
+                                "password",
+                                "email",
+                                "agoraNumber",
+                                "nbResident",
+                                "livingArea",
+                                "gas",
+                                "insulation",
+                                "nifNumber"
+                            ],
+                            "properties": {
+                                "firstName": {
+                                    "description": "User",
+                                    "type": "string"
+                                },
+                                "lastName": {
+                                    "description": "User",
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "description": "User",
+                                    "type": "string"
+                                },
+                                "image": {
+                                    "description": "User",
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "description": "User",
+                                    "type": "string"
+                                },
+                                "agoraNumber": {
+                                    "description": "User",
+                                    "type": "integer"
+                                },
+                                "nbResident": {
+                                    "description": "User",
+                                    "type": "integer"
+                                },
+                                "livingArea": {
+                                    "description": "User",
+                                    "type": "number",
+                                    "format": "float"
+                                },
+                                "gas": {
+                                    "description": "User",
+                                    "type": "boolean"
+                                },
+                                "insulation": {
+                                    "description": "User",
+                                    "type": "boolean"
+                                },
+                                "nifNumber": {
+                                    "description": "User",
+                                    "type": "string"
+                                },
+                                "navigoNumber": {
+                                    "description": "User",
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearer": {
+                "type": "apiKey",
+                "bearerFormat": "JWT"
             }
         }
     }

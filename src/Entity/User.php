@@ -16,6 +16,37 @@ use Symfony\Component\Validator\Constraints as Assert;
  * User
  *
  * @OA\Schema()
+ * @OA\SecurityScheme(bearerFormat="JWT", type="apiKey", securityScheme="bearer")
+ * @OA\RequestBody(
+ *     request="UserSignup",
+ *     required=true,
+ *     @OA\JsonContent(
+ *         required={
+ *             "firstName",
+ *             "lastName",
+ *             "password",
+ *             "email",
+ *             "agoraNumber",
+ *             "nbResident",
+ *             "livingArea",
+ *             "gas",
+ *             "insulation",
+ *             "nifNumber",
+ *         },
+ *         @OA\Property(type="string", property="firstName"),
+ *         @OA\Property(type="string", property="lastName"),
+ *         @OA\Property(type="string", property="password"),
+ *         @OA\Property(type="string", property="image"),
+ *         @OA\Property(type="string", property="email"),
+ *         @OA\Property(type="integer", property="agoraNumber"),
+ *         @OA\Property(type="integer", property="nbResident"),
+ *         @OA\Property(type="number", format="float", property="livingArea"),
+ *         @OA\Property(type="boolean", property="gas"),
+ *         @OA\Property(type="boolean", property="insulation"),
+ *         @OA\Property(type="string", property="nifNumber"),
+ *         @OA\Property(type="integer", property="navigoNumber"),
+ *     ),
+ * )
  * @ORM\Table(name="user", indexes={@ORM\Index(name="IDX_8D93D6495FB14BA7", columns={"level_id"})})
  * @ORM\Entity
  * @UniqueEntity(fields={"email"})
