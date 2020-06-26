@@ -82,6 +82,16 @@ class User implements UserInterface
      * @var string
      *
      * @OA\Property(type="string")
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     * @Groups("user:read")
+     * @Groups("user:create")
+     */
+    private $image;
+
+    /**
+     * @var string
+     *
+     * @OA\Property(type="string")
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
      * @Assert\Email()
      * @Groups("user:read")
@@ -143,9 +153,9 @@ class User implements UserInterface
      * @var string
      *
      * @OA\Property(type="string")
-     * @ORM\Column(name="social_security_number", type="string", length=30, nullable=false)
+     * @ORM\Column(name="nif_number", type="string", length=30, nullable=false)
      */
-    private $socialSecurityNumber;
+    private $nifNumber;
 
     /**
      * @var float
@@ -319,6 +329,18 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -391,14 +413,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getSocialSecurityNumber(): ?string
+    public function getNifNumber(): ?string
     {
-        return $this->socialSecurityNumber;
+        return $this->nifNumber;
     }
 
-    public function setSocialSecurityNumber(string $socialSecurityNumber): self
+    public function setNifNumber(string $nifNumber): self
     {
-        $this->socialSecurityNumber = $socialSecurityNumber;
+        $this->nifNumber = $nifNumber;
 
         return $this;
     }

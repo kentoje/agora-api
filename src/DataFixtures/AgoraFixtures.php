@@ -132,14 +132,10 @@ class AgoraFixtures extends Fixture
                             $user->setSavingWaste($user->getSavingWaste() + ($user->getWasteAverageConsumption() - $mesure->getWaste()));
                             break;
                     }
-
                 }
-
             }
-
         }
         return $user;
-
     }
 
     public function load(ObjectManager $manager)
@@ -193,7 +189,7 @@ class AgoraFixtures extends Fixture
                 ->setLivingArea($faker->numberBetween($min = 15, $max = 300))
                 ->setGas($faker->boolean)
                 ->setInsulation($faker->boolean)
-                ->setSocialSecurityNumber($faker->regexify('[1-2]{1}[0-9]{2}(0[1-9]|1[0-2])[0-9]{2}[0-9]{3}[0-9]{3}[0-9]{2}'))
+                ->setNifNumber($faker->regexify('[0-3]\d{12}'))
                 ->setRoles($faker->randomElement($array = [['ROLE_USER'], ['ROLE_ADMIN']]))
                 ->setGasAverageConsumption($faker->randomFloat(2, 0, 6260))
                 ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 800))
@@ -222,7 +218,7 @@ class AgoraFixtures extends Fixture
             ->setLivingArea(175)
             ->setGas(true)
             ->setInsulation(true)
-            ->setSocialSecurityNumber($faker->regexify('[1-2]{1}[0-9]{2}(0[1-9]|1[0-2])[0-9]{2}[0-9]{3}[0-9]{3}[0-9]{2}'))
+            ->setNifNumber($faker->regexify('[0-3]\d{12}'))
             ->setRoles(['ROLE_ADMIN'])
             ->setGasAverageConsumption($faker->randomFloat(2, 0, 6260))
             ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 800))
@@ -237,7 +233,8 @@ class AgoraFixtures extends Fixture
             ->setSavingGas(0)
         ;
         $manager->persist($aymeric);
-        array_push($dbUser, $aymeric);
+
+        $dbUser[] = $aymeric;
 
         for ($i = 0; $i <= 11; $i++) {
             $date = new Date();

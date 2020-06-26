@@ -140,9 +140,9 @@ class UserController extends AbstractController
         try {
             $user = $serializer->deserialize($json, User::class, 'json');
 
-            if (!preg_match('/[1-2]{1}[0-9]{2}(0[1-9]|1[0-2])[0-9]{2}[0-9]{3}[0-9]{3}[0-9]{2}/', $user->getSocialSecurityNumber())) {
+            if (!preg_match('/[0-3]\d{12}/', $user->getNifNumber())) {
                 return $this->json(
-                    ErrorJsonHelper::errorMessage(Response::HTTP_BAD_REQUEST, 'Wrong social security number format.'),
+                    ErrorJsonHelper::errorMessage(Response::HTTP_BAD_REQUEST, 'Wrong NIF number format.'),
                     Response::HTTP_BAD_REQUEST
                 );
             }

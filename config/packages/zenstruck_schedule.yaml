@@ -3,4 +3,4 @@ zenstruck_schedule:
 
   tasks:
     -   task: app:resetLevel
-        frequency: '* * * * *' # sundays @ 1am
+        frequency: '0 0 * * *'
