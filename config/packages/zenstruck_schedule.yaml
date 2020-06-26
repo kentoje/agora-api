@@ -3,4 +3,10 @@ zenstruck_schedule:
 
   tasks:
     -   task: app:resetLevel
-        frequency: '0 0 * * *'
+        frequency: '0 0 1 1 *' # At 00:00 on day-of-month 1 in January
+
+    -   task: app:simulateMesure
+        frequency: '*/30 * * * *' # At every 30th minute
+
+    -   task: app:newMonth
+        frequency: '0 0 1 * *' # At 00:00 on day-of-month 1

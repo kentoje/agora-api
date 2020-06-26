@@ -131,4 +131,9 @@ class UserHelper
             $manager->persist($task);
         }
     }
+
+    public function getAverage(array $mesure, string $type, float $average): float
+    {
+        return ($mesure[$type]*$average)/3600;
+    }
 }

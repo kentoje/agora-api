@@ -32,7 +32,7 @@ install:
 	@printf "${cyan}"
 	@echo "Installing dependencies"
 	@printf "${yellow}";
-	composer install
+	php /usr/local/bin/composer.phar install
 .PHONY: install
 
 db-create:

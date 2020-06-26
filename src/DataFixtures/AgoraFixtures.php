@@ -69,37 +69,37 @@ class AgoraFixtures extends Fixture
         if ($countValidateTask < 5) {
             $level = $dbLevel[0];
         }
-        elseif ($countValidateTask >= 5 and $countValidateTask < 10) {
+        elseif ($countValidateTask >= 5 && $countValidateTask < 10) {
             $level = $dbLevel[1];
         }
-        elseif ($countValidateTask >= 10 and $countValidateTask < 15) {
+        elseif ($countValidateTask >= 10 && $countValidateTask < 15) {
             $level = $dbLevel[2];
         }
-        elseif ($countValidateTask >= 15 and $countValidateTask < 20) {
+        elseif ($countValidateTask >= 15 && $countValidateTask < 20) {
             $level = $dbLevel[3];
         }
-        elseif ($countValidateTask >= 20 and $countValidateTask < 25) {
+        elseif ($countValidateTask >= 20 && $countValidateTask < 25) {
             $level = $dbLevel[4];
         }
-        elseif ($countValidateTask >= 25 and $countValidateTask < 30) {
+        elseif ($countValidateTask >= 25 && $countValidateTask < 30) {
             $level = $dbLevel[5];
         }
-        elseif ($countValidateTask >= 30 and $countValidateTask < 35) {
+        elseif ($countValidateTask >= 30 && $countValidateTask < 35) {
             $level = $dbLevel[6];
         }
-        elseif ($countValidateTask >= 35 and $countValidateTask < 40) {
+        elseif ($countValidateTask >= 35 && $countValidateTask < 40) {
             $level = $dbLevel[7];
         }
-        elseif ($countValidateTask >= 40 and $countValidateTask < 45) {
+        elseif ($countValidateTask >= 40 && $countValidateTask < 45) {
             $level = $dbLevel[8];
         }
-        elseif ($countValidateTask >= 45 and $countValidateTask < 50) {
+        elseif ($countValidateTask >= 45 && $countValidateTask < 50) {
             $level = $dbLevel[9];
         }
-        elseif ($countValidateTask >= 50 and $countValidateTask < 55) {
+        elseif ($countValidateTask >= 50 && $countValidateTask < 55) {
             $level = $dbLevel[10];
         }
-        elseif ($countValidateTask >= 55 and $countValidateTask < 60) {
+        elseif ($countValidateTask >= 55 && $countValidateTask < 60) {
             $level = $dbLevel[11];
         }
         else {
@@ -113,10 +113,10 @@ class AgoraFixtures extends Fixture
         foreach ($dbTask as $task) {
             foreach ($mesures as $mesure) {
                 if (date_diff(new DateTime('first day of january'), $task->getDate()->getDate())->format('%R%a') >= 0
-                    and $task->getValidate()
-                    and $mesure->getToMesure() === $user
-                    and $task->getDate() === $mesure->getDate()
-                    and $task->getUser()[0] === $user
+                    && $task->getValidate()
+                    && $mesure->getToMesure() === $user
+                    && $task->getDate() === $mesure->getDate()
+                    && $task->getUser()[0] === $user
                 ) {
                     switch ($task->getName()) {
                         case "Eau":
@@ -270,7 +270,7 @@ class AgoraFixtures extends Fixture
             foreach ($taskNameArr as $taskName) {
                 foreach ($dbDate as $date) {
                     foreach ($mesures as $mesure) {
-                        if ($mesure->getToMesure() === $user and $mesure->getdate() === $date) {
+                        if ($mesure->getToMesure() === $user && $mesure->getdate() === $date) {
                             $userMesure = $mesure;
                         }
                     }
@@ -294,7 +294,7 @@ class AgoraFixtures extends Fixture
                     $dbTask[] = $task;
 
                     $dateDiff = date_diff(new DateTime('first day of january'), $task->getDate()->getDate())->format('%R%a');
-                    if ($task->getValidate() and $dateDiff >= 0) {
+                    if ($dateDiff >= 0 && $task->getValidate()) {
                         $countValidateTask += 1;
                     }
                 }
