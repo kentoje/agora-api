@@ -2,6 +2,14 @@
 Disclaimer
 Ce site a été réalisé à des fins pédagogiques dans le cadre du cursus Bachelor de l’école HETIC. Les contenus présentés n'ont pas fait l'objet d'une demande de droit d'utilisation. Ce site ne sera en aucun cas exploité à des fins commerciales.
 
+---
+
+## Swagger documentation
+
+Visit the documentation at route: `/swagger/index.html`.
+
+---
+
 ## Installing the project
 
 After cloning the project, go to the root of the project and create a `.env.local` file:
@@ -26,40 +34,86 @@ CORS_ALLOW_ORIGIN=^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$
 
 Then, install dependencies:
 
+#### Normal
+
 ```shell script
 composer install
+```
+
+#### Makefile
+
+```shell script
+make install
 ```
 
 ---
 
 Create the Database:
 
+#### Normal
+
 ```shell script
 ./bin/console doctrine:database:create
+```
+
+#### Makefile
+
+```shell script
+make db-create
 ```
 
 ---
 
 Execute the last migration:
 
+#### Normal
+
 ```shell script
 ./bin/console doctrine:migration:migrate
+```
+
+#### Makefile
+
+```shell script
+make db-migration
 ```
 
 ---
 
 Populate database with fixtures:
 
+#### Normal
+
 ```shell script
 ./bin/console doctrine:fixtures:load
+```
+
+#### Makefile
+
+```shell script
+make db-fixture
 ```
 
 ---
 
 Launch the server:
 
+#### Normal
+
 ```shell script
 symfony server:start
+```
+
+#### Makefile way
+
+```shell script
+make start
+```
+
+Stop the server:
+
+```shell script
+make stop
 ```
 
 ---
@@ -172,7 +226,7 @@ crontab -e
 add the following line, change `<PATH_TO_PROJECT>` to your Project `PATH`:
 
 ```shell script
-* * * * * cd ~/<PATH_TO_PROJECT>/agora-api && ./bash_scripts/launch-schedule.sh >> /dev/null 2>&1
+0 0 * * * cd ~/<PATH_TO_PROJECT>/agora-api && ./bash_scripts/launch-schedule.sh >> /dev/null 2>&1
 ```
 
 #### Mac OS Catalina cron Permission Troubleshooting
@@ -195,19 +249,24 @@ Then it should fix the permission problem.
 
 ---
 
-### Swagger documentation
+## Commands
 
-Visit the documentation at route: `/swagger/index.html`.
+### Makefile
 
----
+Prefix the following names with `make`:
 
-### Useful commands
-
-List all routes of the API:
-
-```shell script
-./bin/console debug:router
-```
+NAME | DESCRIPTION
+--- | ---
+start | Start the server
+stop | Stop the server
+cc | Clear the cache
+router | List all routes
+install | Install dependencies
+db-create | Create the database
+db-migration | Launch migrations
+db-fixture | Load fixtures
+db-update | Run `db-migration` and `db-fixture`
+swagger | Update swagger documentation
 
 ---
 
