@@ -261,6 +261,9 @@ start | Start the server
 stop | Stop the server
 cc | Clear the cache
 router | List all routes
+log | Display server logs
+test | Run all tests
+test-file | Run a specific test file that user enter. Example: `UserTest`
 install | Install dependencies
 db-create | Create the database
 db-migration | Launch migrations

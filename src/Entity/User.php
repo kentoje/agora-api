@@ -50,7 +50,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="user", indexes={@ORM\Index(name="IDX_8D93D6495FB14BA7", columns={"level_id"})})
  * @ORM\Entity
  * @UniqueEntity(fields={"email"})
- * @UniqueEntity(fields={"socialSecurityNumber"})
+ * @UniqueEntity(fields={"nifNumber"})
  */
 class User implements UserInterface
 {
@@ -135,6 +135,8 @@ class User implements UserInterface
      *
      * @OA\Property(type="integer")
      * @ORM\Column(name="agora_number", type="integer", nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Regex("/^\d{8}$/")
      * @Groups("user:read")
      * @Groups("user:create")
      */
@@ -185,6 +187,8 @@ class User implements UserInterface
      *
      * @OA\Property(type="string")
      * @ORM\Column(name="nif_number", type="string", length=30, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Regex("/^[0-3]\d{12}$/")
      */
     private $nifNumber;
 
