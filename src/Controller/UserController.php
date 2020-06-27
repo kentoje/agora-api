@@ -169,6 +169,7 @@ class UserController extends AbstractController
                 ->setSavingWaste(0)
                 ->setSavingElectricity(0)
                 ->setSavingGas(0)
+                ->setRoles(['ROLE_USER'])
             ;
 
             $userHelper->setAverageUserData($user);
