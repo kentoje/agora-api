@@ -19,13 +19,13 @@ class UserTest extends KernelTestCase
             ->setLivingArea(50.0)
             ->setGas(true)
             ->setInsulation(false)
-            ->setAgoraNumber('12345678')
-            ->setNifNumber('1123456789012')
+            ->setAgoraNumber(12345678)
+            ->setNifNumber('1123456789014')
             ->setNavigoNumber(01234567)
         ;
     }
 
-    public function assertHasErrors(User $user, int $number = 0)
+    public function assertHasErrors(User $user, int $number = 0): void
     {
         $messages = [];
 
@@ -42,12 +42,12 @@ class UserTest extends KernelTestCase
         $this->assertCount($number, $errors, implode(', ', $messages));
     }
 
-    public function testValidEntity()
+    public function testValidEntity(): void
     {
         $this->assertHasErrors($this->getEntity(), 0);
     }
 
-    public function testInvalidEntity()
+    public function testInvalidEntity(): void
     {
         $user = $this->getEntity();
         $user

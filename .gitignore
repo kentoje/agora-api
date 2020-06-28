@@ -26,4 +26,8 @@
 
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
+
+# Do not ignore those files
+!/config/jwt/public-test.pem
+!/config/jwt/private-test.pem
 ###< lexik/jwt-authentication-bundle ###

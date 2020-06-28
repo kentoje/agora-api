@@ -7,10 +7,10 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UserRepositoryTest extends KernelTestCase
 {
-    public function testCount()
+    public function testCount(): void
     {
         self::bootKernel();
         $users = self::$container->get(UserRepository::class)->count([]);
-        $this->assertEquals(26, $users);
+        $this->assertGreaterThan(0, $users);
     }
 }
