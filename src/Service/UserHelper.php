@@ -136,4 +136,5 @@ class UserHelper
     {
         return ($mesure[$type]*$average)/3600;
     }
+
 }

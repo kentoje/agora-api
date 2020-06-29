@@ -4,7 +4,9 @@
     "require": {
         "php": "^7.2.5",
         "ext-ctype": "*",
+        "ext-curl": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "gesdinet/jwt-refresh-token-bundle": "^0.9.1",
         "lexik/jwt-authentication-bundle": "^2.8",
         "nelmio/cors-bundle": "^2.0",
@@ -33,9 +35,7 @@
         "symfony/web-link": "5.1.*",
         "symfony/yaml": "5.1.*",
         "zenstruck/schedule-bundle": "^1.0",
-        "zircote/swagger-php": "^3.0",
-      "ext-json": "*",
-        "ext-curl": "*"
+        "zircote/swagger-php": "^3.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",

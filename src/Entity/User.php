@@ -313,6 +313,11 @@ class User implements UserInterface
     private $savingWaste;
 
     /**
+     * @Groups("user:create")
+     */
+    private $additionalDatas;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -644,6 +649,24 @@ class User implements UserInterface
     public function setSavingWaste(float $savingWaste): self
     {
         $this->savingWaste = $savingWaste;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAdditionalDatas()
+    {
+        return $this->additionalDatas;
+    }
+
+    /**
+     * @param array $additionalDatas
+     */
+    public function setAdditionalDatas($additionalDatas): self
+    {
+        $this->additionalDatas = $additionalDatas;
 
         return $this;
     }

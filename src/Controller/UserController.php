@@ -240,6 +240,7 @@ class UserController extends AbstractController
         $content = json_decode($request->getContent(), true);
 
         $user = $userRepository->findOneBy(['email' => $content['username']]);
+        $data = $userRepository->getUserDatas($user->getId());
 
         if (!$user) {
             return $this->json(
@@ -280,7 +281,8 @@ class UserController extends AbstractController
 
         return $this->json([
             'user' => $user,
-            'data' => $result,
+            'tokens' => $result,
+            'additionalDatas' => $data,
         ], Response::HTTP_OK, [], ['groups' => 'user:create']);
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Service\QueryHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -49,6 +51,32 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult();
+    }
+
+    public function getUserDatas(int $id): array
+    {
+        $response = array();
+
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sqlQueries = [
+            'data' => QueryHelper::getQueryUserAdditionalData($id),
+            'tasks'=> QueryHelper::getQueryUserCurrentTasks($id)
+        ];
+
+        foreach ($sqlQueries as $key => $query) {
+            try {
+                $stmt = $conn->prepare($query);
+                $stmt->execute(['userId' => $id]);
+                $result = $stmt->fetchAll();
+                $response[$key] = $key === "data" ? $result[0] : $result;
+            } catch (\Throwable $e) {
+                echo $e->getMessage();
+            }
+        }
+
+
+        return $response;
     }
 
 

@@ -101,3 +101,22 @@ FROM   task
                ON task.date_id = date.id
 WHERE  date.date >= Date_format(Now(), '%Y-%m-01')
        AND USER.id = 1
+
+/*historique*/
+SELECT date.date,
+       mesure.water,
+       mesure.electricity,
+       mesure.gas,
+       mesure.waste,
+       mesure.navigo_subscription,
+       USER.water_average_consumption,
+       USER.electricity_average_consumption,
+       USER.gas_average_consumption,
+       USER.waste_average_consumption
+FROM   mesure
+       INNER JOIN date
+               ON mesure.date_id = date.id
+       INNER JOIN USER
+               ON mesure.to_mesure_id = USER.id
+
+/*analytiques*/
