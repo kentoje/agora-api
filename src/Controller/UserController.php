@@ -206,9 +206,31 @@ class UserController extends AbstractController
      *         @OA\JsonContent(
      *             properties={
      *                 @OA\Property(property="user", type="array", @OA\Items(ref="#/components/schemas/User")),
-     *                 @OA\Property(property="data", type="array", @OA\Items(
+     *                 @OA\Property(property="tokens", type="object", properties={
      *                     @OA\Property(property="refresh_token", type="string"),
-     *                     @OA\Property(property="token", type="string"))
+     *                     @OA\Property(property="token", type="string")},
+     *                 ),
+     *                 @OA\Property(property="additionalDatas", type="object", properties={
+     *                     @OA\Property(property="data", type="object", properties={
+     *                         @OA\Property(property="userId", type="integer"),
+     *                         @OA\Property(property="mesureGas", type="integer"),
+     *                         @OA\Property(property="mesureWater", type="integer"),
+     *                         @OA\Property(property="mesureWaste", type="integer"),
+     *                         @OA\Property(property="mesureElectricity", type="integer"),
+     *                         @OA\Property(property="nbMonthsRegistered", type="integer"),
+     *                         @OA\Property(property="nbValidatedTaskWater", type="integer"),
+     *                         @OA\Property(property="nbValidatedTaskGas", type="integer"),
+     *                         @OA\Property(property="nbValidatedTaskWaste", type="integer"),
+     *                         @OA\Property(property="nbValidatedTaskElec", type="integer"),
+     *                         @OA\Property(property="nbValidateTaskInThisYear", type="integer" ),
+     *                     }),
+     *                     @OA\Property(property="tasks", type="array", @OA\Items(
+     *                         @OA\Property(property="id", type="integer"),
+     *                         @OA\Property(property="date_id", type="integer"),
+     *                         @OA\Property(property="name", type="string"),
+     *                         @OA\Property(property="unit", type="string"),
+     *                         @OA\Property(property="validate", type="integer"),
+     *                     ))},
      *                 ),
      *             },
      *         ),

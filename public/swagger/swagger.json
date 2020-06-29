@@ -175,7 +175,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Connect as User",
+                        "description": "Connect to an account",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -186,19 +186,82 @@
                                                 "$ref": "#/components/schemas/User"
                                             }
                                         },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "refresh_token": {
-                                                        "type": "string"
-                                                    },
-                                                    "token": {
-                                                        "type": "string"
-                                                    }
+                                        "tokens": {
+                                            "properties": {
+                                                "refresh_token": {
+                                                    "type": "string"
                                                 },
-                                                "type": "object"
-                                            }
+                                                "token": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "additionalDatas": {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "userId": {
+                                                            "type": "integer"
+                                                        },
+                                                        "mesureGas": {
+                                                            "type": "integer"
+                                                        },
+                                                        "mesureWater": {
+                                                            "type": "integer"
+                                                        },
+                                                        "mesureWaste": {
+                                                            "type": "integer"
+                                                        },
+                                                        "mesureElectricity": {
+                                                            "type": "integer"
+                                                        },
+                                                        "nbMonthsRegistered": {
+                                                            "type": "integer"
+                                                        },
+                                                        "nbValidatedTaskWater": {
+                                                            "type": "integer"
+                                                        },
+                                                        "nbValidatedTaskGas": {
+                                                            "type": "integer"
+                                                        },
+                                                        "nbValidatedTaskWaste": {
+                                                            "type": "integer"
+                                                        },
+                                                        "nbValidatedTaskElec": {
+                                                            "type": "integer"
+                                                        },
+                                                        "nbValidateTaskInThisYear": {
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "tasks": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer"
+                                                            },
+                                                            "date_id": {
+                                                                "type": "integer"
+                                                            },
+                                                            "name": {
+                                                                "type": "string"
+                                                            },
+                                                            "unit": {
+                                                                "type": "string"
+                                                            },
+                                                            "validate": {
+                                                                "type": "integer"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
