@@ -195,7 +195,7 @@ class AgoraFixtures extends Fixture
                 ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 800))
                 ->setWaterAverageConsumption($faker->randomFloat(2, 0, 1300))
                 ->setWasteAverageConsumption($faker->randomFloat(0, 0, 300))
-                ->setRegistrationDate($faker->dateTime)
+                ->setRegistrationDate($faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null))
                 ->setNavigoNumber($faker->unique()->randomNumber(8))
                 ->setLevel($faker->randomElement($array = $dbLevel))
                 ->setSavingWater(0)
@@ -224,7 +224,7 @@ class AgoraFixtures extends Fixture
             ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 800))
             ->setWaterAverageConsumption($faker->randomFloat(2, 0, 1300))
             ->setWasteAverageConsumption($faker->randomFloat(0, 0, 300))
-            ->setRegistrationDate($faker->dateTime)
+            ->setRegistrationDate($faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null))
             ->setNavigoNumber($faker->unique()->randomNumber(8))
             ->setLevel($faker->randomElement($array = $dbLevel))
             ->setSavingWater(0)
@@ -238,7 +238,7 @@ class AgoraFixtures extends Fixture
 
         for ($i = 0; $i <= 11; $i++) {
             $date = new Date();
-            $newDate = new DateTime();
+            $newDate =  new DateTime('first day of this month');
             $newDate->modify('-'.$i.' months');
             $date->setDate($newDate);
             $manager->persist($date);
@@ -294,7 +294,8 @@ class AgoraFixtures extends Fixture
                     $dbTask[] = $task;
 
                     $dateDiff = date_diff(new DateTime('first day of january'), $task->getDate()->getDate())->format('%R%a');
-                    if ($dateDiff >= 0 && $task->getValidate()) {
+                    $isSameMonth = (new DateTime('first day of january'))->format('%m') !== $task->getDate()->getDate()->format('%m');
+                    if ($dateDiff >= 0 && $task->getValidate() && $isSameMonth) {
                         $countValidateTask += 1;
                     }
                 }
