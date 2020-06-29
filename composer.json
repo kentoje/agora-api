@@ -33,7 +33,9 @@
         "symfony/web-link": "5.1.*",
         "symfony/yaml": "5.1.*",
         "zenstruck/schedule-bundle": "^1.0",
-        "zircote/swagger-php": "^3.0"
+        "zircote/swagger-php": "^3.0",
+      "ext-json": "*",
+        "ext-curl": "*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",

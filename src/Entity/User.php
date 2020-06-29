@@ -18,6 +18,18 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @OA\Schema()
  * @OA\SecurityScheme(bearerFormat="JWT", type="apiKey", securityScheme="bearer")
  * @OA\RequestBody(
+ *     request="UserLogin",
+ *     required=true,
+ *     @OA\JsonContent(
+ *         required={
+ *             "username",
+ *             "password",
+ *         },
+ *         @OA\Property(type="string", property="username"),
+ *         @OA\Property(type="string", property="password"),
+ *     ),
+ * ),
+ * @OA\RequestBody(
  *     request="UserSignup",
  *     required=true,
  *     @OA\JsonContent(
