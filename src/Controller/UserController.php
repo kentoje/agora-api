@@ -193,4 +193,94 @@ class UserController extends AbstractController
             );
         }
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     tags={"User"},
+     *     description="Login as user. Property username is the email of the User.",
+     *     @OA\RequestBody(ref="#/components/requestBodies/UserLogin"),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Connect to an account",
+     *         @OA\JsonContent(
+     *             properties={
+     *                 @OA\Property(property="user", type="array", @OA\Items(ref="#/components/schemas/User")),
+     *                 @OA\Property(property="data", type="array", @OA\Items(
+     *                     @OA\Property(property="refresh_token", type="string"),
+     *                     @OA\Property(property="token", type="string"))
+     *                 ),
+     *             },
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="User login error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
+     *             @OA\Property(property="message", type="string", description="Returned message"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="User not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
+     *             @OA\Property(property="message", type="string", description="Returned message"),
+     *         ),
+     *     ),
+     * )
+     * @Route("/api/login", name="api_login_user", methods={"POST"})
+     * @param UserRepository $userRepository
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function login(UserRepository $userRepository, Request $request): JsonResponse
+    {
+        $content = json_decode($request->getContent(), true);
+
+        $user = $userRepository->findOneBy(['email' => $content['username']]);
+
+        if (!$user) {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_NOT_FOUND, 'This user does not exist.'),
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        $errorMessage = '';
+
+        $ch = curl_init();
+
+        $options = [
+            CURLOPT_POST  => 1,
+            CURLOPT_URL => sprintf('http://%s/api/login_check', $_SERVER['HTTP_HOST']),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+            CURLOPT_POSTFIELDS => json_encode($content),
+            CURLOPT_FAILONERROR => true,
+        ];
+
+        curl_setopt_array($ch, $options);
+
+        $result = json_decode(curl_exec($ch), true);
+
+        if (curl_errno($ch)) {
+            $errorMessage = curl_error($ch);
+        }
+
+        curl_close($ch);
+
+        if ($errorMessage !== '') {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_BAD_REQUEST, $errorMessage),
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        return $this->json([
+            'user' => $user,
+            'data' => $result,
+        ], Response::HTTP_OK, [], ['groups' => 'user:create']);
+    }
 }

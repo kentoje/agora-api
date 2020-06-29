@@ -162,6 +162,92 @@
                     }
                 }
             }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "description": "Login as user. Property username is the email of the User.",
+                "operationId": "App\\Controller\\UserController::login",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UserLogin"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connect as User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "refresh_token": {
+                                                        "type": "string"
+                                                    },
+                                                    "token": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User login error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -257,6 +343,30 @@
             }
         },
         "requestBodies": {
+            "UserLogin": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "username",
+                                "password"
+                            ],
+                            "properties": {
+                                "username": {
+                                    "description": "User",
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "description": "User",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "UserSignup": {
                 "required": true,
                 "content": {
