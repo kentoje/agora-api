@@ -3,7 +3,9 @@
 namespace App\Command;
 
 use App\Entity\Date;
+use App\Entity\Mesure;
 use App\Entity\User;
+use App\Repository\MesureRepository;
 use App\Service\UserHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,6 +37,7 @@ class NewMonthCommand extends Command
     {
         $userRepo = $this->em->getRepository(User::class);
         $dateRepo = $this->em->getRepository(Date::class);
+        $mesureRepo = $this->em->getRepository(Mesure::class);
 
         $currentDay = new DateTime();
         $mostRecentDateInDb = $dateRepo->findBy(
@@ -42,14 +45,36 @@ class NewMonthCommand extends Command
             array('date' => 'DESC'),
             1
         );
-
-        if ( $currentDay->format('m') > $mostRecentDateInDb[0]->getDate()->format('m') or $currentDay->format('Y') > $mostRecentDateInDb[0]->getDate()->format('Y')) {
+/*        $currentDay->format('m') > $mostRecentDateInDb[0]->getDate()->format('m') or $currentDay->format('Y') > $mostRecentDateInDb[0]->getDate()->format('Y')*/
+        if ( true ) {
             $newDate = new Date();
             $newDate->setDate($currentDay);
             $this->em->persist($newDate);
 
             $users = $userRepo->findAll();
             foreach ($users as $user) {
+                $userMesures = $mesureRepo->findBy(array("date" => $mostRecentDateInDb[0], "toMesure" => $user));
+
+                $user->setSavingElectricity(
+                    $user->getElectricityAverageConsumption() > $userMesures[0]->getElectricity() ?
+                    $user->getSavingElectricity() + $userMesures[0]->getElectricity() : $user->getSavingElectricity()
+                );
+
+                $user->setSavingGas(
+                    $user->getGasAverageConsumption() > $userMesures[0]->getGas() ?
+                    $user->getSavingGas() + $userMesures[0]->getGas() : $user->getSavingGas()
+                );
+
+                $user->setSavingWaste(
+                    $user->getWasteAverageConsumption() > $userMesures[0]->getWaste() ?
+                    $user->getSavingWaste() + $userMesures[0]->getWaste() : $user->getSavingWaste()
+                );
+
+                $user->setSavingWater(
+                    $user->getWaterAverageConsumption() > $userMesures[0]->getWater() ?
+                    $user->getSavingWater() + $userMesures[0]->getWater() : $user->getSavingWater()
+                );
+
                 $this->userHelper->createUserTask($user, $newDate, $this->em);
             }
             $this->em->flush();
