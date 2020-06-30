@@ -19,7 +19,7 @@ class UserTest extends KernelTestCase
             ->setLivingArea(50.0)
             ->setGas(true)
             ->setInsulation(false)
-            ->setAgoraNumber(12345678)
+            ->setAgoraNumber('12345678')
             ->setNifNumber('1123456789014')
             ->setNavigoNumber(01234567)
         ;

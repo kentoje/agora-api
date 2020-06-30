@@ -26,7 +26,7 @@ class UserController extends AbstractController
 {
     /**
      * @OA\Get(
-     *     path="/api/users",
+     *     path="/api/admin/users",
      *     security={"bearer"},
      *     tags={"User"},
      *     description="Get users",
@@ -40,7 +40,7 @@ class UserController extends AbstractController
      *             @OA\Property(property="lastName", type="string"),
      *             @OA\Property(property="image", type="string"),
      *             @OA\Property(property="email", type="string", format="email"),
-     *             @OA\Property(property="agoraNumber", type="integer"),
+     *             @OA\Property(property="agoraNumber", type="string"),
      *             @OA\Property(property="nbResident", type="integer"),
      *             @OA\Property(property="livingArea", type="integer"),
      *             @OA\Property(property="gas", type="boolean"),
@@ -103,7 +103,7 @@ class UserController extends AbstractController
 
     /**
      * @OA\Get(
-     *     path="/api/user/{id}",
+     *     path="/api/admin/user/{id}",
      *     security={"bearer"},
      *     tags={"User"},
      *     description="Get user",
@@ -124,7 +124,7 @@ class UserController extends AbstractController
      *             @OA\Property(property="lastName", type="string"),
      *             @OA\Property(property="image", type="string"),
      *             @OA\Property(property="email", type="string", format="email"),
-     *             @OA\Property(property="agoraNumber", type="integer"),
+     *             @OA\Property(property="agoraNumber", type="string"),
      *             @OA\Property(property="nbResident", type="integer"),
      *             @OA\Property(property="livingArea", type="integer"),
      *             @OA\Property(property="gas", type="boolean"),
@@ -332,7 +332,7 @@ class UserController extends AbstractController
      *             @OA\Property(property="lastName", type="string"),
      *             @OA\Property(property="image", type="string"),
      *             @OA\Property(property="email", type="string", format="email"),
-     *             @OA\Property(property="agoraNumber", type="integer"),
+     *             @OA\Property(property="agoraNumber", type="string"),
      *             @OA\Property(property="nbResident", type="integer"),
      *             @OA\Property(property="livingArea", type="integer"),
      *             @OA\Property(property="gas", type="boolean"),
@@ -450,7 +450,7 @@ class UserController extends AbstractController
      *                     @OA\Property(property="lastName", type="string"),
      *                     @OA\Property(property="image", type="string"),
      *                     @OA\Property(property="email", type="string", format="email"),
-     *                     @OA\Property(property="agoraNumber", type="integer"),
+     *                     @OA\Property(property="agoraNumber", type="string"),
      *                     @OA\Property(property="nbResident", type="integer"),
      *                     @OA\Property(property="livingArea", type="integer"),
      *                     @OA\Property(property="gas", type="boolean"),

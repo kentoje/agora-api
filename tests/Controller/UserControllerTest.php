@@ -75,7 +75,7 @@ class UserControllerTest extends WebTestCase
                 'livingArea' => 50.0,
                 'gas' => true,
                 'insulation' => false,
-                'agoraNumber' => 12345678,
+                'agoraNumber' => '12345678',
                 'nifNumber' => '1123456789013',
                 'navigoNumber' => 01234567,
             ])
@@ -87,7 +87,7 @@ class UserControllerTest extends WebTestCase
     public function testUsersPageIsAuth(): void
     {
         $client = $this->createAuthenticatedClient();
-        $client->request('GET', '/api/users');
+        $client->request('GET', '/api/admin/users');
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
@@ -95,7 +95,7 @@ class UserControllerTest extends WebTestCase
     public function testUsersPageIsRestricted(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/api/users');
+        $client->request('GET', '/api/admin/users');
 
         self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }

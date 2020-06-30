@@ -47,7 +47,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         @OA\Property(type="string", property="lastName"),
  *         @OA\Property(type="string", property="image"),
  *         @OA\Property(type="string", property="email"),
- *         @OA\Property(type="integer", property="agoraNumber"),
+ *         @OA\Property(type="string", property="agoraNumber"),
  *         @OA\Property(type="integer", property="nbResident"),
  *         @OA\Property(type="number", format="float", property="livingArea"),
  *         @OA\Property(type="boolean", property="gas"),
@@ -144,10 +144,10 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @var int
+     * @var string
      *
-     * @OA\Property(type="integer")
-     * @ORM\Column(name="agora_number", type="integer", nullable=false)
+     * @OA\Property(type="string")
+     * @ORM\Column(name="agora_number", length=8, type="string", nullable=false)
      * @Assert\NotBlank()
      * @Assert\Regex("/^\d{8}$/")
      * @Groups("user:read")
@@ -426,12 +426,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getAgoraNumber(): ?int
+    public function getAgoraNumber(): ?string
     {
         return $this->agoraNumber;
     }
 
-    public function setAgoraNumber(int $agoraNumber): self
+    public function setAgoraNumber(string $agoraNumber): self
     {
         $this->agoraNumber = $agoraNumber;
 

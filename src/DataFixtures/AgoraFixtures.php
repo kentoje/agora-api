@@ -187,7 +187,7 @@ class AgoraFixtures extends Fixture
 //                ->setPassword(password_hash($faker->password, PASSWORD_ARGON2ID))
                 /* Test JWT Token with test password */
                 ->setPassword(password_hash('test', 'argon2id'))
-                ->setAgoraNumber($faker->unique()->randomNumber(8))
+                ->setAgoraNumber($faker->regexify('\d{8}'))
                 ->setNbResident($faker->randomElement($array = [1, 2, 3, 4, 5, 6]))
                 ->setLivingArea($faker->numberBetween($min = 15, $max = 300))
                 ->setGas($faker->boolean)
@@ -217,7 +217,7 @@ class AgoraFixtures extends Fixture
             ->setLastName("Mayeux")
             ->setEmail("aymeric.mayeux@hetic.net")
             ->setPassword(password_hash('azerty', 'argon2id'))
-            ->setAgoraNumber($faker->unique()->randomNumber(8))
+            ->setAgoraNumber($faker->regexify('\d{8}'))
             ->setNbResident(3)
             ->setLivingArea(175)
             ->setGas(true)

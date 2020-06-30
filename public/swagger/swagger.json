@@ -11,7 +11,7 @@
         }
     ],
     "paths": {
-        "/api/users": {
+        "/api/admin/users": {
             "get": {
                 "tags": [
                     "User"
@@ -50,7 +50,7 @@
                                                 "format": "email"
                                             },
                                             "agoraNumber": {
-                                                "type": "integer"
+                                                "type": "string"
                                             },
                                             "nbResident": {
                                                 "type": "integer"
@@ -150,7 +150,7 @@
                 ]
             }
         },
-        "/api/user/{id}": {
+        "/api/admin/user/{id}": {
             "get": {
                 "tags": [
                     "User"
@@ -200,7 +200,7 @@
                                                 "format": "email"
                                             },
                                             "agoraNumber": {
-                                                "type": "integer"
+                                                "type": "string"
                                             },
                                             "nbResident": {
                                                 "type": "integer"
@@ -498,7 +498,7 @@
                                             "format": "email"
                                         },
                                         "agoraNumber": {
-                                            "type": "integer"
+                                            "type": "string"
                                         },
                                         "nbResident": {
                                             "type": "integer"
@@ -632,10 +632,11 @@
                                                     "type": "string"
                                                 },
                                                 "email": {
-                                                    "type": "string"
+                                                    "type": "string",
+                                                    "format": "email"
                                                 },
                                                 "agoraNumber": {
-                                                    "type": "integer"
+                                                    "type": "string"
                                                 },
                                                 "nbResident": {
                                                     "type": "integer"
@@ -777,7 +778,7 @@
                         "type": "string"
                     },
                     "agoraNumber": {
-                        "type": "integer"
+                        "type": "string"
                     },
                     "nbResident": {
                         "type": "integer"
@@ -881,7 +882,7 @@
                                 },
                                 "agoraNumber": {
                                     "description": "User",
-                                    "type": "integer"
+                                    "type": "string"
                                 },
                                 "nbResident": {
                                     "description": "User",
