@@ -24,6 +24,7 @@ class Level
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:updatable")
      */
     private $id;
 
@@ -34,6 +35,7 @@ class Level
      * @ORM\Column(name="level_number", type="integer", nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:updatable")
      */
     private $levelNumber;
 
@@ -44,6 +46,7 @@ class Level
      * @ORM\Column(name="reduction_rate", type="float", precision=10, scale=0, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:updatable")
      */
     private $reductionRate;
 

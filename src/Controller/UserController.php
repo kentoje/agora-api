@@ -11,6 +11,8 @@ use App\Service\UserHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -262,7 +264,6 @@ class UserController extends AbstractController
         $content = json_decode($request->getContent(), true);
 
         $user = $userRepository->findOneBy(['email' => $content['username']]);
-        $data = $userRepository->getUserDatas($user->getId());
 
         if (!$user) {
             return $this->json(
@@ -304,7 +305,46 @@ class UserController extends AbstractController
         return $this->json([
             'user' => $user,
             'tokens' => $result,
+        ], Response::HTTP_OK, [], ['groups' => 'user:login']);
+    }
+
+    /**
+     * @Route("/api/user/update/{id}", name="api_update_user_data", methods={"GET"})
+     * @param UserRepository $userRepository
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param int $id
+     * @return JsonResponse
+     * @throws JWTDecodeFailureException
+     */
+    public function getUserUpdatableDatas(UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
+    {
+        $user = $userRepository->findOneBy(['id' => $id]);
+
+        $authorization = $request->headers->get('authorization');
+        $jwtToken = explode(' ' , $authorization)[1];
+        $payload = $JWTEncoder->decode($jwtToken);
+        $username = $payload['username'];
+
+        if (!$user) {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_NOT_FOUND, 'This user does not exist.'),
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        if ($user->getUsername() !== $username) {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_FORBIDDEN, 'The user does not match.'),
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $data = $userRepository->getUserDatas($user->getId());
+
+        return $this->json([
+            'level' => $user->getLevel(),
             'additionalDatas' => $data,
-        ], Response::HTTP_OK, [], ['groups' => 'user:create']);
+            ], Response::HTTP_OK, [], ['groups' => 'user:updatable']);
     }
 }

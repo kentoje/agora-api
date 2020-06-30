@@ -75,6 +75,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $id;
 
@@ -90,6 +91,7 @@ class User implements UserInterface
      * @ORM\Column(name="roles", type="json", nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $roles;
 
@@ -108,6 +110,7 @@ class User implements UserInterface
      * @ORM\Column(name="first_name", type="string", length=50, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $firstName;
 
@@ -118,6 +121,7 @@ class User implements UserInterface
      * @ORM\Column(name="last_name", type="string", length=50, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $lastName;
 
@@ -128,6 +132,7 @@ class User implements UserInterface
      * @ORM\Column(name="image", type="string", length=255, nullable=true)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $image;
 
@@ -139,6 +144,7 @@ class User implements UserInterface
      * @Assert\Email()
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $email;
 
@@ -151,6 +157,7 @@ class User implements UserInterface
      * @Assert\Regex("/^\d{8}$/")
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $agoraNumber;
 
@@ -161,6 +168,7 @@ class User implements UserInterface
      * @ORM\Column(name="nb_resident", type="integer", nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $nbResident;
 
@@ -171,6 +179,7 @@ class User implements UserInterface
      * @ORM\Column(name="living_area", type="float", precision=10, scale=0, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $livingArea;
 
@@ -181,6 +190,7 @@ class User implements UserInterface
      * @ORM\Column(name="gas", type="boolean", nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $gas;
 
@@ -191,6 +201,7 @@ class User implements UserInterface
      * @ORM\Column(name="insulation", type="boolean", nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $insulation;
 
@@ -211,6 +222,7 @@ class User implements UserInterface
      * @ORM\Column(name="gas_average_consumption", type="float", precision=10, scale=0, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $gasAverageConsumption;
 
@@ -221,6 +233,7 @@ class User implements UserInterface
      * @ORM\Column(name="water_average_consumption", type="float", precision=10, scale=0, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $waterAverageConsumption;
 
@@ -231,6 +244,7 @@ class User implements UserInterface
      * @ORM\Column(name="electricity_average_consumption", type="float", precision=10, scale=0, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $electricityAverageConsumption;
 
@@ -241,6 +255,7 @@ class User implements UserInterface
      * @ORM\Column(name="waste_average_consumption", type="float", precision=10, scale=0, nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $wasteAverageConsumption;
 
@@ -251,6 +266,7 @@ class User implements UserInterface
      * @ORM\Column(name="registration_date", type="date", nullable=false)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $registrationDate;
 
@@ -261,6 +277,7 @@ class User implements UserInterface
      * @ORM\Column(name="navigo_number", type="integer", nullable=true)
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:login")
      */
     private $navigoNumber;
 
@@ -274,6 +291,7 @@ class User implements UserInterface
      * })
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:updatable")
      */
     private $level;
 
@@ -288,6 +306,7 @@ class User implements UserInterface
      * @ORM\Column(type="float")
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:updatable")
      */
     private $savingWater;
 
@@ -295,6 +314,7 @@ class User implements UserInterface
      * @ORM\Column(type="float")
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:updatable")
      */
     private $savingTransport;
 
@@ -302,6 +322,7 @@ class User implements UserInterface
      * @ORM\Column(type="float")
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:updatable")
      */
     private $savingElectricity;
 
@@ -309,6 +330,7 @@ class User implements UserInterface
      * @ORM\Column(type="float")
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:updatable")
      */
     private $savingGas;
 
@@ -316,6 +338,7 @@ class User implements UserInterface
      * @ORM\Column(type="float")
      * @Groups("user:read")
      * @Groups("user:create")
+     * @Groups("user:updatable")
      */
     private $savingWaste;
 
