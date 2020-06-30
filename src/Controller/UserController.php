@@ -284,15 +284,16 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/api/user/tasks/{id}", name="api_all_user_tasks", methods={"GET"})
+     * @Route("/api/user/tasks/{id}/{year}", name="api_all_user_tasks", methods={"GET"})
      * @param UserHelper $userHelper
      * @param UserRepository $userRepository
      * @param Request $request
      * @param JWTEncoderInterface $JWTEncoder
      * @param int $id
+     * @param int $year
      * @return JsonResponse
      */
-    public function getAllUserTasks(UserHelper $userHelper, UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
+    public function getAllUserTasks(UserHelper $userHelper, UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id, int $year): JsonResponse
     {
         $userInfo = $userHelper->checkUser($id,  $userRepository,  $request,  $JWTEncoder);
 
@@ -310,7 +311,7 @@ class UserController extends AbstractController
             );
         }
 
-        $tasks = $userRepository->getAllUserTasks($userInfo['user']->getId());
+        $tasks = $userRepository->getAllUserTasks($userInfo['user']->getId(),$year);
 
         return $this->json(['tasks' => $tasks], Response::HTTP_OK);
     }

@@ -135,7 +135,7 @@ class QueryHelper
             AND USER.id = ' . $id;
     }
 
-    public static function getQueryAllUserTasks(int $id): string
+    public static function getQueryAllUserTasks(int $id, int $year): string
     {
         return '
             SELECT 
@@ -158,6 +158,8 @@ class QueryHelper
                 INNER JOIN 
                     user
                 ON 
-                    mesure.to_mesure_id = ' . $id;
+                    mesure.to_mesure_id = ' . $id
+            . ' Where YEAR(date.date) = ' . $year
+            . ' order by date.date DESC';
     }
 }
