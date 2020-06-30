@@ -85,7 +85,7 @@
                                                 "format": "date"
                                             },
                                             "navigoNumber": {
-                                                "type": "integer"
+                                                "type": "string"
                                             },
                                             "level": {
                                                 "properties": {
@@ -126,6 +126,26 @@
                     },
                     "404": {
                         "description": "No users found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "The user does not have the ROLE_ADMIN role.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -235,7 +255,7 @@
                                                 "format": "date"
                                             },
                                             "navigoNumber": {
-                                                "type": "integer"
+                                                "type": "string"
                                             },
                                             "level": {
                                                 "properties": {
@@ -276,6 +296,26 @@
                     },
                     "404": {
                         "description": "User does not exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "The user does not have the ROLE_ADMIN role.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -458,6 +498,139 @@
                 ]
             }
         },
+        "/api/user/tasks/{id}/{date}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "description": "Get user's tasks by date",
+                "operationId": "App\\Controller\\UserController::getAllUserTasks",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of User",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "path",
+                        "description": "Year of tasks",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get all tasks by specific year.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "tasks": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "water": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    },
+                                                    "electricity": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    },
+                                                    "gas": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    },
+                                                    "waste": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    },
+                                                    "navigo_subscription": {
+                                                        "type": "integer"
+                                                    },
+                                                    "water_average_consumption": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    },
+                                                    "electricity_average_consumption": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    },
+                                                    "gas_average_consumption": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    },
+                                                    "waste_average_consumption": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User does not exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "The user does not match",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    "bearer"
+                ]
+            }
+        },
         "/api/signup": {
             "post": {
                 "tags": [
@@ -533,7 +706,7 @@
                                             "format": "date"
                                         },
                                         "navigoNumber": {
-                                            "type": "integer"
+                                            "type": "string"
                                         },
                                         "level": {
                                             "properties": {
@@ -671,7 +844,7 @@
                                                     "format": "date"
                                                 },
                                                 "navigoNumber": {
-                                                    "type": "integer"
+                                                    "type": "string"
                                                 }
                                             },
                                             "type": "object"
@@ -903,7 +1076,7 @@
                                 },
                                 "navigoNumber": {
                                     "description": "User",
-                                    "type": "integer"
+                                    "type": "string"
                                 }
                             },
                             "type": "object"

@@ -42,7 +42,6 @@ class Kernel extends BaseKernel
     public function buildSchedule(Schedule $schedule): void
     {
         $schedule->timezone('UTC');
-
         $schedule->addCommand('app:resetLevel')
             ->description('test')
             ->sundays()

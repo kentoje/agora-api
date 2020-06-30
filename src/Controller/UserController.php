@@ -71,6 +71,14 @@ class UserController extends AbstractController
      *             @OA\Property(property="message", type="string", description="Returned message"),
      *         ),
      *     ),
+     *     @OA\Response(
+     *         response="403",
+     *         description="The user does not have the ROLE_ADMIN role.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
+     *             @OA\Property(property="message", type="string", description="Returned message"),
+     *         ),
+     *     ),
      * )
      * @Route("/api/admin/users", name="api_admin_get_users", methods={"GET"})
      * @param UserHelper $userHelper
@@ -150,6 +158,14 @@ class UserController extends AbstractController
      *     @OA\Response(
      *         response="404",
      *         description="User does not exist",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
+     *             @OA\Property(property="message", type="string", description="Returned message"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="403",
+     *         description="The user does not have the ROLE_ADMIN role.",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
      *             @OA\Property(property="message", type="string", description="Returned message"),
@@ -284,6 +300,60 @@ class UserController extends AbstractController
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/user/tasks/{id}/{date}",
+     *     tags={"User"},
+     *     security={"bearer"},
+     *     description="Get user's tasks by date",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Id of User",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Parameter(
+     *         name="date",
+     *         in="path",
+     *         description="Year of tasks",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Get all tasks by specific year.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="tasks", type="array", @OA\Items(
+     *                 @OA\Property(property="date", type="string", format="date"),
+     *                 @OA\Property(property="water", type="number", format="float"),
+     *                 @OA\Property(property="electricity", type="number", format="float"),
+     *                 @OA\Property(property="gas", type="number", format="float"),
+     *                 @OA\Property(property="waste", type="number", format="float"),
+     *                 @OA\Property(property="navigo_subscription", type="integer"),
+     *                 @OA\Property(property="water_average_consumption", type="number", format="float"),
+     *                 @OA\Property(property="electricity_average_consumption", type="number", format="float"),
+     *                 @OA\Property(property="gas_average_consumption", type="number", format="float"),
+     *                 @OA\Property(property="waste_average_consumption", type="number", format="float"),
+     *             )),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="User does not exist",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
+     *             @OA\Property(property="message", type="string", description="Returned message"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="403",
+     *         description="The user does not match",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
+     *             @OA\Property(property="message", type="string", description="Returned message"),
+     *         ),
+     *     ),
+     * )
      * @Route("/api/user/tasks/{id}/{year}", name="api_all_user_tasks", methods={"GET"})
      * @param UserHelper $userHelper
      * @param UserRepository $userRepository
