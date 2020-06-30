@@ -88,3 +88,7 @@ swagger:
 	@printf "${end}";
 	vendor/bin/openapi --format json --output ./public/swagger/swagger.json ./swagger/swagger.php src
 .PHONY: swagger
+
+list:
+	sh -c "$(MAKE) -p | awk -F':' '/^[a-zA-Z0-9][^\$$#\/\\t=]*:([^=]|$$)/ {split(\$$1,A,/ /);for(i in A)print A[i]}' | grep -v '__\$$' | sort"
+.PHONY: no_targets__ list

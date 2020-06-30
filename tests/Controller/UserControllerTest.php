@@ -2,12 +2,23 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\Mesure;
+use App\Entity\User;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserControllerTest extends WebTestCase
 {
+
+    private $em;
+
+    private $userRepository;
+
+    private $mesureRepository;
+
     /**
      * Create a client with a default Authorization header.
      *
@@ -56,9 +67,32 @@ class UserControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
-    // Persist the new User in Database which trigger errors if we run the test twice...
-    /*public function testSignUpWithRequiredInformations(): void
+    public function testSignUpWithRequiredInformations(): void
     {
+        $kernel = self::bootKernel();
+
+        $this->userRepository = $kernel->getContainer()
+            ->get('doctrine')
+            ->getRepository(User::class)
+        ;
+        $user = $this->userRepository->findOneBy(['email' => 'john.doe2@doe.com']);
+
+        if ($user) {
+            $this->mesureRepository = $kernel->getContainer()
+                ->get('doctrine')
+                ->getRepository(Mesure::class)
+            ;
+            $mesure = $this->mesureRepository->findOneBy(['toMesure' => $user->getId()]);
+
+            $this->em = $kernel->getContainer()->get('doctrine')->getManager();
+            $this->em->remove($mesure);
+            $this->em->remove($user);
+            $this->em->flush();
+        }
+
+        /* Shutdown the previous kernel to ensure that we can create a client. */
+        self::ensureKernelShutdown();
+
         $client = static::createClient();
         $client->request(
             'POST',
@@ -82,7 +116,7 @@ class UserControllerTest extends WebTestCase
         );
 
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
-    }*/
+    }
 
     public function testUsersPageIsAuth(): void
     {
