@@ -319,9 +319,6 @@ class User implements UserInterface
      */
     private $savingWaste;
 
-    /**
-     * @Groups("user:create")
-     */
     private $additionalDatas;
 
     /**
