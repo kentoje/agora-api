@@ -21,7 +21,7 @@ class UserTest extends KernelTestCase
             ->setInsulation(false)
             ->setAgoraNumber('12345678')
             ->setNifNumber('1123456789014')
-            ->setNavigoNumber(01234567)
+            ->setNavigoNumber('01234567')
         ;
     }
 

@@ -77,7 +77,7 @@ class UserControllerTest extends WebTestCase
                 'insulation' => false,
                 'agoraNumber' => '12345678',
                 'nifNumber' => '1123456789013',
-                'navigoNumber' => 01234567,
+                'navigoNumber' => '01234567',
             ])
         );
 

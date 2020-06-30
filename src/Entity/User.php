@@ -52,7 +52,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         @OA\Property(type="number", format="float", property="livingArea"),
  *         @OA\Property(type="boolean", property="gas"),
  *         @OA\Property(type="boolean", property="insulation"),
- *         @OA\Property(type="integer", property="navigoNumber"),
+ *         @OA\Property(type="string", property="navigoNumber"),
  *     ),
  * )
  * @ORM\Table(name="user", indexes={@ORM\Index(name="IDX_8D93D6495FB14BA7", columns={"level_id"})})
@@ -268,7 +268,7 @@ class User implements UserInterface
      * @var int|null
      *
      * @OA\Property(type="integer")
-     * @ORM\Column(name="navigo_number", type="integer", nullable=true)
+     * @ORM\Column(name="navigo_number", type="string", length=8, nullable=true)
      * @Groups("user:read")
      * @Groups("user:create")
      * @Groups("user:login")
@@ -558,12 +558,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getNavigoNumber(): ?int
+    public function getNavigoNumber(): ?string
     {
         return $this->navigoNumber;
     }
 
-    public function setNavigoNumber(?int $navigoNumber): self
+    public function setNavigoNumber(?string $navigoNumber): self
     {
         $this->navigoNumber = $navigoNumber;
 

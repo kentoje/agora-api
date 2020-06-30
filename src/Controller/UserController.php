@@ -50,7 +50,7 @@ class UserController extends AbstractController
      *             @OA\Property(property="electricityAverageConsumption", type="number", format="float"),
      *             @OA\Property(property="wasteAverageConsumption", type="number", format="float"),
      *             @OA\Property(property="registrationDate", type="string", format="date"),
-     *             @OA\Property(property="navigoNumber", type="integer"),
+     *             @OA\Property(property="navigoNumber", type="string"),
      *             @OA\Property(property="level", type="object", properties={
      *                 @OA\Property(property="id", type="integer"),
      *                 @OA\Property(property="levelNumber", type="integer"),
@@ -134,7 +134,7 @@ class UserController extends AbstractController
      *             @OA\Property(property="electricityAverageConsumption", type="number", format="float"),
      *             @OA\Property(property="wasteAverageConsumption", type="number", format="float"),
      *             @OA\Property(property="registrationDate", type="string", format="date"),
-     *             @OA\Property(property="navigoNumber", type="integer"),
+     *             @OA\Property(property="navigoNumber", type="string"),
      *             @OA\Property(property="level", type="object", properties={
      *                 @OA\Property(property="id", type="integer"),
      *                 @OA\Property(property="levelNumber", type="integer"),
@@ -342,7 +342,7 @@ class UserController extends AbstractController
      *             @OA\Property(property="electricityAverageConsumption", type="number", format="float"),
      *             @OA\Property(property="wasteAverageConsumption", type="number", format="float"),
      *             @OA\Property(property="registrationDate", type="string", format="date"),
-     *             @OA\Property(property="navigoNumber", type="integer"),
+     *             @OA\Property(property="navigoNumber", type="string"),
      *             @OA\Property(property="level", type="object", properties={
      *                 @OA\Property(property="id", type="integer"),
      *                 @OA\Property(property="levelNumber", type="integer"),
@@ -460,7 +460,7 @@ class UserController extends AbstractController
      *                     @OA\Property(property="electricityAverageConsumption", type="number", format="float"),
      *                     @OA\Property(property="wasteAverageConsumption", type="number", format="float"),
      *                     @OA\Property(property="registrationDate", type="string", format="date"),
-     *                     @OA\Property(property="navigoNumber", type="integer"),
+     *                     @OA\Property(property="navigoNumber", type="string"),
      *                 }),
      *                 @OA\Property(property="tokens", type="object", properties={
      *                     @OA\Property(property="token", type="string"),

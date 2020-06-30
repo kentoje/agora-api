@@ -132,7 +132,7 @@ class AgoraFixtures extends Fixture
                             $user->setSavingWaste($user->getSavingWaste() + ($user->getWasteAverageConsumption() - $mesure->getWaste()));
                             break;
                         case "Transports":
-                            $user->setSavingTransport($user->getSavingTransport() + $mesure->getNavigoSubscription() );
+                            $user->setSavingTransport($user->getSavingTransport() + (int) $mesure->getNavigoSubscription() );
                             break;
                     }
                 }
@@ -199,7 +199,7 @@ class AgoraFixtures extends Fixture
                 ->setWaterAverageConsumption($faker->randomFloat(2, 0, 1300))
                 ->setWasteAverageConsumption($faker->randomFloat(0, 0, 300))
                 ->setRegistrationDate($faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null))
-                ->setNavigoNumber($faker->unique()->randomNumber(8))
+                ->setNavigoNumber($faker->regexify('\d{8}'))
                 ->setLevel($faker->randomElement($array = $dbLevel))
                 ->setSavingWater(0)
                 ->setSavingWaste(0)
@@ -229,7 +229,7 @@ class AgoraFixtures extends Fixture
             ->setWaterAverageConsumption($faker->randomFloat(2, 0, 1300))
             ->setWasteAverageConsumption($faker->randomFloat(0, 0, 300))
             ->setRegistrationDate($faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null))
-            ->setNavigoNumber($faker->unique()->randomNumber(8))
+            ->setNavigoNumber($faker->regexify('\d{8}'))
             ->setLevel($faker->randomElement($array = $dbLevel))
             ->setSavingWater(0)
             ->setSavingWaste(0)
