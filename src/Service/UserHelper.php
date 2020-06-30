@@ -6,7 +6,10 @@ use App\Entity\Date;
 use App\Entity\Mesure;
 use App\Entity\Task;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 #water consumption per month for one person
 const WATER_CONSUMPTION_MONTH_ONE_PERSON = 130;
@@ -134,7 +137,21 @@ class UserHelper
 
     public function getAverage(array $mesure, string $type, float $average): float
     {
-        return ($mesure[$type]*$average)/3600;
+        return ($mesure[$type] * $average) / 3600;
+    }
+
+    public function checkUser(int $id, UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder): array
+    {
+
+        $user = $userRepository->findOneBy(['id' => $id]);
+
+        $authorization = $request->headers->get('authorization');
+        $jwtToken = explode(' ' , $authorization)[1];
+        $payload = $JWTEncoder->decode($jwtToken);
+        $username = $payload['username'];
+
+        return ['user' => $user,'username' => $username];
+
     }
 
 }

@@ -230,77 +230,67 @@ class UserController extends AbstractController
      *     ),
      * )
      * @Route("/api/user/update/{id}", name="api_update_user_data", methods={"GET"})
+     * @param UserHelper $userHelper
      * @param UserRepository $userRepository
      * @param Request $request
      * @param JWTEncoderInterface $JWTEncoder
      * @param int $id
      * @return JsonResponse
-     * @throws JWTDecodeFailureException
      */
-    public function getUserUpdatableDatas(UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
+    public function getUserUpdatableDatas(UserHelper $userHelper, UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
     {
-        $user = $userRepository->findOneBy(['id' => $id]);
+        $userInfo = $userHelper->checkUser($id,  $userRepository,  $request,  $JWTEncoder);
 
-        $authorization = $request->headers->get('authorization');
-        $jwtToken = explode(' ' , $authorization)[1];
-        $payload = $JWTEncoder->decode($jwtToken);
-        $username = $payload['username'];
-
-        if (!$user) {
+        if (!$userInfo['user']) {
             return $this->json(
                 ErrorJsonHelper::errorMessage(Response::HTTP_NOT_FOUND, 'This user does not exist.'),
                 Response::HTTP_NOT_FOUND
             );
         }
 
-        if ($user->getUsername() !== $username) {
+        if ($userInfo['user']->getUsername() !== $userInfo['username']) {
             return $this->json(
                 ErrorJsonHelper::errorMessage(Response::HTTP_FORBIDDEN, 'The user does not match.'),
                 Response::HTTP_FORBIDDEN
             );
         }
 
-        $data = $userRepository->getUserDatas($user->getId());
+        $data = $userRepository->getUserDatas($userInfo['user']->getId());
 
         return $this->json([
-            'level' => $user->getLevel(),
+            'level' => $userInfo['user']->getLevel(),
             'additionalDatas' => $data,
         ], Response::HTTP_OK, [], ['groups' => 'user:updatable']);
     }
 
     /**
      * @Route("/api/user/tasks/{id}", name="api_all_user_tasks", methods={"GET"})
+     * @param UserHelper $userHelper
      * @param UserRepository $userRepository
      * @param Request $request
      * @param JWTEncoderInterface $JWTEncoder
      * @param int $id
      * @return JsonResponse
-     * @throws JWTDecodeFailureException
      */
-    public function getAllUserTasks(UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
+    public function getAllUserTasks(UserHelper $userHelper, UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
     {
-        $user = $userRepository->findOneBy(['id' => $id]);
+        $userInfo = $userHelper->checkUser($id,  $userRepository,  $request,  $JWTEncoder);
 
-        $authorization = $request->headers->get('authorization');
-        $jwtToken = explode(' ' , $authorization)[1];
-        $payload = $JWTEncoder->decode($jwtToken);
-        $username = $payload['username'];
-
-        if (!$user) {
+        if (!$userInfo['user']) {
             return $this->json(
                 ErrorJsonHelper::errorMessage(Response::HTTP_NOT_FOUND, 'This user does not exist.'),
                 Response::HTTP_NOT_FOUND
             );
         }
 
-        if ($user->getUsername() !== $username) {
+        if ($userInfo['user']->getUsername() !== $userInfo['username']) {
             return $this->json(
                 ErrorJsonHelper::errorMessage(Response::HTTP_FORBIDDEN, 'The user does not match.'),
                 Response::HTTP_FORBIDDEN
             );
         }
 
-        $tasks = $userRepository->getAllUserTasks($user->getId());
+        $tasks = $userRepository->getAllUserTasks($userInfo['user']->getId());
 
         return $this->json(['tasks' => $tasks], Response::HTTP_OK);
     }
