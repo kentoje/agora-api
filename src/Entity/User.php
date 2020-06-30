@@ -296,6 +296,13 @@ class User implements UserInterface
      * @Groups("user:read")
      * @Groups("user:create")
      */
+    private $savingTransport;
+
+    /**
+     * @ORM\Column(type="float")
+     * @Groups("user:read")
+     * @Groups("user:create")
+     */
     private $savingElectricity;
 
     /**
@@ -649,6 +656,19 @@ class User implements UserInterface
     public function setSavingWaste(float $savingWaste): self
     {
         $this->savingWaste = $savingWaste;
+
+        return $this;
+    }
+
+    public function getSavingTransport(): ?float
+    {
+        return $this->savingTransport;
+    }
+
+
+    public function setSavingTransport(float $savingTransport): self
+    {
+        $this->savingTransport = $savingTransport;
 
         return $this;
     }

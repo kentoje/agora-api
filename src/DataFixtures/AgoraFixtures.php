@@ -131,6 +131,9 @@ class AgoraFixtures extends Fixture
                         case "Déchêts":
                             $user->setSavingWaste($user->getSavingWaste() + ($user->getWasteAverageConsumption() - $mesure->getWaste()));
                             break;
+                        case "Transports":
+                            $user->setSavingTransport($user->getSavingTransport() + $mesure->getNavigoSubscription() );
+                            break;
                     }
                 }
             }
@@ -202,6 +205,7 @@ class AgoraFixtures extends Fixture
                 ->setSavingWaste(0)
                 ->setSavingElectricity(0)
                 ->setSavingGas(0)
+                ->setSavingTransport(0)
             ;
             $dbUser[] = $user;
             $manager->persist($user);
@@ -231,6 +235,7 @@ class AgoraFixtures extends Fixture
             ->setSavingWaste(0)
             ->setSavingElectricity(0)
             ->setSavingGas(0)
+            ->setSavingTransport(0)
         ;
         $manager->persist($aymeric);
 

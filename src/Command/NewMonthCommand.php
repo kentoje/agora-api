@@ -57,22 +57,32 @@ class NewMonthCommand extends Command
 
                 $user->setSavingElectricity(
                     $user->getElectricityAverageConsumption() > $userMesures[0]->getElectricity() ?
-                    $user->getSavingElectricity() + $userMesures[0]->getElectricity() : $user->getSavingElectricity()
+                    $user->getSavingElectricity() + ($user->getElectricityAverageConsumption() - $userMesures[0]->getElectricity())
+                        : $user->getSavingElectricity()
                 );
 
                 $user->setSavingGas(
                     $user->getGasAverageConsumption() > $userMesures[0]->getGas() ?
-                    $user->getSavingGas() + $userMesures[0]->getGas() : $user->getSavingGas()
+                    $user->getSavingGas() + ($user->getGasAverageConsumption() - $userMesures[0]->getGas())
+                        : $user->getSavingGas()
                 );
 
                 $user->setSavingWaste(
                     $user->getWasteAverageConsumption() > $userMesures[0]->getWaste() ?
-                    $user->getSavingWaste() + $userMesures[0]->getWaste() : $user->getSavingWaste()
+                    $user->getSavingWaste() + ($user->getWasteAverageConsumption()- $userMesures[0]->getWaste())
+                        : $user->getSavingWaste()
                 );
 
                 $user->setSavingWater(
                     $user->getWaterAverageConsumption() > $userMesures[0]->getWater() ?
-                    $user->getSavingWater() + $userMesures[0]->getWater() : $user->getSavingWater()
+                    $user->getSavingWater() + ($user->getWaterAverageConsumption() - $userMesures[0]->getWater())
+                        : $user->getSavingWater()
+                );
+
+                $user->setSavingTransport(
+                    $user->getSavingTransport() && $userMesures[0]->getNavigoSubscription() ?
+                        $user->getSavingTransport() + $userMesures[0]->getNavigoSubscription()
+                        : $user->getSavingTransport()
                 );
 
                 $this->userHelper->createUserTask($user, $newDate, $this->em);
