@@ -7,13 +7,11 @@ use App\Repository\DateRepository;
 use App\Repository\LevelRepository;
 use App\Repository\UserRepository;
 use App\Service\ErrorJsonHelper;
-use App\Service\QueryHelper;
 use App\Service\UserHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
-use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -74,12 +72,23 @@ class UserController extends AbstractController
      *         ),
      *     ),
      * )
-     * @Route("/api/users", name="api_get_users", methods={"GET"})
+     * @Route("/api/admin/users", name="api_admin_get_users", methods={"GET"})
+     * @param UserHelper $userHelper
      * @param UserRepository $userRepository
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
      * @return JsonResponse
      */
-    public function index(UserRepository $userRepository): JsonResponse
+    public function index(UserHelper $userHelper, UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder): JsonResponse
     {
+
+        if (!$userHelper->checkAdmin($request, $JWTEncoder)) {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_FORBIDDEN, 'ROLE_ADMIN is required.'),
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
         $result = $userRepository->findAll();
 
         if (!$result) {
@@ -147,13 +156,24 @@ class UserController extends AbstractController
      *         ),
      *     ),
      * )
-     * @Route("/api/user/{id}", name="api_get_user", methods={"GET"})
+     * @Route("/api/admin/user/{id}", name="api_admin_get_user", methods={"GET"})
      * @param UserRepository $userRepository
+     * @param UserHelper $userHelper
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
      * @param int $id
      * @return JsonResponse
      */
-    public function oneUser(UserRepository $userRepository, int $id): JsonResponse
+    public function oneUser(UserRepository $userRepository, UserHelper $userHelper, Request $request, JWTEncoderInterface $JWTEncoder, int $id ): JsonResponse
     {
+
+        if (!$userHelper->checkAdmin($request, $JWTEncoder)) {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_FORBIDDEN, 'ROLE_ADMIN is required.'),
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
         $result = $userRepository->findOneUser($id);
 
         if (!$result) {

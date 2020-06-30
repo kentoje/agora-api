@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\HttpFoundation\Request;
 
 #water consumption per month for one person
@@ -154,4 +155,12 @@ class UserHelper
 
     }
 
+    public function checkAdmin(Request $request, JWTEncoderInterface $JWTEncoder): bool
+    {
+        $authorization = $request->headers->get('authorization');
+        $jwtToken = explode(' ' , $authorization)[1];
+        $payload = $JWTEncoder->decode($jwtToken);
+
+        return in_array('ROLE_ADMIN', $payload['roles'], true);
+    }
 }
