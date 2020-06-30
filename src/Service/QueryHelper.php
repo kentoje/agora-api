@@ -82,10 +82,24 @@ class QueryHelper
                         ON task.id = task_user.task_id
                    INNER JOIN date
                         ON date.id = task.date_id
+                WHERE task_user.user_id = 1
+                   AND task.NAME = \'Transports\'
+                   AND task.validate = 1
+                   AND date.date < Date_format(
+                        Now(), \'%Y-%m-01\')) AS nbValidateTaskTransport,
+                        
+                (SELECT 
+                    Count(task.id)
+                FROM task
+                   INNER JOIN task_user
+                        ON task.id = task_user.task_id
+                   INNER JOIN date
+                        ON date.id = task.date_id
                 WHERE task_user.user_id = userid
                    AND task.validate = 1
                    AND date.date >= Date_format(Now(), \'%Y-01-01\')
                    AND date.date < Date_format(Now(), \'%Y-%m-01\')) AS nbValidateTaskInThisYear
+                        
             FROM USER
             INNER JOIN level
                ON USER.level_id = level.id
