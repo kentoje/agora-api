@@ -26,7 +26,99 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/User"
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "roles": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "firstName": {
+                                                "type": "string"
+                                            },
+                                            "lastName": {
+                                                "type": "string"
+                                            },
+                                            "image": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "format": "email"
+                                            },
+                                            "agoraNumber": {
+                                                "type": "integer"
+                                            },
+                                            "nbResident": {
+                                                "type": "integer"
+                                            },
+                                            "livingArea": {
+                                                "type": "integer"
+                                            },
+                                            "gas": {
+                                                "type": "boolean"
+                                            },
+                                            "insulation": {
+                                                "type": "boolean"
+                                            },
+                                            "gasAverageConsumption": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "waterAverageConsumption": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "electricityAverageConsumption": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "wasteAverageConsumption": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "registrationDate": {
+                                                "type": "string",
+                                                "format": "date"
+                                            },
+                                            "navigoNumber": {
+                                                "type": "integer"
+                                            },
+                                            "level": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "levelNumber": {
+                                                        "type": "integer"
+                                                    },
+                                                    "reductionRate": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "savingWater": {
+                                                "type": "integer"
+                                            },
+                                            "savingTransport": {
+                                                "type": "integer"
+                                            },
+                                            "savingElectricity": {
+                                                "type": "integer"
+                                            },
+                                            "savingGas": {
+                                                "type": "integer"
+                                            },
+                                            "savingWaste": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
                                     }
                                 }
                             }
@@ -84,7 +176,99 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/User"
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "roles": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "firstName": {
+                                                "type": "string"
+                                            },
+                                            "lastName": {
+                                                "type": "string"
+                                            },
+                                            "image": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "format": "email"
+                                            },
+                                            "agoraNumber": {
+                                                "type": "integer"
+                                            },
+                                            "nbResident": {
+                                                "type": "integer"
+                                            },
+                                            "livingArea": {
+                                                "type": "integer"
+                                            },
+                                            "gas": {
+                                                "type": "boolean"
+                                            },
+                                            "insulation": {
+                                                "type": "boolean"
+                                            },
+                                            "gasAverageConsumption": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "waterAverageConsumption": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "electricityAverageConsumption": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "wasteAverageConsumption": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "registrationDate": {
+                                                "type": "string",
+                                                "format": "date"
+                                            },
+                                            "navigoNumber": {
+                                                "type": "integer"
+                                            },
+                                            "level": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "levelNumber": {
+                                                        "type": "integer"
+                                                    },
+                                                    "reductionRate": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "savingWater": {
+                                                "type": "integer"
+                                            },
+                                            "savingTransport": {
+                                                "type": "integer"
+                                            },
+                                            "savingElectricity": {
+                                                "type": "integer"
+                                            },
+                                            "savingGas": {
+                                                "type": "integer"
+                                            },
+                                            "savingWaste": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
                                     }
                                 }
                             }
@@ -116,83 +300,42 @@
                 ]
             }
         },
-        "/api/signup": {
-            "post": {
+        "/api/user/update/{id}": {
+            "get": {
                 "tags": [
                     "User"
                 ],
-                "description": "Create user",
-                "operationId": "App\\Controller\\UserController::createUser",
-                "requestBody": {
-                    "$ref": "#/components/requestBodies/UserSignup"
-                },
-                "responses": {
-                    "200": {
-                        "description": "User created",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/User"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "User sign up error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "description": "HTTP Code status",
-                                            "type": "integer"
-                                        },
-                                        "message": {
-                                            "description": "Returned message",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
+                "description": "Get updatable user info",
+                "operationId": "App\\Controller\\UserController::getUserUpdatableDatas",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of User",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
                         }
                     }
-                }
-            }
-        },
-        "/api/login": {
-            "post": {
-                "tags": [
-                    "User"
                 ],
-                "description": "Login as user. Property username is the email of the User.",
-                "operationId": "App\\Controller\\UserController::login",
-                "requestBody": {
-                    "$ref": "#/components/requestBodies/UserLogin"
-                },
                 "responses": {
                     "200": {
-                        "description": "Connect to an account",
+                        "description": "List all updatable users",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "user": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/User"
-                                            }
-                                        },
-                                        "tokens": {
+                                        "level": {
                                             "properties": {
-                                                "refresh_token": {
-                                                    "type": "string"
+                                                "id": {
+                                                    "type": "integer"
                                                 },
-                                                "token": {
-                                                    "type": "string"
+                                                "levelNumber": {
+                                                    "type": "integer"
+                                                },
+                                                "reductionRate": {
+                                                    "type": "number",
+                                                    "format": "float"
                                                 }
                                             },
                                             "type": "object"
@@ -259,6 +402,286 @@
                                                         },
                                                         "type": "object"
                                                     }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User does not exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "The user does not match",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    "bearer"
+                ]
+            }
+        },
+        "/api/signup": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "description": "Create user",
+                "operationId": "App\\Controller\\UserController::createUser",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UserSignup"
+                },
+                "responses": {
+                    "200": {
+                        "description": "User created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "roles": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "firstName": {
+                                            "type": "string"
+                                        },
+                                        "lastName": {
+                                            "type": "string"
+                                        },
+                                        "image": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email"
+                                        },
+                                        "agoraNumber": {
+                                            "type": "integer"
+                                        },
+                                        "nbResident": {
+                                            "type": "integer"
+                                        },
+                                        "livingArea": {
+                                            "type": "integer"
+                                        },
+                                        "gas": {
+                                            "type": "boolean"
+                                        },
+                                        "insulation": {
+                                            "type": "boolean"
+                                        },
+                                        "gasAverageConsumption": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "waterAverageConsumption": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "electricityAverageConsumption": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "wasteAverageConsumption": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "registrationDate": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "navigoNumber": {
+                                            "type": "integer"
+                                        },
+                                        "level": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "levelNumber": {
+                                                    "type": "integer"
+                                                },
+                                                "reductionRate": {
+                                                    "type": "number",
+                                                    "format": "float"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "savingWater": {
+                                            "type": "integer"
+                                        },
+                                        "savingTransport": {
+                                            "type": "integer"
+                                        },
+                                        "savingElectricity": {
+                                            "type": "integer"
+                                        },
+                                        "savingGas": {
+                                            "type": "integer"
+                                        },
+                                        "savingWaste": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User sign up error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "description": "Login as user. Property username is the email of the User.",
+                "operationId": "App\\Controller\\UserController::login",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UserLogin"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connect to an account",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "roles": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "firstName": {
+                                                    "type": "string"
+                                                },
+                                                "lastName": {
+                                                    "type": "string"
+                                                },
+                                                "image": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "agoraNumber": {
+                                                    "type": "integer"
+                                                },
+                                                "nbResident": {
+                                                    "type": "integer"
+                                                },
+                                                "livingArea": {
+                                                    "type": "integer"
+                                                },
+                                                "gas": {
+                                                    "type": "boolean"
+                                                },
+                                                "insulation": {
+                                                    "type": "boolean"
+                                                },
+                                                "gasAverageConsumption": {
+                                                    "type": "number",
+                                                    "format": "float"
+                                                },
+                                                "waterAverageConsumption": {
+                                                    "type": "number",
+                                                    "format": "float"
+                                                },
+                                                "electricityAverageConsumption": {
+                                                    "type": "number",
+                                                    "format": "float"
+                                                },
+                                                "wasteAverageConsumption": {
+                                                    "type": "number",
+                                                    "format": "float"
+                                                },
+                                                "registrationDate": {
+                                                    "type": "string",
+                                                    "format": "date"
+                                                },
+                                                "navigoNumber": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "tokens": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string"
+                                                },
+                                                "refresh_token": {
+                                                    "type": "string"
                                                 }
                                             },
                                             "type": "object"
@@ -341,9 +764,6 @@
                             "type": "string"
                         }
                     },
-                    "password": {
-                        "type": "string"
-                    },
                     "firstName": {
                         "type": "string"
                     },
@@ -371,9 +791,6 @@
                     },
                     "insulation": {
                         "type": "boolean"
-                    },
-                    "nifNumber": {
-                        "type": "string"
                     },
                     "gasAverageConsumption": {
                         "type": "number",
@@ -438,14 +855,12 @@
                             "required": [
                                 "firstName",
                                 "lastName",
-                                "password",
                                 "email",
                                 "agoraNumber",
                                 "nbResident",
                                 "livingArea",
                                 "gas",
-                                "insulation",
-                                "nifNumber"
+                                "insulation"
                             ],
                             "properties": {
                                 "firstName": {
@@ -453,10 +868,6 @@
                                     "type": "string"
                                 },
                                 "lastName": {
-                                    "description": "User",
-                                    "type": "string"
-                                },
-                                "password": {
                                     "description": "User",
                                     "type": "string"
                                 },
@@ -488,10 +899,6 @@
                                 "insulation": {
                                     "description": "User",
                                     "type": "boolean"
-                                },
-                                "nifNumber": {
-                                    "description": "User",
-                                    "type": "string"
                                 },
                                 "navigoNumber": {
                                     "description": "User",

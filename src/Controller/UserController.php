@@ -35,7 +35,35 @@ class UserController extends AbstractController
      *     @OA\Response(
      *         response="200",
      *         description="List of all users",
-     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/User")),
+     *         @OA\JsonContent(type="array", @OA\Items(
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="roles", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="firstName", type="string"),
+     *             @OA\Property(property="lastName", type="string"),
+     *             @OA\Property(property="image", type="string"),
+     *             @OA\Property(property="email", type="string", format="email"),
+     *             @OA\Property(property="agoraNumber", type="integer"),
+     *             @OA\Property(property="nbResident", type="integer"),
+     *             @OA\Property(property="livingArea", type="integer"),
+     *             @OA\Property(property="gas", type="boolean"),
+     *             @OA\Property(property="insulation", type="boolean"),
+     *             @OA\Property(property="gasAverageConsumption", type="number", format="float"),
+     *             @OA\Property(property="waterAverageConsumption", type="number", format="float"),
+     *             @OA\Property(property="electricityAverageConsumption", type="number", format="float"),
+     *             @OA\Property(property="wasteAverageConsumption", type="number", format="float"),
+     *             @OA\Property(property="registrationDate", type="string", format="date"),
+     *             @OA\Property(property="navigoNumber", type="integer"),
+     *             @OA\Property(property="level", type="object", properties={
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="levelNumber", type="integer"),
+     *                 @OA\Property(property="reductionRate", type="number", format="float"),
+     *             }),
+     *             @OA\Property(property="savingWater", type="integer"),
+     *             @OA\Property(property="savingTransport", type="integer"),
+     *             @OA\Property(property="savingElectricity", type="integer"),
+     *             @OA\Property(property="savingGas", type="integer"),
+     *             @OA\Property(property="savingWaste", type="integer"),
+     *         )),
      *     ),
      *     @OA\Response(
      *         response="404",
@@ -80,7 +108,35 @@ class UserController extends AbstractController
      *     @OA\Response(
      *         response="200",
      *         description="List of all users",
-     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/User")),
+     *         @OA\JsonContent(type="array", @OA\Items(
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="roles", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="firstName", type="string"),
+     *             @OA\Property(property="lastName", type="string"),
+     *             @OA\Property(property="image", type="string"),
+     *             @OA\Property(property="email", type="string", format="email"),
+     *             @OA\Property(property="agoraNumber", type="integer"),
+     *             @OA\Property(property="nbResident", type="integer"),
+     *             @OA\Property(property="livingArea", type="integer"),
+     *             @OA\Property(property="gas", type="boolean"),
+     *             @OA\Property(property="insulation", type="boolean"),
+     *             @OA\Property(property="gasAverageConsumption", type="number", format="float"),
+     *             @OA\Property(property="waterAverageConsumption", type="number", format="float"),
+     *             @OA\Property(property="electricityAverageConsumption", type="number", format="float"),
+     *             @OA\Property(property="wasteAverageConsumption", type="number", format="float"),
+     *             @OA\Property(property="registrationDate", type="string", format="date"),
+     *             @OA\Property(property="navigoNumber", type="integer"),
+     *             @OA\Property(property="level", type="object", properties={
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="levelNumber", type="integer"),
+     *                 @OA\Property(property="reductionRate", type="number", format="float"),
+     *             }),
+     *             @OA\Property(property="savingWater", type="integer"),
+     *             @OA\Property(property="savingTransport", type="integer"),
+     *             @OA\Property(property="savingElectricity", type="integer"),
+     *             @OA\Property(property="savingGas", type="integer"),
+     *             @OA\Property(property="savingWaste", type="integer"),
+     *         )),
      *     ),
      *     @OA\Response(
      *         response="404",
@@ -111,6 +167,145 @@ class UserController extends AbstractController
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/user/update/{id}",
+     *     tags={"User"},
+     *     security={"bearer"},
+     *     description="Get updatable user info",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Id of User",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="List all updatable users",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="level", type="object", properties={
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="levelNumber", type="integer"),
+     *                 @OA\Property(property="reductionRate", type="number", format="float"),
+     *             }),
+     *             @OA\Property(property="additionalDatas", type="object", properties={
+     *                 @OA\Property(property="data", type="object", properties={
+     *                     @OA\Property(property="userId", type="integer"),
+     *                     @OA\Property(property="mesureGas", type="integer"),
+     *                     @OA\Property(property="mesureWater", type="integer"),
+     *                     @OA\Property(property="mesureWaste", type="integer"),
+     *                     @OA\Property(property="mesureElectricity", type="integer"),
+     *                     @OA\Property(property="nbMonthsRegistered", type="integer"),
+     *                     @OA\Property(property="nbValidatedTaskWater", type="integer"),
+     *                     @OA\Property(property="nbValidatedTaskGas", type="integer"),
+     *                     @OA\Property(property="nbValidatedTaskWaste", type="integer"),
+     *                     @OA\Property(property="nbValidatedTaskElec", type="integer"),
+     *                     @OA\Property(property="nbValidateTaskInThisYear", type="integer" ),
+     *                 }),
+     *                 @OA\Property(property="tasks", type="array", @OA\Items(
+     *                     @OA\Property(property="id", type="integer"),
+     *                     @OA\Property(property="date_id", type="integer"),
+     *                     @OA\Property(property="name", type="string"),
+     *                     @OA\Property(property="unit", type="string"),
+     *                     @OA\Property(property="validate", type="integer"),
+     *                 ))},
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="User does not exist",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
+     *             @OA\Property(property="message", type="string", description="Returned message"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="403",
+     *         description="The user does not match",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
+     *             @OA\Property(property="message", type="string", description="Returned message"),
+     *         ),
+     *     ),
+     * )
+     * @Route("/api/user/update/{id}", name="api_update_user_data", methods={"GET"})
+     * @param UserRepository $userRepository
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param int $id
+     * @return JsonResponse
+     * @throws JWTDecodeFailureException
+     */
+    public function getUserUpdatableDatas(UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
+    {
+        $user = $userRepository->findOneBy(['id' => $id]);
+
+        $authorization = $request->headers->get('authorization');
+        $jwtToken = explode(' ' , $authorization)[1];
+        $payload = $JWTEncoder->decode($jwtToken);
+        $username = $payload['username'];
+
+        if (!$user) {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_NOT_FOUND, 'This user does not exist.'),
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        if ($user->getUsername() !== $username) {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_FORBIDDEN, 'The user does not match.'),
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $data = $userRepository->getUserDatas($user->getId());
+
+        return $this->json([
+            'level' => $user->getLevel(),
+            'additionalDatas' => $data,
+        ], Response::HTTP_OK, [], ['groups' => 'user:updatable']);
+    }
+
+    /**
+     * @Route("/api/user/tasks/{id}", name="api_all_user_tasks", methods={"GET"})
+     * @param UserRepository $userRepository
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param int $id
+     * @return JsonResponse
+     * @throws JWTDecodeFailureException
+     */
+    public function getAllUserTasks(UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
+    {
+        $user = $userRepository->findOneBy(['id' => $id]);
+
+        $authorization = $request->headers->get('authorization');
+        $jwtToken = explode(' ' , $authorization)[1];
+        $payload = $JWTEncoder->decode($jwtToken);
+        $username = $payload['username'];
+
+        if (!$user) {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_NOT_FOUND, 'This user does not exist.'),
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        if ($user->getUsername() !== $username) {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_FORBIDDEN, 'The user does not match.'),
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $tasks = $userRepository->getAllUserTasks($user->getId());
+
+        return $this->json(['tasks' => $tasks], Response::HTTP_OK);
+    }
+
+    /**
      * @OA\Post(
      *     path="/api/signup",
      *     tags={"User"},
@@ -119,7 +314,35 @@ class UserController extends AbstractController
      *     @OA\Response(
      *         response="200",
      *         description="User created",
-     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/User")),
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="roles", type="array", @OA\Items(type="string")),
+     *             @OA\Property(property="firstName", type="string"),
+     *             @OA\Property(property="lastName", type="string"),
+     *             @OA\Property(property="image", type="string"),
+     *             @OA\Property(property="email", type="string", format="email"),
+     *             @OA\Property(property="agoraNumber", type="integer"),
+     *             @OA\Property(property="nbResident", type="integer"),
+     *             @OA\Property(property="livingArea", type="integer"),
+     *             @OA\Property(property="gas", type="boolean"),
+     *             @OA\Property(property="insulation", type="boolean"),
+     *             @OA\Property(property="gasAverageConsumption", type="number", format="float"),
+     *             @OA\Property(property="waterAverageConsumption", type="number", format="float"),
+     *             @OA\Property(property="electricityAverageConsumption", type="number", format="float"),
+     *             @OA\Property(property="wasteAverageConsumption", type="number", format="float"),
+     *             @OA\Property(property="registrationDate", type="string", format="date"),
+     *             @OA\Property(property="navigoNumber", type="integer"),
+     *             @OA\Property(property="level", type="object", properties={
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="levelNumber", type="integer"),
+     *                 @OA\Property(property="reductionRate", type="number", format="float"),
+     *             }),
+     *             @OA\Property(property="savingWater", type="integer"),
+     *             @OA\Property(property="savingTransport", type="integer"),
+     *             @OA\Property(property="savingElectricity", type="integer"),
+     *             @OA\Property(property="savingGas", type="integer"),
+     *             @OA\Property(property="savingWaste", type="integer"),
+     *         ),
      *     ),
      *     @OA\Response(
      *         response="400",
@@ -172,6 +395,7 @@ class UserController extends AbstractController
                 ->setSavingWaste(0)
                 ->setSavingElectricity(0)
                 ->setSavingGas(0)
+                ->setSavingTransport(0)
                 ->setRoles(['ROLE_USER'])
             ;
 
@@ -208,33 +432,29 @@ class UserController extends AbstractController
      *         description="Connect to an account",
      *         @OA\JsonContent(
      *             properties={
-     *                 @OA\Property(property="user", type="array", @OA\Items(ref="#/components/schemas/User")),
+     *                 @OA\Property(property="user", type="object", properties={
+     *                     @OA\Property(property="id", type="integer"),
+     *                     @OA\Property(property="roles", type="array", @OA\Items(type="string")),
+     *                     @OA\Property(property="firstName", type="string"),
+     *                     @OA\Property(property="lastName", type="string"),
+     *                     @OA\Property(property="image", type="string"),
+     *                     @OA\Property(property="email", type="string", format="email"),
+     *                     @OA\Property(property="agoraNumber", type="integer"),
+     *                     @OA\Property(property="nbResident", type="integer"),
+     *                     @OA\Property(property="livingArea", type="integer"),
+     *                     @OA\Property(property="gas", type="boolean"),
+     *                     @OA\Property(property="insulation", type="boolean"),
+     *                     @OA\Property(property="gasAverageConsumption", type="number", format="float"),
+     *                     @OA\Property(property="waterAverageConsumption", type="number", format="float"),
+     *                     @OA\Property(property="electricityAverageConsumption", type="number", format="float"),
+     *                     @OA\Property(property="wasteAverageConsumption", type="number", format="float"),
+     *                     @OA\Property(property="registrationDate", type="string", format="date"),
+     *                     @OA\Property(property="navigoNumber", type="integer"),
+     *                 }),
      *                 @OA\Property(property="tokens", type="object", properties={
+     *                     @OA\Property(property="token", type="string"),
      *                     @OA\Property(property="refresh_token", type="string"),
-     *                     @OA\Property(property="token", type="string")},
-     *                 ),
-     *                 @OA\Property(property="additionalDatas", type="object", properties={
-     *                     @OA\Property(property="data", type="object", properties={
-     *                         @OA\Property(property="userId", type="integer"),
-     *                         @OA\Property(property="mesureGas", type="integer"),
-     *                         @OA\Property(property="mesureWater", type="integer"),
-     *                         @OA\Property(property="mesureWaste", type="integer"),
-     *                         @OA\Property(property="mesureElectricity", type="integer"),
-     *                         @OA\Property(property="nbMonthsRegistered", type="integer"),
-     *                         @OA\Property(property="nbValidatedTaskWater", type="integer"),
-     *                         @OA\Property(property="nbValidatedTaskGas", type="integer"),
-     *                         @OA\Property(property="nbValidatedTaskWaste", type="integer"),
-     *                         @OA\Property(property="nbValidatedTaskElec", type="integer"),
-     *                         @OA\Property(property="nbValidateTaskInThisYear", type="integer" ),
-     *                     }),
-     *                     @OA\Property(property="tasks", type="array", @OA\Items(
-     *                         @OA\Property(property="id", type="integer"),
-     *                         @OA\Property(property="date_id", type="integer"),
-     *                         @OA\Property(property="name", type="string"),
-     *                         @OA\Property(property="unit", type="string"),
-     *                         @OA\Property(property="validate", type="integer"),
-     *                     ))},
-     *                 ),
+     *                 }),
      *             },
      *         ),
      *     ),
@@ -307,84 +527,5 @@ class UserController extends AbstractController
             'user' => $user,
             'tokens' => $result,
         ], Response::HTTP_OK, [], ['groups' => 'user:login']);
-    }
-
-    /**
-     * @Route("/api/user/update/{id}", name="api_update_user_data", methods={"GET"})
-     * @param UserRepository $userRepository
-     * @param Request $request
-     * @param JWTEncoderInterface $JWTEncoder
-     * @param int $id
-     * @return JsonResponse
-     * @throws JWTDecodeFailureException
-     */
-    public function getUserUpdatableDatas(UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
-    {
-        $user = $userRepository->findOneBy(['id' => $id]);
-
-        $authorization = $request->headers->get('authorization');
-        $jwtToken = explode(' ' , $authorization)[1];
-        $payload = $JWTEncoder->decode($jwtToken);
-        $username = $payload['username'];
-
-        if (!$user) {
-            return $this->json(
-                ErrorJsonHelper::errorMessage(Response::HTTP_NOT_FOUND, 'This user does not exist.'),
-                Response::HTTP_NOT_FOUND
-            );
-        }
-
-        if ($user->getUsername() !== $username) {
-            return $this->json(
-                ErrorJsonHelper::errorMessage(Response::HTTP_FORBIDDEN, 'The user does not match.'),
-                Response::HTTP_FORBIDDEN
-            );
-        }
-
-        $data = $userRepository->getUserDatas($user->getId());
-
-        return $this->json([
-            'level' => $user->getLevel(),
-            'additionalDatas' => $data,
-            ], Response::HTTP_OK, [], ['groups' => 'user:updatable']);
-    }
-
-    /**
-     * @Route("/api/user/tasks/{id}", name="api_all_user_tasks", methods={"GET"})
-     * @param UserRepository $userRepository
-     * @param Request $request
-     * @param JWTEncoderInterface $JWTEncoder
-     * @param int $id
-     * @return JsonResponse
-     * @throws JWTDecodeFailureException
-     */
-    public function getAllUserTasks(UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
-    {
-        $user = $userRepository->findOneBy(['id' => $id]);
-
-        $authorization = $request->headers->get('authorization');
-        $jwtToken = explode(' ' , $authorization)[1];
-        $payload = $JWTEncoder->decode($jwtToken);
-        $username = $payload['username'];
-
-        if (!$user) {
-            return $this->json(
-                ErrorJsonHelper::errorMessage(Response::HTTP_NOT_FOUND, 'This user does not exist.'),
-                Response::HTTP_NOT_FOUND
-            );
-        }
-
-        if ($user->getUsername() !== $username) {
-            return $this->json(
-                ErrorJsonHelper::errorMessage(Response::HTTP_FORBIDDEN, 'The user does not match.'),
-                Response::HTTP_FORBIDDEN
-            );
-        }
-
-        $tasks = $userRepository->getAllUserTasks($user->getId());
-
-        return $this->json([
-            'tasks' => $tasks,
-        ], Response::HTTP_OK, [], []);
     }
 }

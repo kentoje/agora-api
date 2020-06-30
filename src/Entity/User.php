@@ -36,18 +36,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         required={
  *             "firstName",
  *             "lastName",
- *             "password",
  *             "email",
  *             "agoraNumber",
  *             "nbResident",
  *             "livingArea",
  *             "gas",
  *             "insulation",
- *             "nifNumber",
  *         },
  *         @OA\Property(type="string", property="firstName"),
  *         @OA\Property(type="string", property="lastName"),
- *         @OA\Property(type="string", property="password"),
  *         @OA\Property(type="string", property="image"),
  *         @OA\Property(type="string", property="email"),
  *         @OA\Property(type="integer", property="agoraNumber"),
@@ -55,7 +52,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         @OA\Property(type="number", format="float", property="livingArea"),
  *         @OA\Property(type="boolean", property="gas"),
  *         @OA\Property(type="boolean", property="insulation"),
- *         @OA\Property(type="string", property="nifNumber"),
  *         @OA\Property(type="integer", property="navigoNumber"),
  *     ),
  * )
@@ -98,7 +94,6 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @OA\Property(type="string")
      * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
     private $password;
@@ -208,7 +203,6 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @OA\Property(type="string")
      * @ORM\Column(name="nif_number", type="string", length=30, nullable=false)
      * @Assert\NotBlank()
      * @Assert\Regex("/^[0-3]\d{12}$/")
