@@ -7,6 +7,7 @@ use App\Repository\DateRepository;
 use App\Repository\LevelRepository;
 use App\Repository\UserRepository;
 use App\Service\ErrorJsonHelper;
+use App\Service\QueryHelper;
 use App\Service\UserHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -346,5 +347,44 @@ class UserController extends AbstractController
             'level' => $user->getLevel(),
             'additionalDatas' => $data,
             ], Response::HTTP_OK, [], ['groups' => 'user:updatable']);
+    }
+
+    /**
+     * @Route("/api/user/tasks/{id}", name="api_all_user_tasks", methods={"GET"})
+     * @param UserRepository $userRepository
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param int $id
+     * @return JsonResponse
+     * @throws JWTDecodeFailureException
+     */
+    public function getAllUserTasks(UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
+    {
+        $user = $userRepository->findOneBy(['id' => $id]);
+
+        $authorization = $request->headers->get('authorization');
+        $jwtToken = explode(' ' , $authorization)[1];
+        $payload = $JWTEncoder->decode($jwtToken);
+        $username = $payload['username'];
+
+        if (!$user) {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_NOT_FOUND, 'This user does not exist.'),
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        if ($user->getUsername() !== $username) {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_FORBIDDEN, 'The user does not match.'),
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $tasks = $userRepository->getAllUserTasks($user->getId());
+
+        return $this->json([
+            'tasks' => $tasks,
+        ], Response::HTTP_OK, [], []);
     }
 }

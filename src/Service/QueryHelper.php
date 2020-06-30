@@ -134,4 +134,30 @@ class QueryHelper
             WHERE  date.date >= Date_format(Now(), \'%Y-%m-01\')
             AND USER.id = ' . $id;
     }
+
+    public static function getQueryAllUserTasks(int $id): string
+    {
+        return '
+            SELECT 
+                date.date,
+                mesure.water,
+                mesure.electricity,
+                mesure.gas,
+                mesure.waste,
+                mesure.navigo_subscription,
+                USER.water_average_consumption,
+                USER.electricity_average_consumption,
+                USER.gas_average_consumption,
+                USER.waste_average_consumption
+            FROM   
+                mesure
+                INNER JOIN 
+                    date
+                ON 
+                    mesure.date_id = date.id
+                INNER JOIN 
+                    user
+                ON 
+                    mesure.to_mesure_id = ' . $id;
+    }
 }

@@ -79,6 +79,26 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $response;
     }
 
+    public function getAllUserTasks(int $id): array
+    {
+        $response = array();
+
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = QueryHelper::getQueryAllUserTasks($id);
+
+        try {
+            $stmt = $conn->prepare($sql);
+            $stmt->execute(['userId' => $id]);
+            $result = $stmt->fetchAll();
+            $response = $result;
+        } catch (\Throwable $e) {
+            echo $e->getMessage();
+        }
+
+        return $response;
+    }
+
 
 
 
