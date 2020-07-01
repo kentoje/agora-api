@@ -322,8 +322,7 @@ class UserController extends AbstractController
      *     @OA\Response(
      *         response="200",
      *         description="Get all tasks by specific year.",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="tasks", type="array", @OA\Items(
+     *         @OA\JsonContent(type="array", @OA\Items(
      *                 @OA\Property(property="date", type="string", format="date"),
      *                 @OA\Property(property="water", type="number", format="float"),
      *                 @OA\Property(property="electricity", type="number", format="float"),
@@ -334,8 +333,7 @@ class UserController extends AbstractController
      *                 @OA\Property(property="electricity_average_consumption", type="number", format="float"),
      *                 @OA\Property(property="gas_average_consumption", type="number", format="float"),
      *                 @OA\Property(property="waste_average_consumption", type="number", format="float"),
-     *             )),
-     *         ),
+     *         )),
      *     ),
      *     @OA\Response(
      *         response="404",
@@ -383,7 +381,7 @@ class UserController extends AbstractController
 
         $tasks = $userRepository->getAllUserTasks($userInfo['user']->getId(),$year);
 
-        return $this->json(['tasks' => $tasks], Response::HTTP_OK);
+        return $this->json($tasks, Response::HTTP_OK);
     }
 
     /**

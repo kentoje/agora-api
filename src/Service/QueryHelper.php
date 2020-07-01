@@ -158,8 +158,9 @@ class QueryHelper
                 INNER JOIN 
                     user
                 ON 
-                    mesure.to_mesure_id = ' . $id
-            . ' Where YEAR(date.date) = ' . $year
+                    mesure.to_mesure_id = user.id
+                Where YEAR(date.date) = ' . $year
+            . ' and user.id = ' . $id
             . ' order by date.date DESC';
     }
 }

@@ -531,56 +531,51 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "tasks": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "date": {
-                                                        "type": "string",
-                                                        "format": "date"
-                                                    },
-                                                    "water": {
-                                                        "type": "number",
-                                                        "format": "float"
-                                                    },
-                                                    "electricity": {
-                                                        "type": "number",
-                                                        "format": "float"
-                                                    },
-                                                    "gas": {
-                                                        "type": "number",
-                                                        "format": "float"
-                                                    },
-                                                    "waste": {
-                                                        "type": "number",
-                                                        "format": "float"
-                                                    },
-                                                    "navigo_subscription": {
-                                                        "type": "integer"
-                                                    },
-                                                    "water_average_consumption": {
-                                                        "type": "number",
-                                                        "format": "float"
-                                                    },
-                                                    "electricity_average_consumption": {
-                                                        "type": "number",
-                                                        "format": "float"
-                                                    },
-                                                    "gas_average_consumption": {
-                                                        "type": "number",
-                                                        "format": "float"
-                                                    },
-                                                    "waste_average_consumption": {
-                                                        "type": "number",
-                                                        "format": "float"
-                                                    }
-                                                },
-                                                "type": "object"
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date"
+                                            },
+                                            "water": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "electricity": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "gas": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "waste": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "navigo_subscription": {
+                                                "type": "integer"
+                                            },
+                                            "water_average_consumption": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "electricity_average_consumption": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "gas_average_consumption": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "waste_average_consumption": {
+                                                "type": "number",
+                                                "format": "float"
                                             }
-                                        }
-                                    },
-                                    "type": "object"
+                                        },
+                                        "type": "object"
+                                    }
                                 }
                             }
                         }
