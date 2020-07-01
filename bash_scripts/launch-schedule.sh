@@ -1,3 +1,5 @@
 #!/bin/bash
 
-/usr/local/bin/php ./bin/console schedule:run
+phpPath=$(which php)
+
+"$phpPath" ./bin/console schedule:run
