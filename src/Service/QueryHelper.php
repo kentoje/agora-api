@@ -192,7 +192,8 @@ class QueryHelper
         AND date.date >= Date_format(Now(), \'%Y-01-01\') 
         GROUP  BY 
             task.name, 
-            date_id ';
+            date_id 
+        ORDER BY date.date';
     }
 
 }
