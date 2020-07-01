@@ -14,6 +14,11 @@ class QueryHelper
                 mesure_user.mesureWater,
                 mesure_user.mesureWaste,
                 mesure_user.mesureElectricity,
+                user.saving_electricity,
+                user.saving_waste,
+                user.saving_gas,
+                user.saving_water,
+                user.saving_transport,
                 Period_diff(
                     Date_format(Curdate(), "%y%m"),
                     Date_format(USER.registration_date, "%y%m")
