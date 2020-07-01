@@ -198,7 +198,7 @@ class AgoraFixtures extends Fixture
                 ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 800))
                 ->setWaterAverageConsumption($faker->randomFloat(2, 0, 1300))
                 ->setWasteAverageConsumption($faker->randomFloat(0, 0, 300))
-                ->setRegistrationDate($faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null))
+                ->setRegistrationDate(new DateTime('11 months ago'))
                 ->setNavigoNumber($faker->regexify('\d{8}'))
                 ->setLevel($faker->randomElement($array = $dbLevel))
                 ->setSavingWater(0)
@@ -228,7 +228,7 @@ class AgoraFixtures extends Fixture
             ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 800))
             ->setWaterAverageConsumption($faker->randomFloat(2, 0, 1300))
             ->setWasteAverageConsumption($faker->randomFloat(0, 0, 300))
-            ->setRegistrationDate($faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null))
+            ->setRegistrationDate(new DateTime('11 months ago'))
             ->setNavigoNumber($faker->regexify('\d{8}'))
             ->setLevel($faker->randomElement($array = $dbLevel))
             ->setSavingWater(0)
@@ -254,6 +254,7 @@ class AgoraFixtures extends Fixture
 
         foreach($dbUser as $user) {
             foreach($dbDate as $date) {
+
                 $mesure = new Mesure();
                 $mesure
                     ->setWater($faker->randomFloat(2, 0, 1300))
