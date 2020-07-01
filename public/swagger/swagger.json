@@ -399,6 +399,21 @@
                                                         "mesureElectricity": {
                                                             "type": "integer"
                                                         },
+                                                        "saving_electricity": {
+                                                            "type": "integer"
+                                                        },
+                                                        "saving_waste": {
+                                                            "type": "integer"
+                                                        },
+                                                        "saving_gas": {
+                                                            "type": "integer"
+                                                        },
+                                                        "saving_water": {
+                                                            "type": "integer"
+                                                        },
+                                                        "saving_transport": {
+                                                            "type": "integer"
+                                                        },
                                                         "nbMonthsRegistered": {
                                                             "type": "integer"
                                                         },
