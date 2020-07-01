@@ -385,6 +385,155 @@ class UserController extends AbstractController
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/user/analytiques/{id}",
+     *     tags={"User"},
+     *     security={"bearer"},
+     *     description="Get all datas for analytiques page",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Id of User",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="List all analytiques datas",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="thisYear", type="object", properties={
+     *               @OA\Property(property="Déchêts", type="object", properties={
+     *                  @OA\Property(property="nbtaskValidate", type="integer"),
+     *                  @OA\Property(property="allTasks", type="array", @OA\Items(
+     *                     @OA\Property(property="nbValidateTaskByType", type="string"),
+     *                     @OA\Property(property="name", type="string"),
+     *                     @OA\Property(property="date", type="string"),
+     *                  )),
+     *               }),
+     *               @OA\Property(property="Eau", type="object", properties={
+     *                  @OA\Property(property="nbtaskValidate", type="integer"),
+     *                  @OA\Property(property="allTasks", type="array", @OA\Items(
+     *                     @OA\Property(property="nbValidateTaskByType", type="string"),
+     *                     @OA\Property(property="name", type="string"),
+     *                     @OA\Property(property="date", type="string"),
+     *                  )),
+     *               }),
+     *               @OA\Property(property="Electricté", type="object", properties={
+     *                  @OA\Property(property="nbtaskValidate", type="integer"),
+     *                  @OA\Property(property="allTasks", type="array", @OA\Items(
+     *                     @OA\Property(property="nbValidateTaskByType", type="string"),
+     *                     @OA\Property(property="name", type="string"),
+     *                     @OA\Property(property="date", type="string"),
+     *                  )),
+     *               }),
+     *               @OA\Property(property="Gaz", type="object", properties={
+     *                  @OA\Property(property="nbtaskValidate", type="integer"),
+     *                  @OA\Property(property="allTasks", type="array", @OA\Items(
+     *                     @OA\Property(property="nbValidateTaskByType", type="string"),
+     *                     @OA\Property(property="name", type="string"),
+     *                     @OA\Property(property="date", type="string"),
+     *                  )),
+     *               }),
+     *               @OA\Property(property="Transports", type="object", properties={
+     *               @OA\Property(property="nbtaskValidate", type="integer"),
+     *                  @OA\Property(property="allTasks", type="array", @OA\Items(
+     *                     @OA\Property(property="nbValidateTaskByType", type="string"),
+     *                     @OA\Property(property="name", type="string"),
+     *                     @OA\Property(property="date", type="string"),
+     *                  )),
+     *               }),
+     *             }),
+     *             @OA\Property(property="allYears", type="object", properties={
+     *                   @OA\Property(property="nbUser", type="string"),
+     *                   @OA\Property(property="nbValidateTask", type="string"),
+     *               },
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="User does not exist",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
+     *             @OA\Property(property="message", type="string", description="Returned message"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="403",
+     *         description="The user does not match",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", description="HTTP Code status"),
+     *             @OA\Property(property="message", type="string", description="Returned message"),
+     *         ),
+     *     ),
+     * )
+     * @Route("/api/user/analytiques/{id}", name="api_get_analytiques_data", methods={"GET"})
+     * @param UserHelper $userHelper
+     * @param UserRepository $userRepository
+     * @param Request $request
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param int $id
+     * @return JsonResponse
+    */
+    public function getDataAnalytiques(UserHelper $userHelper, UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
+    {
+        $userInfo = $userHelper->checkUser($id,  $userRepository,  $request,  $JWTEncoder);
+
+        if (!$userInfo['user']) {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_NOT_FOUND, 'This user does not exist.'),
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        if ($userInfo['user']->getUsername() !== $userInfo['username']) {
+            return $this->json(
+                ErrorJsonHelper::errorMessage(Response::HTTP_FORBIDDEN, 'The user does not match.'),
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $datas = $userRepository->getAllDataAnalytiques();
+
+        $response = [
+            'thisYear' => [
+                "Déchêts" => [
+                    "nbtaskValidate" => 0,
+                    "allTasks" => []
+                ],
+                "Eau" => [
+                    "nbtaskValidate" => 0,
+                    "allTasks" => []
+                ],
+                "Electricté" => [
+                    "nbtaskValidate" => 0,
+                    "allTasks" => []
+                ],
+                "Gaz" => [
+                    "nbtaskValidate" => 0,
+                    "allTasks" => []
+                ],
+                "Transports" => [
+                    "nbtaskValidate" => 0,
+                    "allTasks" => []
+                ]],
+            'allYears' => $datas['allYears'][0]
+        ];
+
+        foreach ($datas['thisYear'] as $data) {
+            foreach ($response['thisYear'] as $key => $type) {
+                if ($key === $data["name"]) {
+                    $type["nbtaskValidate"] += $data['nbValidateTaskByType'];
+                    array_push($type["allTasks"], $data);
+                }
+                $response['thisYear'][$key] = $type;
+            }
+        }
+
+        return $this->json($response, Response::HTTP_OK);
+    }
+
+    /**
      * @OA\Post(
      *     path="/api/signup",
      *     tags={"User"},

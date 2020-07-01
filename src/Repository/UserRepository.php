@@ -85,7 +85,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = QueryHelper::getQueryAllUserTasks($id, $year);
+        $sql = QueryHelper::get($id, $year);
 
         try {
             $stmt = $conn->prepare($sql);
@@ -95,6 +95,32 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         } catch (\Throwable $e) {
             echo $e->getMessage();
         }
+
+        return $response;
+    }
+
+    public function getAllDataAnalytiques(): array
+    {
+        $response = array();
+
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sqlQueries = [
+            'allYears' => QueryHelper::getAllUserAndValidateTask(),
+            'thisYear'=> QueryHelper::getAllStatForALLtaskType()
+        ];
+
+        foreach ($sqlQueries as $key => $query) {
+            try {
+                $stmt = $conn->prepare($query);
+                $stmt->execute();
+                $result = $stmt->fetchAll();
+                $response[$key] = $key === "data" ? $result[0] : $result;
+            } catch (\Throwable $e) {
+                echo $e->getMessage();
+            }
+        }
+
 
         return $response;
     }

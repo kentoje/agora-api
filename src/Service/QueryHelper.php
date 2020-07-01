@@ -82,7 +82,7 @@ class QueryHelper
                         ON task.id = task_user.task_id
                    INNER JOIN date
                         ON date.id = task.date_id
-                WHERE task_user.user_id = 1
+                WHERE task_user.user_id = userid
                    AND task.NAME = \'Transports\'
                    AND task.validate = 1
                    AND date.date < Date_format(
@@ -163,4 +163,36 @@ class QueryHelper
             . ' and user.id = ' . $id
             . ' order by date.date DESC';
     }
+
+    public static function getAllUserAndValidateTask(): string
+    {
+        return '
+        SELECT 
+            COUNT(user.id) as nbUser , 
+            (SELECT 
+                COUNT(task.id) 
+                FROM task 
+                WHERE task.validate is true
+            ) as nbValidateTask 
+        FROM user';
+    }
+
+    public static function getAllStatForALLtaskType(): string
+    {
+        return '
+        SELECT 
+            Count(task.id) AS nbValidateTaskByType, 
+            task.name, 
+            date.date 
+        FROM   task 
+        INNER JOIN date 
+           ON task.date_id = date.id 
+        WHERE  task.validate IS TRUE 
+        AND date.date < Date_format(Now(), \'%Y-%m-01\') 
+        AND date.date >= Date_format(Now(), \'%Y-01-01\') 
+        GROUP  BY 
+            task.name, 
+            date_id ';
+    }
+
 }

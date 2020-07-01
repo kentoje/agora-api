@@ -626,6 +626,224 @@
                 ]
             }
         },
+        "/api/user/analytiques/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "description": "Get all datas for analytiques page",
+                "operationId": "App\\Controller\\UserController::getDataAnalytiques",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of User",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List all analytiques datas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "thisYear": {
+                                            "properties": {
+                                                "Déchêts": {
+                                                    "properties": {
+                                                        "nbtaskValidate": {
+                                                            "type": "integer"
+                                                        },
+                                                        "allTasks": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "nbValidateTaskByType": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "name": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "date": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "Eau": {
+                                                    "properties": {
+                                                        "nbtaskValidate": {
+                                                            "type": "integer"
+                                                        },
+                                                        "allTasks": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "nbValidateTaskByType": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "name": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "date": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "Electricté": {
+                                                    "properties": {
+                                                        "nbtaskValidate": {
+                                                            "type": "integer"
+                                                        },
+                                                        "allTasks": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "nbValidateTaskByType": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "name": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "date": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "Gaz": {
+                                                    "properties": {
+                                                        "nbtaskValidate": {
+                                                            "type": "integer"
+                                                        },
+                                                        "allTasks": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "nbValidateTaskByType": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "name": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "date": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "Transports": {
+                                                    "properties": {
+                                                        "nbtaskValidate": {
+                                                            "type": "integer"
+                                                        },
+                                                        "allTasks": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "nbValidateTaskByType": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "name": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "date": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "allYears": {
+                                            "properties": {
+                                                "nbUser": {
+                                                    "type": "string"
+                                                },
+                                                "nbValidateTask": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User does not exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "The user does not match",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "HTTP Code status",
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "description": "Returned message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    "bearer"
+                ]
+            }
+        },
         "/api/signup": {
             "post": {
                 "tags": [
