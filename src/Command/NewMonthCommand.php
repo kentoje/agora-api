@@ -45,8 +45,8 @@ class NewMonthCommand extends Command
             array('date' => 'DESC'),
             1
         );
-/*        $currentDay->format('m') > $mostRecentDateInDb[0]->getDate()->format('m') or $currentDay->format('Y') > $mostRecentDateInDb[0]->getDate()->format('Y')*/
-        if ( true ) {
+
+        if ( $currentDay->format('m') > $mostRecentDateInDb[0]->getDate()->format('m') || $currentDay->format('Y') > $mostRecentDateInDb[0]->getDate()->format('Y') ) {
             $newDate = new Date();
             $newDate->setDate($currentDay);
             $this->em->persist($newDate);
