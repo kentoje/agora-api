@@ -145,11 +145,14 @@ class QueryHelper
         return '
             SELECT 
                 date.date,
-                mesure.water,
-                mesure.electricity,
-                mesure.gas,
-                mesure.waste,
-                mesure.navigo_subscription,
+                (mesure.water < USER.water_average_consumption) as waterTaskValidate,
+                (mesure.electricity < USER.electricity_average_consumption) as electricityTaskValidate,
+                (mesure.gas < USER.gas_average_consumption) as gasTaskValidate,
+                (mesure.waste < USER.waste_average_consumption) as wasteTaskValidate,
+                ROUND((mesure.water/(USER.water_average_consumption/100))) as waterPercent,
+                ROUND((mesure.electricity/(USER.electricity_average_consumption/100))) as electricityPercent,
+                ROUND((mesure.gas/(USER.gas_average_consumption/100))) as gasPercent,
+                ROUND((mesure.waste/(USER.waste_average_consumption/100))) as wastePercent,
                 USER.water_average_consumption,
                 USER.electricity_average_consumption,
                 USER.gas_average_consumption,
@@ -164,9 +167,9 @@ class QueryHelper
                     user
                 ON 
                     mesure.to_mesure_id = user.id
-                Where YEAR(date.date) = ' . $year
-            . ' and user.id = ' . $id
-            . ' order by date.date DESC';
+                Where YEAR(date.date) = ' . $year .
+                ' and user.id = ' . $id .
+            ' order by date.date DESC';
     }
 
     public static function getAllUserAndValidateTask(): string
@@ -202,3 +205,4 @@ class QueryHelper
     }
 
 }
+#select date.date, task.* from task inner join task_user on task.id = task_user.task_id inner join user on task_user.user_id = user.id inner join date on task.date_id = date.id where user.id = 1

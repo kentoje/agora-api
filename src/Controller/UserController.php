@@ -384,9 +384,35 @@ class UserController extends AbstractController
             );
         }
 
-        $tasks = $userRepository->getAllUserTasks($userInfo['user']->getId(),$year);
+        $tasksByDates = $userRepository->getAllUserTasks($userInfo['user']->getId(),$year);
 
-        return $this->json($tasks, Response::HTTP_OK);
+        $response = [];
+        foreach ($tasksByDates as $tasksByDates) {
+                $response += [$tasksByDates["date"] => [
+                "Déchêts" => [
+                    "isValidate" => $tasksByDates["wasteTaskValidate"],
+                    "percent" => $tasksByDates["wastePercent"],
+                    "Average" => $tasksByDates["waste_average_consumption"],
+                ],
+                "Eau" => [
+                    "isValidate" => $tasksByDates["waterTaskValidate"],
+                    "percent" => $tasksByDates["waterPercent"],
+                    "Average" => $tasksByDates["water_average_consumption"],
+                ],
+                "Electricté" => [
+                    "isValidate" => $tasksByDates["electricityTaskValidate"],
+                    "percent" => $tasksByDates["electricityPercent"],
+                    "Average" => $tasksByDates["electricity_average_consumption"],
+                ],
+                "Gaz" => [
+                    "isValidate" => $tasksByDates["gasTaskValidate"],
+                    "percent" => $tasksByDates["gasPercent"],
+                    "Average" => $tasksByDates["gas_average_consumption"],
+                ]
+            ]];
+        }
+
+        return $this->json($response, Response::HTTP_OK);
     }
 
     /**
