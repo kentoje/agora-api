@@ -99,7 +99,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $response;
     }
 
-    public function getAllDataAnalytiques(): array
+    public function getAllDataAnalytics(): array
     {
         $response = array();
 

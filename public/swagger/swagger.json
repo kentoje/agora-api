@@ -546,51 +546,70 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "date": {
-                                                "type": "string",
-                                                "format": "date"
+                                    "properties": {
+                                        "date": {
+                                            "properties": {
+                                                "Déchêts": {
+                                                    "properties": {
+                                                        "isValidate": {
+                                                            "type": "string"
+                                                        },
+                                                        "percent": {
+                                                            "type": "string"
+                                                        },
+                                                        "Average": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "Eau": {
+                                                    "properties": {
+                                                        "isValidate": {
+                                                            "type": "string"
+                                                        },
+                                                        "percent": {
+                                                            "type": "string"
+                                                        },
+                                                        "Average": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "Electricté": {
+                                                    "properties": {
+                                                        "isValidate": {
+                                                            "type": "string"
+                                                        },
+                                                        "percent": {
+                                                            "type": "string"
+                                                        },
+                                                        "Average": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "Gaz": {
+                                                    "properties": {
+                                                        "isValidate": {
+                                                            "type": "string"
+                                                        },
+                                                        "percent": {
+                                                            "type": "string"
+                                                        },
+                                                        "Average": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
                                             },
-                                            "water": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "electricity": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "gas": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "waste": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "navigo_subscription": {
-                                                "type": "integer"
-                                            },
-                                            "water_average_consumption": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "electricity_average_consumption": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "gas_average_consumption": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "waste_average_consumption": {
-                                                "type": "number",
-                                                "format": "float"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -641,13 +660,13 @@
                 ]
             }
         },
-        "/api/user/analytiques/{id}": {
+        "/api/user/analytics/{id}": {
             "get": {
                 "tags": [
                     "User"
                 ],
-                "description": "Get all datas for analytiques page",
-                "operationId": "App\\Controller\\UserController::getDataAnalytiques",
+                "description": "Get all datas for analytics page",
+                "operationId": "App\\Controller\\UserController::getDataAnalytics",
                 "parameters": [
                     {
                         "name": "id",
@@ -661,7 +680,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List all analytiques datas",
+                        "description": "List all analytics datas",
                         "content": {
                             "application/json": {
                                 "schema": {

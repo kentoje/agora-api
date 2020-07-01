@@ -327,18 +327,30 @@ class UserController extends AbstractController
      *     @OA\Response(
      *         response="200",
      *         description="Get all tasks by specific year.",
-     *         @OA\JsonContent(type="array", @OA\Items(
-     *                 @OA\Property(property="date", type="string", format="date"),
-     *                 @OA\Property(property="water", type="number", format="float"),
-     *                 @OA\Property(property="electricity", type="number", format="float"),
-     *                 @OA\Property(property="gas", type="number", format="float"),
-     *                 @OA\Property(property="waste", type="number", format="float"),
-     *                 @OA\Property(property="navigo_subscription", type="integer"),
-     *                 @OA\Property(property="water_average_consumption", type="number", format="float"),
-     *                 @OA\Property(property="electricity_average_consumption", type="number", format="float"),
-     *                 @OA\Property(property="gas_average_consumption", type="number", format="float"),
-     *                 @OA\Property(property="waste_average_consumption", type="number", format="float"),
-     *         )),
+     *         @OA\JsonContent(
+     *              @OA\Property(property="date", type="object", properties={
+     *                  @OA\Property(property="Déchêts", type="object", properties={
+     *                      @OA\Property(property="isValidate", type="string"),
+     *                      @OA\Property(property="percent", type="string"),
+     *                      @OA\Property(property="Average", type="string")
+     *                  }),
+     *                  @OA\Property(property="Eau", type="object", properties={
+     *                      @OA\Property(property="isValidate", type="string"),
+     *                      @OA\Property(property="percent", type="string"),
+     *                      @OA\Property(property="Average", type="string")
+     *                  }),
+     *                  @OA\Property(property="Electricté", type="object", properties={
+     *                      @OA\Property(property="isValidate", type="string"),
+     *                      @OA\Property(property="percent", type="string"),
+     *                      @OA\Property(property="Average", type="string")
+     *                  }),
+     *                  @OA\Property(property="Gaz", type="object", properties={
+     *                      @OA\Property(property="isValidate", type="string"),
+     *                      @OA\Property(property="percent", type="string"),
+     *                      @OA\Property(property="Average", type="string")
+     *                  }),
+     *               })
+     *         ),
      *     ),
      *     @OA\Response(
      *         response="404",
@@ -417,10 +429,10 @@ class UserController extends AbstractController
 
     /**
      * @OA\Get(
-     *     path="/api/user/analytiques/{id}",
+     *     path="/api/user/analytics/{id}",
      *     tags={"User"},
      *     security={"bearer"},
-     *     description="Get all datas for analytiques page",
+     *     description="Get all datas for analytics page",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -430,7 +442,7 @@ class UserController extends AbstractController
      *     ),
      *     @OA\Response(
      *         response="200",
-     *         description="List all analytiques datas",
+     *         description="List all analytics datas",
      *         @OA\JsonContent(
      *             @OA\Property(property="thisYear", type="object", properties={
      *               @OA\Property(property="Déchêts", type="object", properties={
@@ -498,7 +510,7 @@ class UserController extends AbstractController
      *         ),
      *     ),
      * )
-     * @Route("/api/user/analytiques/{id}", name="api_get_analytiques_data", methods={"GET"})
+     * @Route("/api/user/analytics/{id}", name="api_get_analytics_data", methods={"GET"})
      * @param UserHelper $userHelper
      * @param UserRepository $userRepository
      * @param Request $request
@@ -506,7 +518,7 @@ class UserController extends AbstractController
      * @param int $id
      * @return JsonResponse
     */
-    public function getDataAnalytiques(UserHelper $userHelper, UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
+    public function getDataAnalytics(UserHelper $userHelper, UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
     {
         $userInfo = $userHelper->checkUser($id,  $userRepository,  $request,  $JWTEncoder);
 
@@ -524,7 +536,7 @@ class UserController extends AbstractController
             );
         }
 
-        $datas = $userRepository->getAllDataAnalytiques();
+        $datas = $userRepository->getAllDataAnalytics();
 
         $response = [
             'thisYear' => [
