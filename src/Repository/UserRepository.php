@@ -107,7 +107,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $sqlQueries = [
             'allYears' => QueryHelper::getAllUserAndValidateTask(),
-            'thisYear'=> QueryHelper::getAllStatForALLtaskType()
+            'thisYear'=> QueryHelper::getAllStatForAlltaskType()
         ];
 
         foreach ($sqlQueries as $key => $query) {

@@ -604,6 +604,9 @@
                                                         }
                                                     },
                                                     "type": "object"
+                                                },
+                                                "transportsIsValidate": {
+                                                    "type": "boolean"
                                                 }
                                             },
                                             "type": "object"

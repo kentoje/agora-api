@@ -154,7 +154,9 @@ class QueryHelper
                 USER.water_average_consumption,
                 USER.electricity_average_consumption,
                 USER.gas_average_consumption,
-                USER.waste_average_consumption
+                USER.waste_average_consumption,
+                (user.navigo_number is not null) as userHaveNavigoNumber,
+                mesure.navigo_subscription
             FROM   
                 mesure
                 INNER JOIN 
@@ -183,7 +185,7 @@ class QueryHelper
         FROM user';
     }
 
-    public static function getAllStatForALLtaskType(): string
+    public static function getAllStatForAlltaskType(): string
     {
         return '
         SELECT 

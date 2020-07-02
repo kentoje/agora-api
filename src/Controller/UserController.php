@@ -349,6 +349,7 @@ class UserController extends AbstractController
      *                      @OA\Property(property="percent", type="string"),
      *                      @OA\Property(property="Average", type="string")
      *                  }),
+     *                  @OA\Property(property="transportsIsValidate", type="boolean")
      *               })
      *         ),
      *     ),
@@ -400,7 +401,8 @@ class UserController extends AbstractController
 
         $response = [];
         foreach ($tasksByDates as $tasksByDates) {
-                $response += [$tasksByDates["date"] => [
+            $validateTransports = $tasksByDates["userHaveNavigoNumber"] && $tasksByDates["navigo_subscription"];
+            $response += [$tasksByDates["date"] => [
                 "Déchêts" => [
                     "isValidate" => $tasksByDates["wasteTaskValidate"],
                     "percent" => $tasksByDates["wastePercent"],
@@ -420,7 +422,8 @@ class UserController extends AbstractController
                     "isValidate" => $tasksByDates["gasTaskValidate"],
                     "percent" => $tasksByDates["gasPercent"],
                     "Average" => $tasksByDates["gas_average_consumption"],
-                ]
+                ],
+                "transportsIsValidate" => $validateTransports,
             ]];
         }
 
