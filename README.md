@@ -302,8 +302,14 @@ swagger | Update swagger documentation
 
 ## SQL
 
-### MCD
+### Notre MCD 
+![alt text](https://github.com/kentoje/agora-api/blob/master/mcd_mld/MCD_FIGMA.jpg "MCD_FIGMA")
+
+### MCD JMerise
 ![alt text](https://github.com/kentoje/agora-api/blob/master/mcd_mld/MCD.png "MCD")
 
-### MLD
+### Notre MLD
+![alt text](https://github.com/kentoje/agora-api/blob/master/mcd_mld/MLD_FIGMA.jpg "MLD_FIGMA")
+
+### MLD JMerise
 ![alt text](https://github.com/kentoje/agora-api/blob/master/mcd_mld/MLD.png "MLD")
