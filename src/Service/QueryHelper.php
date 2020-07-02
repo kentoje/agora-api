@@ -27,11 +27,11 @@ class QueryHelper
                 (SELECT 
                     Count(task.id)
                 FROM task
-                    INNER JOIN task_user
-                        ON task.id = task_user.task_id
+                    INNER JOIN user
+                        ON task.user_id = user.id
                     INNER JOIN date
                         ON date.id = task.date_id
-                    WHERE task_user.user_id = userid
+                    WHERE user.id = userid
                     AND task.NAME = \'Eau\'
                     AND task.validate = 1
                     AND date.date < Date_format(
@@ -41,11 +41,11 @@ class QueryHelper
                 (SELECT 
                     Count(task.id)
                 FROM task
-                   INNER JOIN task_user
-                        ON task.id = task_user.task_id
+                   INNER JOIN user
+                        ON task.user_id = user.id
                    INNER JOIN date
                         ON date.id = task.date_id
-                   WHERE task_user.user_id = userid
+                   WHERE user.id = userid
                    AND task.NAME = \'Gaz\'
                    AND task.validate = 1
                    AND date.date < Date_format(
@@ -55,11 +55,11 @@ class QueryHelper
                 (SELECT 
                     Count(task.id)
                 FROM task
-                   INNER JOIN task_user
-                        ON task.id = task_user.task_id
+                   INNER JOIN user
+                        ON task.user_id = user.id
                    INNER JOIN date
                         ON date.id = task.date_id
-                WHERE task_user.user_id = userid
+                WHERE user.id = userid
                    AND task.NAME = \'Déchêts\'
                    AND task.validate = 1
                    AND date.date < Date_format(
@@ -69,11 +69,11 @@ class QueryHelper
                 (SELECT 
                     Count(task.id)
                 FROM task
-                   INNER JOIN task_user
-                        ON task.id = task_user.task_id
+                   INNER JOIN user
+                        ON task.user_id = user.id
                    INNER JOIN date
                         ON date.id = task.date_id
-                WHERE task_user.user_id = userid
+                WHERE user.id = userid
                    AND task.NAME = \'Electricté\'
                    AND task.validate = 1
                    AND date.date < Date_format(
@@ -83,11 +83,11 @@ class QueryHelper
                 (SELECT 
                     Count(task.id)
                 FROM task
-                   INNER JOIN task_user
-                        ON task.id = task_user.task_id
+                   INNER JOIN user
+                        ON task.user_id = user.id
                    INNER JOIN date
                         ON date.id = task.date_id
-                WHERE task_user.user_id = userid
+                WHERE user.id = userid
                    AND task.NAME = \'Transports\'
                    AND task.validate = 1
                    AND date.date < Date_format(
@@ -96,11 +96,11 @@ class QueryHelper
                 (SELECT 
                     Count(task.id)
                 FROM task
-                   INNER JOIN task_user
-                        ON task.id = task_user.task_id
+                   INNER JOIN user
+                        ON task.user_id = user.id
                    INNER JOIN date
                         ON date.id = task.date_id
-                WHERE task_user.user_id = userid
+                WHERE user.id = userid
                    AND task.validate = 1
                    AND date.date >= Date_format(Now(), \'%Y-01-01\')
                    AND date.date < Date_format(Now(), \'%Y-%m-01\')) AS nbValidateTaskInThisYear
@@ -130,14 +130,12 @@ class QueryHelper
             SELECT 
                 task.*
             FROM task
-            INNER JOIN task_user
-               ON task.id = task_user.task_id
-            INNER JOIN USER
-               ON task_user.user_id = USER.id
+            INNER JOIN user
+                ON task.user_id = user.id
             INNER JOIN date
                ON task.date_id = date.id
             WHERE  date.date >= Date_format(Now(), \'%Y-%m-01\')
-            AND USER.id = ' . $id;
+            AND user.id = ' . $id;
     }
 
     public static function getQueryAllUserTasks(int $id, int $year): string
@@ -205,4 +203,3 @@ class QueryHelper
     }
 
 }
-#select date.date, task.* from task inner join task_user on task.id = task_user.task_id inner join user on task_user.user_id = user.id inner join date on task.date_id = date.id where user.id = 1

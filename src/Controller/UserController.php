@@ -637,10 +637,10 @@ class UserController extends AbstractController
      */
     public function createUser(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator, LevelRepository $levelRepository, UserHelper $userHelper, DateRepository $dateRepository): JsonResponse
     {
+
         $json = $request->getContent();
 
         $level = $levelRepository->findOneBy(['levelNumber' => 0]);
-
         // SELECT date FROM date ORDER BY date DESC LIMIT 1
         $currentDate = $dateRepository->findBy(
             array(),                    // $where
@@ -648,9 +648,9 @@ class UserController extends AbstractController
             1                      // $limit
         );
 
+
         try {
             $user = $serializer->deserialize($json, User::class, 'json');
-
             if (!preg_match('/[0-3]\d{12}/', $user->getNifNumber())) {
                 return $this->json(
                     ErrorJsonHelper::errorMessage(Response::HTTP_BAD_REQUEST, 'Wrong NIF number format.'),

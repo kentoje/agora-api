@@ -3,10 +3,10 @@
 namespace App\Command;
 
 use App\Repository\MesureRepository;
+use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use App\Service\UserHelper;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -23,9 +23,10 @@ class SimulateAgoraMesureCommand extends Command
     private $mesureRepo;
     private $userRepo;
     private $userHelper;
+    private $taskRepo;
 
 
-    public function __construct(EntityManagerInterface $em, ContainerInterface $container, MesureRepository $mesureRepo, UserRepository $userRepo, UserHelper $userHelper)
+    public function __construct(EntityManagerInterface $em, ContainerInterface $container, MesureRepository $mesureRepo, UserRepository $userRepo, TaskRepository $taskRepo, UserHelper $userHelper)
     {
         parent::__construct();
         $this->em = $em;
@@ -33,6 +34,7 @@ class SimulateAgoraMesureCommand extends Command
         $this->mesureRepo = $mesureRepo;
         $this->userRepo = $userRepo;
         $this->userHelper = $userHelper;
+        $this->taskRepo = $taskRepo;
 
     }
 
@@ -60,9 +62,6 @@ class SimulateAgoraMesureCommand extends Command
                             on mesure.date_id = date.id  
                         inner join task 
                             on date.id = task.date_id 
-                        inner join task_user 
-                            on task.id = task_user.task_id 
-                            and user.id = task_user.user_id 
                         where MONTH(date.date) = MONTH(:date) 
                         group by mesure.id
         ";
@@ -95,7 +94,7 @@ class SimulateAgoraMesureCommand extends Command
             $this->em->persist($mesureObject);
 
             $user = $this->userRepo->findOneBy(['id' => $mesure['user_id']]);
-            $user ? $tasks = $user->getTask() : $tasks = [];
+            $user && $tasks = $this->taskRepo->findBy(['id_user' => $user->getId()]);
             $currentDate = DateTime::createFromFormat('Y-m-d', $mesure['date']);
 
             foreach ($tasks as $task) {

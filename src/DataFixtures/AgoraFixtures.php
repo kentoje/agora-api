@@ -116,7 +116,7 @@ class AgoraFixtures extends Fixture
                     && $task->getValidate()
                     && $mesure->getToMesure() === $user
                     && $task->getDate() === $mesure->getDate()
-                    && $task->getUser()[0] === $user
+                    && $task->getUser() === $user
                 ) {
                     switch ($task->getName()) {
                         case "Eau":
@@ -293,7 +293,7 @@ class AgoraFixtures extends Fixture
                                 ? $taskValue["mesure"]
                                 : $taskValue["user_average"] >= $taskValue["mesure"]
                         )
-                        ->addUser($userMesure->getToMesure())
+                        ->setUser($userMesure->getToMesure());
                     ;
                     $manager->persist($task);
 

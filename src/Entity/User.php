@@ -290,13 +290,6 @@ class User implements UserInterface
     private $level;
 
     /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Task", mappedBy="user")
-     */
-    private $task;
-
-    /**
      * @ORM\Column(type="float")
      * @Groups("user:read")
      * @Groups("user:create")
@@ -337,14 +330,6 @@ class User implements UserInterface
     private $savingWaste;
 
     private $additionalDatas;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->task = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -578,34 +563,6 @@ class User implements UserInterface
     public function setLevel(?Level $level): self
     {
         $this->level = $level;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Task[]
-     */
-    public function getTask(): Collection
-    {
-        return $this->task;
-    }
-
-    public function addTask(Task $task): self
-    {
-        if (!$this->task->contains($task)) {
-            $this->task[] = $task;
-            $task->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTask(Task $task): self
-    {
-        if ($this->task->contains($task)) {
-            $this->task->removeElement($task);
-            $task->removeUser($this);
-        }
 
         return $this;
     }

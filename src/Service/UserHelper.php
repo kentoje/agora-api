@@ -130,7 +130,7 @@ class UserHelper
                         ? $taskValue["mesure"]
                         : $taskValue["user_average"] >= $taskValue["mesure"]
                 )
-                ->addUser($user);
+                ->setUser($user);
             ;
             $manager->persist($task);
         }
