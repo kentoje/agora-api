@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Mesure;
+use App\Entity\Task;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +19,8 @@ class UserControllerTest extends WebTestCase
     private $userRepository;
 
     private $mesureRepository;
+
+    private $taskRepository;
 
     /**
      * Create a client with a default Authorization header.
@@ -84,7 +87,18 @@ class UserControllerTest extends WebTestCase
             ;
             $mesure = $this->mesureRepository->findOneBy(['toMesure' => $user->getId()]);
 
+            $this->taskRepository = $kernel->getContainer()
+                ->get('doctrine')
+                ->getRepository(Task::class)
+            ;
+            $tasks = $this->taskRepository->findBy(['user' => $user->getId()]);
+
             $this->em = $kernel->getContainer()->get('doctrine')->getManager();
+
+            foreach ($tasks as $task) {
+                $this->em->remove($task);
+            }
+
             $this->em->remove($mesure);
             $this->em->remove($user);
             $this->em->flush();
