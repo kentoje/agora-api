@@ -20,6 +20,7 @@
 
 # .env.local
 .env.local
+.env.test
 
 # Jetbrains
 .idea/
