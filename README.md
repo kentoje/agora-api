@@ -249,6 +249,15 @@ Then it should fix the permission problem.
 
 ---
 
+### Setup Git hook
+Current hook will run all tests at every commit.
+
+```shell script
+./bash_scripts/install-hooks.sh
+```
+
+---
+
 ## Commands
 
 ### Makefile
