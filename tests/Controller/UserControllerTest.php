@@ -5,8 +5,6 @@ namespace App\Tests\Controller;
 use App\Entity\Mesure;
 use App\Entity\Task;
 use App\Entity\User;
-use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,7 +33,7 @@ class UserControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request(
             'POST',
-            '/api/login_check',
+            '/api/login',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
@@ -47,7 +45,7 @@ class UserControllerTest extends WebTestCase
 
         $data = json_decode($client->getResponse()->getContent(), true);
 
-        $client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
+        $client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['tokens']['token']));
 
         return $client;
     }
@@ -57,7 +55,7 @@ class UserControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request(
             'POST',
-            '/api/login_check',
+            '/api/login',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
@@ -67,7 +65,7 @@ class UserControllerTest extends WebTestCase
             ])
         );
 
-        self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
+        self::assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
     public function testSignUpWithRequiredInformations(): void
@@ -146,5 +144,24 @@ class UserControllerTest extends WebTestCase
         $client->request('GET', '/api/admin/users');
 
         self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
+    }
+
+    public function testHomepageRedirection(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/');
+
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
+    }
+
+    public function testUsersUpdatableData(): void
+    {
+        $client = $this->createAuthenticatedClient();
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $userId = $data['user']['id'];
+
+        $client->request('GET', sprintf('/api/user/update/%s', $userId));
+
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 }
