@@ -226,8 +226,10 @@ crontab -e
 add the following line, change `<PATH_TO_PROJECT>` to your Project `PATH`:
 
 ```shell script
-0 0 * * * cd ~/<PATH_TO_PROJECT>/agora-api && ./bash_scripts/launch-schedule.sh >> /dev/null 2>&1
+*/15 * * * * cd ~/<PATH_TO_PROJECT>/agora-api && ./bash_scripts/launch-schedule.sh >> /dev/null 2>&1
 ```
+[What's this `*/15 * * * *`](https://crontab.guru/#*/15_*_*_*_*)
+
 
 #### Mac OS Catalina cron Permission Troubleshooting
 
@@ -246,6 +248,14 @@ open /usr/sbin
 * Cross the checkbox next to it.
 
 Then it should fix the permission problem.
+
+#### Cron launches 3 custom symfony command
+
+NAME | DESCRIPTION | File | Time
+--- | --- | --- | ---
+app:newMonth | create a new month and new tasks for each user at the beginning of each month | `src/Command/NewMonthCommand.php`| [`0 0 1 * *`](https://crontab.guru/#0_0_1_*_*)
+app:simulateMesure | Simulate every 30 minutes the measurements for each user and check if their task is still valid | `src/Command/SimulateAgoraMesureCommand.php` | [`*/30_*_*_*_*`](https://crontab.guru/#*/30_*_*_*_*)
+app:resetLevel | Every January 1 of each year resets the user level to 0 | `src/Command/ReseyAllUserLevelCommand.php`| [`0_0_1_1_*`](https://crontab.guru/#0_0_1_1_*)
 
 ---
 
