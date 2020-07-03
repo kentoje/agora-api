@@ -60,7 +60,7 @@ class QueryHelper
                    INNER JOIN date
                         ON date.id = task.date_id
                 WHERE user.id = userid
-                   AND task.NAME = \'Déchêts\'
+                   AND task.NAME = \'Déchets\'
                    AND task.validate = 1
                    AND date.date < Date_format(
                         Now(), \'%Y-%m-01\')
@@ -168,7 +168,7 @@ class QueryHelper
                 ON 
                     mesure.to_mesure_id = user.id
                 Where YEAR(date.date) = ' . $year .
-                ' and user.id = ' . $id .
+            ' and user.id = ' . $id .
             ' order by date.date DESC';
     }
 

@@ -549,7 +549,7 @@
                                     "properties": {
                                         "date": {
                                             "properties": {
-                                                "Déchêts": {
+                                                "Déchets": {
                                                     "properties": {
                                                         "isValidate": {
                                                             "type": "string"
@@ -690,7 +690,7 @@
                                     "properties": {
                                         "thisYear": {
                                             "properties": {
-                                                "Déchêts": {
+                                                "Déchets": {
                                                     "properties": {
                                                         "nbtaskValidate": {
                                                             "type": "integer"

@@ -25,7 +25,7 @@ const GAS_CONSUMPTION_MONTH_ONE_M3_BAD_INSULATION = 12.5;
 #Waste produced in one month by one person
 const WASTE_PRODUCED_MONTH = 29.5;
 
-const TASK_NAMES = ['Eau', 'Electricté', 'Gaz', 'Transports', 'Déchêts'];
+const TASK_NAMES = ['Eau', 'Electricté', 'Gaz', 'Transports', 'Déchets'];
 
 class UserHelper
 {
@@ -83,7 +83,7 @@ class UserHelper
                     "mesure" => $mesure->getGas()
                 ];
                 break;
-            case "Déchêts":
+            case "Déchets":
                 $taskArray = [
                     "type" => $taskName,
                     "unit" => "Kg",

@@ -329,7 +329,7 @@ class UserController extends AbstractController
      *         description="Get all tasks by specific year.",
      *         @OA\JsonContent(
      *              @OA\Property(property="date", type="object", properties={
-     *                  @OA\Property(property="Déchêts", type="object", properties={
+     *                  @OA\Property(property="Déchets", type="object", properties={
      *                      @OA\Property(property="isValidate", type="string"),
      *                      @OA\Property(property="percent", type="string"),
      *                      @OA\Property(property="Average", type="string")
@@ -403,7 +403,7 @@ class UserController extends AbstractController
         foreach ($tasksByDates as $tasksByDates) {
             $validateTransports = $tasksByDates["userHaveNavigoNumber"] && $tasksByDates["navigo_subscription"];
             $response += [$tasksByDates["date"] => [
-                "Déchêts" => [
+                "Déchets" => [
                     "isValidate" => $tasksByDates["wasteTaskValidate"],
                     "percent" => $tasksByDates["wastePercent"],
                     "Average" => $tasksByDates["waste_average_consumption"],
@@ -448,7 +448,7 @@ class UserController extends AbstractController
      *         description="List all analytics datas",
      *         @OA\JsonContent(
      *             @OA\Property(property="thisYear", type="object", properties={
-     *               @OA\Property(property="Déchêts", type="object", properties={
+     *               @OA\Property(property="Déchets", type="object", properties={
      *                  @OA\Property(property="nbtaskValidate", type="integer"),
      *                  @OA\Property(property="allTasks", type="array", @OA\Items(
      *                     @OA\Property(property="nbValidateTaskByType", type="string"),
@@ -543,7 +543,7 @@ class UserController extends AbstractController
 
         $response = [
             'thisYear' => [
-                "Déchêts" => [
+                "Déchets" => [
                     "nbtaskValidate" => 0,
                     "allTasks" => []
                 ],

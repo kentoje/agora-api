@@ -1,10 +1,16 @@
 #!/bin/bash
 
+FILE=.env.local
+
 function changeAppEnv() {
-    echo "✨ Changing APP_ENV to $1"
-    echo "............................"
-    sed -i ".env.local" '/APP_ENV/d' .env.local
-    echo "APP_ENV=$1" >> .env.local
+    if test -f "$FILE"; then
+        echo "✨ Changing APP_ENV to $1"
+        echo "............................"
+        sed -i ".env.local" '/APP_ENV/d' $FILE
+        echo "APP_ENV=$1" >> $FILE
+    else
+        echo "😧 You have to create a .env.local file!" && exit 1
+    fi
 }
 
 set -e
