@@ -94,13 +94,13 @@ class SimulateAgoraMesureCommand extends Command
             $this->em->persist($mesureObject);
 
             $user = $this->userRepo->findOneBy(['id' => $mesure['user_id']]);
-            $user && $tasks = $this->taskRepo->findBy(['id_user' => $user->getId()]);
+            $user && $tasks = $this->taskRepo->findBy(['user' => $user->getId()]);
             $currentDate = DateTime::createFromFormat('Y-m-d', $mesure['date']);
 
             foreach ($tasks as $task) {
                 if ($currentDate->format('m') === $task->getDate()->getDate()->format('m')) {
                     $user ? $isElec = ($mesureObject->getElectricity() >= $user->getElectricityAverageConsumption() and $task->getName() === 'Electricté') : $isElec = false;
-                    $user ? $isWater = ($isWater = $mesureObject->getWater() >= $user->getWaterAverageConsumption() and $task->getName() === 'Eau') : $isWater =false;
+                    $user ? $isWater = ($isWater = $mesureObject->getWater() >= $user->getWaterAverageConsumption() and $task->getName() === 'Eau') : $isWater = false;
                     $user ? $isWaste = ($isWaste = $mesureObject->getWaste() >= $user->getWasteAverageConsumption() and $task->getName() === 'Déchêts') : $isWaste = false;
                     $user ? $isGas = ($isGas = $mesureObject->getGas() >= $user->getGasAverageConsumption() and $task->getName() === 'Gaz') : $isGas = false;
                     if ($isElec || $isWater || $isWaste || $isGas) {
