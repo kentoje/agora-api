@@ -773,7 +773,9 @@ class UserController extends AbstractController
 
         $options = [
             CURLOPT_POST  => 1,
-            CURLOPT_URL => sprintf('http://%s/api/login_check', $_SERVER['HTTP_HOST']),
+            CURLOPT_URL => $this->getParameter('kernel.environment') === 'test'
+                ? 'http://localhost:8000/api/login_check'
+                : sprintf('http://%s/api/login_check', $_SERVER['HTTP_HOST']),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
             CURLOPT_POSTFIELDS => json_encode($content),
