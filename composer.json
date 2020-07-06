@@ -7,10 +7,13 @@
         "ext-curl": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "fzaninotto/faker": "^1.9",
         "gesdinet/jwt-refresh-token-bundle": "^0.9.1",
         "lexik/jwt-authentication-bundle": "^2.8",
         "nelmio/cors-bundle": "^2.0",
         "sensio/framework-extra-bundle": "^5.1",
+        "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.1.*",
         "symfony/console": "5.1.*",
         "symfony/dotenv": "5.1.*",
@@ -38,8 +41,6 @@
         "zircote/swagger-php": "^3.0"
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^3.3",
-        "fzaninotto/faker": "^1.9",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
@@ -82,6 +83,12 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "compile": [
+            "php bin/console doctrine:schema:update --force",
+            "php bin/console doctrine:fixtures:load --no-interaction --env=PROD",
+            "openssl genrsa -aes256 -out config/jwt/private.pem -passout pass:agora 4096",
+            "openssl rsa -pubout -in config/jwt/private.pem -passin pass:agora -out config/jwt/public.pem"
         ]
     },
     "conflict": {

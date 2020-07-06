@@ -9,7 +9,7 @@ class QueryHelper
     {
         return '
             SELECT 
-                USER.id AS userId,
+                user.id AS userId,
                 mesure_user.mesureGas,
                 mesure_user.mesureWater,
                 mesure_user.mesureWaste,
@@ -21,7 +21,7 @@ class QueryHelper
                 user.saving_transport,
                 Period_diff(
                     Date_format(Curdate(), "%y%m"),
-                    Date_format(USER.registration_date, "%y%m")
+                    Date_format(user.registration_date, "%y%m")
                 ) +1 AS nbMonthsRegistered,
                 
                 (SELECT 
@@ -105,9 +105,9 @@ class QueryHelper
                    AND date.date >= Date_format(Now(), \'%Y-01-01\')
                    AND date.date < Date_format(Now(), \'%Y-%m-01\')) AS nbValidateTaskInThisYear
                         
-            FROM USER
+            FROM user
             INNER JOIN level
-               ON USER.level_id = level.id
+               ON user.level_id = level.id
             INNER JOIN (
                     SELECT 
                         mesure.to_mesure_id AS mesureUserId,
@@ -120,8 +120,8 @@ class QueryHelper
                         ON mesure.date_id = date.id
                     WHERE  date.date >= Date_format(Now(), \'%Y-%m-01\')
                 ) as mesure_user
-               ON USER.id = mesure_user.mesureUserId
-            WHERE  USER.id = ' . $id;
+               ON user.id = mesure_user.mesureUserId
+            WHERE  user.id = ' . $id;
     }
 
     public static function getQueryUserCurrentTasks(int $id): string
@@ -143,18 +143,18 @@ class QueryHelper
         return '
             SELECT 
                 date.date,
-                (mesure.water < USER.water_average_consumption) as waterTaskValidate,
-                (mesure.electricity < USER.electricity_average_consumption) as electricityTaskValidate,
-                (mesure.gas < USER.gas_average_consumption) as gasTaskValidate,
-                (mesure.waste < USER.waste_average_consumption) as wasteTaskValidate,
-                ROUND((mesure.water/(USER.water_average_consumption/100))) as waterPercent,
-                ROUND((mesure.electricity/(USER.electricity_average_consumption/100))) as electricityPercent,
-                ROUND((mesure.gas/(USER.gas_average_consumption/100))) as gasPercent,
-                ROUND((mesure.waste/(USER.waste_average_consumption/100))) as wastePercent,
-                USER.water_average_consumption,
-                USER.electricity_average_consumption,
-                USER.gas_average_consumption,
-                USER.waste_average_consumption,
+                (mesure.water < user.water_average_consumption) as waterTaskValidate,
+                (mesure.electricity < user.electricity_average_consumption) as electricityTaskValidate,
+                (mesure.gas < user.gas_average_consumption) as gasTaskValidate,
+                (mesure.waste < user.waste_average_consumption) as wasteTaskValidate,
+                ROUND((mesure.water/(user.water_average_consumption/100))) as waterPercent,
+                ROUND((mesure.electricity/(user.electricity_average_consumption/100))) as electricityPercent,
+                ROUND((mesure.gas/(user.gas_average_consumption/100))) as gasPercent,
+                ROUND((mesure.waste/(user.waste_average_consumption/100))) as wastePercent,
+                user.water_average_consumption,
+                user.electricity_average_consumption,
+                user.gas_average_consumption,
+                user.waste_average_consumption,
                 (user.navigo_number is not null) as userHaveNavigoNumber,
                 mesure.navigo_subscription
             FROM   

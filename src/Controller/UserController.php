@@ -750,9 +750,6 @@ class UserController extends AbstractController
      *     ),
      * )
      * @Route("/api/login", name="api_login_user", methods={"POST"})
-     * @param UserRepository $userRepository
-     * @param Request $request
-     * @return JsonResponse
      */
     public function login(UserRepository $userRepository, Request $request): JsonResponse
     {
