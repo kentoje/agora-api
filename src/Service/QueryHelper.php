@@ -203,5 +203,4 @@ class QueryHelper
             date_id 
         ORDER BY date.date';
     }
-
 }
