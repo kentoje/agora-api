@@ -7,10 +7,13 @@
         "ext-curl": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "fzaninotto/faker": "^1.9",
         "gesdinet/jwt-refresh-token-bundle": "^0.9.1",
         "lexik/jwt-authentication-bundle": "^2.8",
         "nelmio/cors-bundle": "^2.0",
         "sensio/framework-extra-bundle": "^5.1",
+        "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.1.*",
         "symfony/console": "5.1.*",
         "symfony/dotenv": "5.1.*",
@@ -35,9 +38,7 @@
         "symfony/web-link": "5.1.*",
         "symfony/yaml": "5.1.*",
         "zenstruck/schedule-bundle": "^1.0",
-        "zircote/swagger-php": "^3.0",
-        "doctrine/doctrine-fixtures-bundle": "^3.3",
-        "fzaninotto/faker": "^1.9"
+        "zircote/swagger-php": "^3.0"
     },
     "require-dev": {
         "symfony/debug-pack": "*",
@@ -84,7 +85,7 @@
             "@auto-scripts"
         ],
         "compile": [
-            "php bin/console doctrine:migrations:migrate",
+            "php bin/console doctrine:schema:update --force",
             "php bin/console doctrine:fixtures:load --no-interaction --env=PROD"
         ]
     },
