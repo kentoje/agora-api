@@ -81,11 +81,6 @@ class UserController extends AbstractController
      *     ),
      * )
      * @Route("/api/admin/users", name="api_admin_get_users", methods={"GET"})
-     * @param UserHelper $userHelper
-     * @param UserRepository $userRepository
-     * @param Request $request
-     * @param JWTEncoderInterface $JWTEncoder
-     * @return JsonResponse
      */
     public function index(UserHelper $userHelper, UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder): JsonResponse
     {
@@ -173,12 +168,6 @@ class UserController extends AbstractController
      *     ),
      * )
      * @Route("/api/admin/user/{id}", name="api_admin_get_user", methods={"GET"})
-     * @param UserRepository $userRepository
-     * @param UserHelper $userHelper
-     * @param Request $request
-     * @param JWTEncoderInterface $JWTEncoder
-     * @param int $id
-     * @return JsonResponse
      */
     public function oneUser(UserRepository $userRepository, UserHelper $userHelper, Request $request, JWTEncoderInterface $JWTEncoder, int $id ): JsonResponse
     {
@@ -271,12 +260,6 @@ class UserController extends AbstractController
      *     ),
      * )
      * @Route("/api/user/update/{id}", name="api_update_user_data", methods={"GET"})
-     * @param UserHelper $userHelper
-     * @param UserRepository $userRepository
-     * @param Request $request
-     * @param JWTEncoderInterface $JWTEncoder
-     * @param int $id
-     * @return JsonResponse
      */
     public function getUserUpdatableDatas(UserHelper $userHelper, UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
     {
@@ -371,13 +354,6 @@ class UserController extends AbstractController
      *     ),
      * )
      * @Route("/api/user/tasks/{id}/{year}", name="api_all_user_tasks", methods={"GET"})
-     * @param UserHelper $userHelper
-     * @param UserRepository $userRepository
-     * @param Request $request
-     * @param JWTEncoderInterface $JWTEncoder
-     * @param int $id
-     * @param int $year
-     * @return JsonResponse
      */
     public function getAllUserTasks(UserHelper $userHelper, UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id, int $year): JsonResponse
     {
@@ -514,12 +490,6 @@ class UserController extends AbstractController
      *     ),
      * )
      * @Route("/api/user/analytics/{id}", name="api_get_analytics_data", methods={"GET"})
-     * @param UserHelper $userHelper
-     * @param UserRepository $userRepository
-     * @param Request $request
-     * @param JWTEncoderInterface $JWTEncoder
-     * @param int $id
-     * @return JsonResponse
     */
     public function getDataAnalytics(UserHelper $userHelper, UserRepository $userRepository, Request $request, JWTEncoderInterface $JWTEncoder, int $id): JsonResponse
     {
@@ -628,14 +598,6 @@ class UserController extends AbstractController
      *     ),
      * )
      * @Route("/api/signup", name="api_signup_user", methods={"POST"})
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @param EntityManagerInterface $em
-     * @param ValidatorInterface $validator
-     * @param LevelRepository $levelRepository
-     * @param UserHelper $userHelper
-     * @param DateRepository $dateRepository
-     * @return JsonResponse
      * @throws Exception
      */
     public function createUser(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator, LevelRepository $levelRepository, UserHelper $userHelper, DateRepository $dateRepository): JsonResponse

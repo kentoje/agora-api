@@ -28,7 +28,7 @@ class UserControllerTest extends WebTestCase
      *
      * @return KernelBrowser
      */
-    protected function createAuthenticatedClient($username = 'aymeric.mayeux@hetic.net', $password = 'azerty'): KernelBrowser
+    protected function createAuthenticatedClient(string $username = 'aymeric.mayeux@hetic.net', string $password = 'azerty'): KernelBrowser
     {
         $client = static::createClient();
         $client->request(

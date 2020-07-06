@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
@@ -10,9 +11,8 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="homepage", methods={"GET"})
      */
-    public function index()
+    public function index(): RedirectResponse
     {
-        /* Might exist a better way! */
         return $this->redirect('swagger/index.html');
     }
 }
