@@ -35,11 +35,11 @@
         "symfony/web-link": "5.1.*",
         "symfony/yaml": "5.1.*",
         "zenstruck/schedule-bundle": "^1.0",
-        "zircote/swagger-php": "^3.0"
+        "zircote/swagger-php": "^3.0",
+        "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "fzaninotto/faker": "^1.9"
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^3.3",
-        "fzaninotto/faker": "^1.9",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
@@ -84,7 +84,8 @@
             "@auto-scripts"
         ],
         "compile": [
-            "php bin/console doctrine:migrations:migrate"
+            "php bin/console doctrine:migrations:migrate",
+            "php bin/console doctrine:fixtures:load --no-interaction --env=PROD"
         ]
     },
     "conflict": {
