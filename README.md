@@ -1,6 +1,48 @@
 # agora-api
+
 Disclaimer
-Ce site a été réalisé à des fins pédagogiques dans le cadre du cursus Bachelor de l’école HETIC. Les contenus présentés n'ont pas fait l'objet d'une demande de droit d'utilisation. Ce site ne sera en aucun cas exploité à des fins commerciales.
+Ce site a été réalisé à des fins pédagogiques dans le cadre du cursus Bachelor de l’école HETIC. Les contenus présentés
+n'ont pas fait l'objet d'une demande de droit d'utilisation. Ce site ne sera en aucun cas exploité à des fins commerciales.
+
+---
+
+## Architecture du projet
+
+### Fondation
+Notre application côté back, se présente comme une `API`. Nous avons décidé de séparer la partie `client` et `serveur`,
+pour permettre une plus grande malléabilité, si jamais nous devons changer la technologie front-end ou back-end.
+
+Pour gérer les connexions, nous avons utilisé les `JWT Tokens` pour permettre aux utilisateurs de se connecter et d'avoir accès
+aux routes dédiées à leur groupe respectif. Pour des soucis de sécurité, le `token` expire toutes les 15 minutes et nécessite
+un rafraichissement (`refresh_token`). Ce rafraichissement renverra un nouveau token `JWT` ainsi qu'un tout nouveau `refresh token`.
+
+### Base de données
+Nous avons créé la base de données à partir de l'outil `CLI` de `Symfony` étant donné que sur un projet précédent, nous avions
+mappé notre base de données sur notre projet, ce qui nous avait fallu de multiples problèmes à l'époque.
+
+### CRON
+Nous avons dû mettre en place des routines (`CRON`), qui permettent de vérifier à des instants précis plusieurs états
+de nos datas, via les commandes custom `Symfony`. Voir [CRON Symfony commands](https://github.com/kentoje/agora-api#cron-launches-3-custom-symfony-command) !
+La commande `app:simulateMesure` est une commande qui ne devrait pas exister dans un vrai projet, elle est ici pour simuler les données
+que devrait renvoyer le dispositif `(Agora)` installé dans les foyers.
+
+### Test et hook
+Concernant la partie de développement, nous avons intégré des `tests` permettant de vérifier que les routes fonctionnent bien,
+couplé à un `Git hook` de `pre-commit`, qui run les tests avant chaque commit et bloque potentiellement le commit si les tests ne sont
+pas concluants. Cela permet de savoir si le code modifié impacte ou non les routes existantes.
+
+### Fixtures
+Au niveau de la génération de fausses données, Faker a été l'outil de fixtures que nous avons utilisé. Il nous a permis
+de générer avec aise, une grande quantité de données sans faire trop d'effort.
+
+### Documentation
+Cette fois-ci, nous voulions générer notre documentation quasiment automatiquement, c'est pourquoi nous avons installé et utilisé
+`Swagger (Open API)` sur notre projet. À l'aide `d'annotations`, il nous est donc possible de détailler les spécifications de nos routes et entités,
+tout cela grâce à un fichier `JSON` que nous générons à partir d'une commande.
+
+### Hébergement
+En terme d'hébergement, nous avons décidé d'avoir le maximum de liberté sur notre application tout en restant sur une grosse plateforme,
+nous nous sommes donc tournés vers `Amazon Web Services (EC2)` et avons donc monté le serveur quasiment from scratch.
 
 ---
 
@@ -223,13 +265,12 @@ Run:
 crontab -e
 ```
 
-add the following line, change `<PATH_TO_PROJECT>` to your Project `PATH`:
+add the following line and change `<PATH_TO_PROJECT>` to your project `PATH`:
 
 ```shell script
 */15 * * * * cd ~/<PATH_TO_PROJECT>/agora-api && ./bash_scripts/launch-schedule.sh >> /dev/null 2>&1
 ```
-[What's this `*/15 * * * *`](https://crontab.guru/#*/15_*_*_*_*)
-
+[You do not know anything about CRON? Click here!](https://crontab.guru/#*/15_*_*_*_*)
 
 #### Mac OS Catalina cron Permission Troubleshooting
 
@@ -253,9 +294,9 @@ Then it should fix the permission problem.
 
 NAME | DESCRIPTION | File | Time
 --- | --- | --- | ---
-app:newMonth | create a new month and new tasks for each user at the beginning of each month | `src/Command/NewMonthCommand.php`| [`0 0 1 * *`](https://crontab.guru/#0_0_1_*_*)
-app:simulateMesure | Simulate every 30 minutes the measurements for each user and check if their task is still valid | `src/Command/SimulateAgoraMesureCommand.php` | [`*/30_*_*_*_*`](https://crontab.guru/#*/30_*_*_*_*)
-app:resetLevel | Every January 1 of each year resets the user level to 0 | `src/Command/ReseyAllUserLevelCommand.php`| [`0_0_1_1_*`](https://crontab.guru/#0_0_1_1_*)
+app:newMonth | Creates a new month and new tasks for each user at the beginning of each month | `src/Command/NewMonthCommand.php`| [`0 0 1 * *`](https://crontab.guru/#0_0_1_*_*)
+app:simulateMesure | Simulates every 30 minutes the measurements for each user and check if their task is still valid | `src/Command/SimulateAgoraMesureCommand.php` | [`*/30 * * * *`](https://crontab.guru/#*/30_*_*_*_*)
+app:resetLevel | Every January 1st of each year resets the user level to 0 | `src/Command/ReseyAllUserLevelCommand.php`| [`0 0 1 1 *`](https://crontab.guru/#0_0_1_1_*)
 
 ---
 
