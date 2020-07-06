@@ -5,7 +5,7 @@ use OpenApi\Annotations as OA;
 /**
  * @OA\Info(title="Agora API", version="0.1")
  * @OA\Server(
- *     url="http://127.0.0.1:8000",
+ *     url="https://agora-api-hetic.herokuapp.com",
  *     description="HETIC - API Agora",
  * )
  */
