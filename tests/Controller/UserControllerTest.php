@@ -5,20 +5,13 @@ namespace App\Tests\Controller;
 use App\Entity\Mesure;
 use App\Entity\Task;
 use App\Entity\User;
+use App\Tests\Service\TestUserDatas;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserControllerTest extends WebTestCase
 {
-
-    private $em;
-
-    private $userRepository;
-
-    private $mesureRepository;
-
-    private $taskRepository;
 
     /**
      * Create a client with a default Authorization header.
@@ -72,34 +65,34 @@ class UserControllerTest extends WebTestCase
     {
         $kernel = self::bootKernel();
 
-        $this->userRepository = $kernel->getContainer()
+        $userRepository = $kernel->getContainer()
             ->get('doctrine')
             ->getRepository(User::class)
         ;
-        $user = $this->userRepository->findOneBy(['email' => 'john.doe2@doe.com']);
+        $user = $userRepository->findOneBy(['email' => 'john.doe2@doe.com']);
 
         if ($user) {
-            $this->mesureRepository = $kernel->getContainer()
+            $mesureRepository = $kernel->getContainer()
                 ->get('doctrine')
                 ->getRepository(Mesure::class)
             ;
-            $mesure = $this->mesureRepository->findOneBy(['toMesure' => $user->getId()]);
+            $mesure = $mesureRepository->findOneBy(['toMesure' => $user->getId()]);
 
-            $this->taskRepository = $kernel->getContainer()
+            $taskRepository = $kernel->getContainer()
                 ->get('doctrine')
                 ->getRepository(Task::class)
             ;
-            $tasks = $this->taskRepository->findBy(['user' => $user->getId()]);
+            $tasks = $taskRepository->findBy(['user' => $user->getId()]);
 
-            $this->em = $kernel->getContainer()->get('doctrine')->getManager();
+            $em = $kernel->getContainer()->get('doctrine')->getManager();
 
             foreach ($tasks as $task) {
-                $this->em->remove($task);
+                $em->remove($task);
             }
 
-            $this->em->remove($mesure);
-            $this->em->remove($user);
-            $this->em->flush();
+            $em->remove($mesure);
+            $em->remove($user);
+            $em->flush();
         }
 
         /* Shutdown the previous kernel to ensure that we can create a client. */
@@ -146,6 +139,14 @@ class UserControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
+    public function testSingleUserPageIsAuth(): void
+    {
+        $client = $this->createAuthenticatedClient();
+        TestUserDatas::testUserDatas($client, '/api/admin/user/%s');
+
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+
     public function testHomepageRedirection(): void
     {
         $client = static::createClient();
@@ -154,14 +155,51 @@ class UserControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
-    public function testUsersUpdatableData(): void
+    public function testUserUpdatableData(): void
     {
         $client = $this->createAuthenticatedClient();
-        $data = json_decode($client->getResponse()->getContent(), true);
-        $userId = $data['user']['id'];
-
-        $client->request('GET', sprintf('/api/user/update/%s', $userId));
+        TestUserDatas::testUserDatas($client, '/api/user/update/%s');
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+
+    public function testUserUpdatableDataIsNotSameId(): void
+    {
+        $client = $this->createAuthenticatedClient();
+        TestUserDatas::testUserDatas($client, '/api/user/update/%s', -1);
+
+        self::assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    public function testUserTasksData(): void
+    {
+        $client = $this->createAuthenticatedClient();
+        TestUserDatas::testUserDatas($client, '/api/user/tasks/%s/2020');
+
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+
+    public function testUserTasksDataIsNotSameId(): void
+    {
+        $client = $this->createAuthenticatedClient();
+        TestUserDatas::testUserDatas($client, '/api/user/tasks/%s/2020', -1);
+
+        self::assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    public function testUserAnalyticsData(): void
+    {
+        $client = $this->createAuthenticatedClient();
+        TestUserDatas::testUserDatas($client, '/api/user/analytics/%s');
+
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+
+    public function testUserAnalyticsDataIsNotSameId(): void
+    {
+        $client = $this->createAuthenticatedClient();
+        TestUserDatas::testUserDatas($client, '/api/user/analytics/%s', -1);
+
+        self::assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 }
