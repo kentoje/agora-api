@@ -577,7 +577,7 @@
                                                     },
                                                     "type": "object"
                                                 },
-                                                "Electricté": {
+                                                "Electricité": {
                                                     "properties": {
                                                         "isValidate": {
                                                             "type": "string"
@@ -740,7 +740,7 @@
                                                     },
                                                     "type": "object"
                                                 },
-                                                "Electricté": {
+                                                "Electricité": {
                                                     "properties": {
                                                         "nbtaskValidate": {
                                                             "type": "integer"

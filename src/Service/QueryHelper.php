@@ -74,7 +74,7 @@ class QueryHelper
                    INNER JOIN date
                         ON date.id = task.date_id
                 WHERE user.id = userid
-                   AND task.NAME = \'Electricté\'
+                   AND task.NAME = \'Electricité\'
                    AND task.validate = 1
                    AND date.date < Date_format(
                         Now(), \'%Y-%m-01\')

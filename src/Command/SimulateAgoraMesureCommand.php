@@ -102,7 +102,7 @@ class SimulateAgoraMesureCommand extends Command
 
                 if ($currentDate->format('m') === $task->getDate()->getDate()->format('m') and $currentDate->format('Y') === $task->getDate()->getDate()->format('Y')) {
 
-                    if ($task->getName() === 'Electricté' and $mesureObject->getElectricity() >= $user->getElectricityAverageConsumption()) {
+                    if ($task->getName() === 'Electricité' and $mesureObject->getElectricity() >= $user->getElectricityAverageConsumption()) {
                         if( $user->getId() === 1513) {
                             echo $task->getName() . " " . $mesureObject->getElectricity() . " " . $user->getElectricityAverageConsumption();
                         }

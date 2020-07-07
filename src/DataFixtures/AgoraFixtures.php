@@ -26,7 +26,7 @@ class AgoraFixtures extends Fixture
                 ];
                 break;
 
-            case "Electricté":
+            case "Electricité":
                 $taskArray = [
                     "type" => $taskName,
                     "unit" => "kW/h",
@@ -122,7 +122,7 @@ class AgoraFixtures extends Fixture
                         case "Eau":
                             $user->setSavingWater($user->getSavingWater() + ($user->getWaterAverageConsumption() - $mesure->getWater()));
                             break;
-                        case "Electricté":
+                        case "Electricité":
                             $user->setSavingElectricity($user->getSavingElectricity() + ($user->getElectricityAverageConsumption() - $mesure->getElectricity()));
                             break;
                         case "Gaz":
@@ -161,7 +161,7 @@ class AgoraFixtures extends Fixture
             "12" => 8.0
         ];
 
-        $taskNameArr = ['Eau', 'Electricté', 'Gaz', 'Transports', 'Déchets'];
+        $taskNameArr = ['Eau', 'Electricité', 'Gaz', 'Transports', 'Déchets'];
 
         $dbLevel = [];
 
