@@ -223,13 +223,13 @@ With this JWT Token, you can now make request on routes `/api` of the applicatio
 #### httpie-jwt
 
 ```shell script
-http --auth-type=jwt --auth="eyJ0eXAi..." localhost:8000/api/users
+http --auth-type=jwt --auth="eyJ0eXAi..." localhost:8000/api/admin/users
 ```
 
 #### CURL
 
 ```shell script
-curl -X GET localhost:8000/api/users -H "Authorization: BEARER eyJ0eXAi..."
+curl -X GET localhost:8000/api/admin/users -H "Authorization: BEARER eyJ0eXAi..."
 ```
 
 ---
