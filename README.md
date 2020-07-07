@@ -194,20 +194,27 @@ Now, if you try to login as an existing user like so:
 #### httpie
 
 ```shell script
-http POST localhost:8000/api/login_check username=noemi.levy@voila.fr password=test
+http POST localhost:8000/api/login username=aymeric.mayeux@hetic.net password=azerty
 ```
 
 #### CURL
 
 ```shell script
-curl -X POST -H "Content-Type: application/json" localhost:8000/api/login_check -d '{"username": "noemi.levy@voila.fr", "password": "test"}'
+curl -X POST -H "Content-Type: application/json" localhost:8000/api/login -d '{"username": "aymeric.mayeux@hetic.net", "password": "azerty"}'
 ```
 
-You will retrieve the JWT Token:
+You will retrieve the `JWT` Token and the `refresh` Token:
 
 ```json
 {
-    "token": "eyJ0eXAi..."
+    "user": {
+        "id": 1,
+        "...":  "..."
+    },
+    "tokens": {
+        "token": "eyJ0eXAi...",
+        "refresh_token": "337bb346 ..."
+    }
 }
 ```
 
@@ -276,6 +283,7 @@ add the following line and change `<PATH_TO_PROJECT>` to your project `PATH`:
 ```shell script
 */15 * * * * cd ~/<PATH_TO_PROJECT>/agora-api && ./bash_scripts/launch-schedule.sh >> /dev/null 2>&1
 ```
+
 [You do not know anything about CRON? Click here!](https://crontab.guru/#*/15_*_*_*_*)
 
 #### Mac OS Catalina cron Permission Troubleshooting
