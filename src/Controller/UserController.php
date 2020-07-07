@@ -171,7 +171,6 @@ class UserController extends AbstractController
      */
     public function oneUser(UserRepository $userRepository, UserHelper $userHelper, Request $request, JWTEncoderInterface $JWTEncoder, int $id ): JsonResponse
     {
-
         if (!$userHelper->checkAdmin($request, $JWTEncoder)) {
             return $this->json(
                 ErrorJsonHelper::errorMessage(Response::HTTP_FORBIDDEN, 'ROLE_ADMIN is required.'),
