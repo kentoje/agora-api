@@ -378,3 +378,6 @@ swagger | Update swagger documentation
 
 ### MLD JMerise
 ![alt text](https://github.com/kentoje/agora-api/blob/master/mcd_mld/MLD.png "MLD")
+
+### Notre MPD
+![alt text](https://github.com/kentoje/agora-api/blob/master/mcd_mld/MPD_FIGMA.jpg "MPD_FIGMA")
