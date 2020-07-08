@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ERROR 401!{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('./assets/css/error.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>401 - Unauthorized 🚫</h1>
+        <div class="bloc-message">
+            <span class="message">Une authentification est nécessaire pour accéder à la ressource.</span>
+        </div>
+    </div>
+{% endblock %}

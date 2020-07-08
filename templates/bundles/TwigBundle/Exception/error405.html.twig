@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ERROR 405!{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('./assets/css/error.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>405 - Method Not Allowed 🚫</h1>
+        <div class="bloc-message">
+            <span class="message">Méthode de requête non autorisée.</span>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ERROR 403!{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('./assets/css/error.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>403 - Forbidden 🚫</h1>
+        <div class="bloc-message">
+            <span class="message">Accès interdit !</span>
+        </div>
+    </div>
+{% endblock %}

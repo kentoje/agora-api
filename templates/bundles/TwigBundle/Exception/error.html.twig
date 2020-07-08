@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ERROR!{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('./assets/css/error.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Une erreur est survenue... 😭</h1>
+        <div class="bloc-message">
+            <span class="message">Quelque chose ne va pas !</span>
+        </div>
+    </div>
+{% endblock %}
