@@ -315,7 +315,7 @@ app:resetLevel | Every January 1st of each year resets the user level to 0 | `sr
 ---
 
 ### Setup Git hook
-Current hook will run all tests at every commit.
+Current hook will run all tests at every commit. The server must be running to perform tests.
 
 ```shell script
 ./bash_scripts/install-hooks.sh
@@ -362,6 +362,18 @@ db-migration | Launch migrations
 db-fixture | Load fixtures
 db-update | Run `db-migration` and `db-fixture`
 swagger | Update swagger documentation
+
+---
+
+### Team
+
+NAME | ROLE
+--- | ---
+Virgil Caffier | `Designer`
+Emilie Tombouyses | `Front-end`
+Virgil Limongi | `Front-end`
+Tristan Lemire | `Back-end`
+Kento Monthubert | `Back-end`
 
 ---
 
