@@ -54,7 +54,7 @@ commandes les fastidieuses à écrire à la main.
 
 ## Swagger documentation
 
-Visit the documentation at route: `/swagger/index.html`.
+Visit the documentation at route: [Agora-API](https://agora-api-hetic.herokuapp.com/).
 
 ---
 
