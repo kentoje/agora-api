@@ -184,8 +184,6 @@ class AgoraFixtures extends Fixture
                 ->setFirstName($faker->firstName)
                 ->setLastName($faker->lastName)
                 ->setEmail($faker->email)
-//                ->setPassword(password_hash($faker->password, PASSWORD_ARGON2ID))
-                /* Test JWT Token with test password */
                 ->setPassword(password_hash('test', 'argon2id'))
                 ->setAgoraNumber($faker->regexify('\d{8}'))
                 ->setNbResident($faker->randomElement($array = [1, 2, 3, 4, 5, 6]))
@@ -240,6 +238,96 @@ class AgoraFixtures extends Fixture
         $manager->persist($aymeric);
 
         $dbUser[] = $aymeric;
+
+        $helene = new User();
+        $helene
+            ->setFirstName("Helene")
+            ->setLastName("Linglet")
+            ->setEmail("helene.linglet@hetic.net")
+            ->setPassword(password_hash('azerty', 'argon2id'))
+            ->setAgoraNumber($faker->regexify('\d{8}'))
+            ->setNbResident(4)
+            ->setLivingArea(135)
+            ->setGas(false)
+            ->setInsulation(true)
+            ->setNifNumber($faker->regexify('[0-3]\d{12}'))
+            ->setRoles(['ROLE_ADMIN'])
+            ->setGasAverageConsumption($faker->randomFloat(2, 0, 6260))
+            ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 800))
+            ->setWaterAverageConsumption($faker->randomFloat(2, 0, 1300))
+            ->setWasteAverageConsumption($faker->randomFloat(0, 0, 300))
+            ->setRegistrationDate(new DateTime('11 months ago'))
+            ->setNavigoNumber($faker->regexify('\d{8}'))
+            ->setLevel($dbLevel[0])
+            ->setSavingWater(0)
+            ->setSavingWaste(0)
+            ->setSavingElectricity(0)
+            ->setSavingGas(0)
+            ->setSavingTransport(0)
+        ;
+        $manager->persist($helene);
+
+        $dbUser[] = $helene;
+
+        $gabriel = new User();
+        $gabriel
+            ->setFirstName("Gabriel")
+            ->setLastName("Avedikian")
+            ->setEmail("gabriel.avedikian@hetic.net")
+            ->setPassword(password_hash('azerty', 'argon2id'))
+            ->setAgoraNumber($faker->regexify('\d{8}'))
+            ->setNbResident(2)
+            ->setLivingArea(90)
+            ->setGas(true)
+            ->setInsulation(false)
+            ->setNifNumber($faker->regexify('[0-3]\d{12}'))
+            ->setRoles(['ROLE_ADMIN'])
+            ->setGasAverageConsumption($faker->randomFloat(2, 0, 6260))
+            ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 800))
+            ->setWaterAverageConsumption($faker->randomFloat(2, 0, 1300))
+            ->setWasteAverageConsumption($faker->randomFloat(0, 0, 300))
+            ->setRegistrationDate(new DateTime('11 months ago'))
+            ->setNavigoNumber($faker->regexify('\d{8}'))
+            ->setLevel($dbLevel[0])
+            ->setSavingWater(0)
+            ->setSavingWaste(0)
+            ->setSavingElectricity(0)
+            ->setSavingGas(0)
+            ->setSavingTransport(0)
+        ;
+        $manager->persist($gabriel);
+
+        $dbUser[] = $gabriel;
+
+        $bastien = new User();
+        $bastien
+            ->setFirstName("Bastien")
+            ->setLastName("Calou")
+            ->setEmail("bastien.calou@hetic.net")
+            ->setPassword(password_hash('azerty', 'argon2id'))
+            ->setAgoraNumber($faker->regexify('\d{8}'))
+            ->setNbResident(2)
+            ->setLivingArea(100)
+            ->setGas(false)
+            ->setInsulation(false)
+            ->setNifNumber($faker->regexify('[0-3]\d{12}'))
+            ->setRoles(['ROLE_ADMIN'])
+            ->setGasAverageConsumption($faker->randomFloat(2, 0, 6260))
+            ->setElectricityAverageConsumption($faker->randomFloat(2, 0, 800))
+            ->setWaterAverageConsumption($faker->randomFloat(2, 0, 1300))
+            ->setWasteAverageConsumption($faker->randomFloat(0, 0, 300))
+            ->setRegistrationDate(new DateTime('11 months ago'))
+            ->setNavigoNumber($faker->regexify('\d{8}'))
+            ->setLevel($dbLevel[0])
+            ->setSavingWater(0)
+            ->setSavingWaste(0)
+            ->setSavingElectricity(0)
+            ->setSavingGas(0)
+            ->setSavingTransport(0)
+        ;
+        $manager->persist($bastien);
+
+        $dbUser[] = $bastien;
 
         for ($i = 0; $i <= 11; $i++) {
             $date = new Date();
