@@ -89,9 +89,7 @@ class NewMonthCommand extends Command
                 );
 
                 $user->setSavingTransport(
-                    $user->getSavingTransport() && $userMesures[0]->getNavigoSubscription() ?
-                        $user->getSavingTransport() + $userMesures[0]->getNavigoSubscription()
-                        : $user->getSavingTransport()
+                    $user->getSavingTransport() + $userMesures[0]->getNavigoSubscription()
                 );
 
                 $this->userHelper->createUserTask($user, $newDate, $this->em);
