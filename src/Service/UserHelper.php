@@ -113,8 +113,7 @@ class UserHelper
             ->setWaste(0)
             ->setNavigoSubscription($user->getNavigoNumber() ? true : false)
             ->setToMesure($user)
-            ->setDate($date)
-        ;
+            ->setDate($date);
         $manager->persist($mesure);
 
         foreach (TASK_NAMES as $taskName) {
@@ -130,8 +129,7 @@ class UserHelper
                         ? $taskValue["mesure"]
                         : $taskValue["user_average"] >= $taskValue["mesure"]
                 )
-                ->setUser($user);
-            ;
+                ->setUser($user);;
             $manager->persist($task);
         }
     }
@@ -147,18 +145,18 @@ class UserHelper
         $user = $userRepository->findOneBy(['id' => $id]);
 
         $authorization = $request->headers->get('authorization');
-        $jwtToken = explode(' ' , $authorization)[1];
+        $jwtToken = explode(' ', $authorization)[1];
         $payload = $JWTEncoder->decode($jwtToken);
         $username = $payload['username'];
 
-        return ['user' => $user,'username' => $username];
+        return ['user' => $user, 'username' => $username];
 
     }
 
     public function checkAdmin(Request $request, JWTEncoderInterface $JWTEncoder): bool
     {
         $authorization = $request->headers->get('authorization');
-        $jwtToken = explode(' ' , $authorization)[1];
+        $jwtToken = explode(' ', $authorization)[1];
         $payload = $JWTEncoder->decode($jwtToken);
 
         return in_array('ROLE_ADMIN', $payload['roles'], true);

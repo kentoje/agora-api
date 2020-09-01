@@ -5,6 +5,8 @@ namespace App\Command;
 use App\Entity\Date;
 use App\Entity\Mesure;
 use App\Entity\User;
+use App\Repository\LevelRepository;
+use App\Repository\UserRepository;
 use App\Service\UserHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,12 +21,16 @@ class NewMonthCommand extends Command
 
     private $em;
     private $userHelper;
+    private $userRepo;
+    private $levelRepo;
 
-    public function __construct(EntityManagerInterface $em, UserHelper $userHelper)
+    public function __construct(EntityManagerInterface $em, UserHelper $userHelper, UserRepository $userRepo, LevelRepository $levelRepo)
     {
         parent::__construct();
         $this->em = $em;
         $this->userHelper = $userHelper;
+        $this->userRepo = $userRepo;
+        $this->levelRepo = $levelRepo;
     }
 
     protected function configure()
@@ -52,6 +58,10 @@ class NewMonthCommand extends Command
 
             $users = $userRepo->findAll();
             foreach ($users as $user) {
+
+                $levels = $this->levelRepo->findAll();
+                $this->userRepo->newUserLevel($user, $levels);
+
                 $userMesures = $mesureRepo->findBy(array("date" => $mostRecentDateInDb[0], "toMesure" => $user));
 
                 $user->setSavingElectricity(
