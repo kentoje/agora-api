@@ -1,6 +1,6 @@
 # [Agora-API](https://agora-api-hetic.herokuapp.com/)
 
-Disclaimer
+#### Disclaimer
 Ce site a été réalisé à des fins pédagogiques dans le cadre du cursus Bachelor de l’école HETIC. Les contenus présentés
 n'ont pas fait l'objet d'une demande de droit d'utilisation. Ce site ne sera en aucun cas exploité à des fins commerciales.
 
@@ -18,7 +18,7 @@ un rafraichissement (`refresh_token`). Ce rafraichissement renverra un nouveau t
 
 ### Base de données
 Nous avons créé la base de données à partir de l'outil `CLI` de `Symfony` étant donné que sur un projet précédent, nous avions
-mappé notre base de données sur notre projet, ce qui nous avait fallu de multiples problèmes à l'époque.
+mappé notre base de données sur notre projet, ce qui nous avait généré de multiples problèmes à l'époque, sur les Entités notamment.
 
 ### CRON
 Nous avons dû mettre en place des routines (`CRON`), qui permettent de vérifier à des instants précis plusieurs états
@@ -41,8 +41,14 @@ Cette fois-ci, nous voulions générer notre documentation quasiment automatique
 tout cela grâce à un fichier `JSON` que nous générons à partir d'une commande.
 
 ### Hébergement
-En terme d'hébergement, nous avons décidé d'avoir le maximum de liberté sur notre application tout en restant sur une grosse plateforme,
-nous nous sommes donc tournés vers `Amazon Web Services (EC2)` et avons donc monté le serveur quasiment from scratch.
+En terme d'hébergement, nous avons décidé d'utiliser `Heroku`. Heroku nous permet à l'aide de `JawsDB` de mettre facilement en place
+la base de données MySQL et de push rapidement notre projet en production. En plus de ça, nous avons un nom de domaine
+assigné par Heroku qui permet au client de notre application d'avoir une adresse de l'API qui ne change pas, peu importe
+le redémarrage du serveur.
+
+### Outils annexes
+Pour faciliter l'exécution de commandes répétitives, nous avons mis en place une `Makefile` permettant de raccourcir les
+commandes les fastidieuses à écrire à la main.
 
 ---
 
