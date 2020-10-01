@@ -200,7 +200,7 @@ class AgoraFixtures extends Fixture
                 ->setWasteAverageConsumption($faker->randomFloat(0, 0, 300))
                 ->setRegistrationDate(new DateTime('11 months ago'))
                 ->setNavigoNumber($faker->regexify('\d{8}'))
-                ->setLevel($faker->randomElement($array = $dbLevel))
+                ->setLevel($dbLevel[0])
                 ->setSavingWater(0)
                 ->setSavingWaste(0)
                 ->setSavingElectricity(0)

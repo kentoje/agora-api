@@ -62,7 +62,8 @@ class SimulateAgoraMesureCommand extends Command
                             on mesure.date_id = date.id  
                         inner join task 
                             on date.id = task.date_id 
-                        where MONTH(date.date) = MONTH(:date) 
+                        where MONTH(date.date) = MONTH(:date)
+                        AND YEAR(date.date) = YEAR(:date)
                         group by mesure.id
         ";
 
@@ -71,7 +72,7 @@ class SimulateAgoraMesureCommand extends Command
         $mesures = $stmt->fetchAll();
 
         $toHighAverage = 1.10;
-        $toLowAverage = 0.9;
+        $toLowAverage = 0.90;
         $multiplied = 10000;
 
         foreach ($mesures as $mesure) {
@@ -98,12 +99,22 @@ class SimulateAgoraMesureCommand extends Command
             $currentDate = DateTime::createFromFormat('Y-m-d', $mesure['date']);
 
             foreach ($tasks as $task) {
-                if ($currentDate->format('m') === $task->getDate()->getDate()->format('m')) {
-                    $user ? $isElec = ($mesureObject->getElectricity() >= $user->getElectricityAverageConsumption() and $task->getName() === 'Electricté') : $isElec = false;
-                    $user ? $isWater = ($isWater = $mesureObject->getWater() >= $user->getWaterAverageConsumption() and $task->getName() === 'Eau') : $isWater = false;
-                    $user ? $isWaste = ($isWaste = $mesureObject->getWaste() >= $user->getWasteAverageConsumption() and $task->getName() === 'Déchêts') : $isWaste = false;
-                    $user ? $isGas = ($isGas = $mesureObject->getGas() >= $user->getGasAverageConsumption() and $task->getName() === 'Gaz') : $isGas = false;
-                    if ($isElec || $isWater || $isWaste || $isGas) {
+
+                if ($currentDate->format('m') === $task->getDate()->getDate()->format('m') and $currentDate->format('Y') === $task->getDate()->getDate()->format('Y')) {
+
+                    if ($task->getName() === 'Electricté' and $mesureObject->getElectricity() >= $user->getElectricityAverageConsumption()) {
+                        if( $user->getId() === 1513) {
+                            echo $task->getName() . " " . $mesureObject->getElectricity() . " " . $user->getElectricityAverageConsumption();
+                        }
+                        $task->setValidate(0);
+                        $this->em->persist($task);
+                    } else if ($task->getName() === 'Eau' and $mesureObject->getWater() >= $user->getWaterAverageConsumption()) {
+                        $task->setValidate(0);
+                        $this->em->persist($task);
+                    } else if ($task->getName() === 'Déchets' and $mesureObject->getWaste() >= $user->getWasteAverageConsumption()) {
+                        $task->setValidate(0);
+                        $this->em->persist($task);
+                    } else if ($task->getName() === 'Gaz' and $mesureObject->getGas() >= $user->getGasAverageConsumption()) {
                         $task->setValidate(0);
                         $this->em->persist($task);
                     }
